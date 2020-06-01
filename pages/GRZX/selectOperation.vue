@@ -15,7 +15,7 @@
 
 <script>
 	import xflSelect from '@/components/YDPD/xfl-select/xfl-select.vue';
-	import uniPopup from "@/components/YDPD/uni-popup/uni-popup.vue";
+	import uniPopup from "@/components/uni-popup/uni-popup.vue";
 	export default {
 		data() {
 			return {
