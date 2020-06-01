@@ -1,0 +1,263 @@
+<template>
+	<view>
+		<map id="map1" ref="map1" class="map" :style="{height:mapHeight}" :scale="scale" :longitude="longitude" :latitude="latitude"
+		 :polyline="polyline" :markers="markers" :show-location="true">
+		</map>
+		<image @click="back" src="../../static/trafficPolice/back.png" style="width: 120rpx;height: 120rpx;position: fixed;top: 50px;left: 1px;"></image>
+		<view style="position: fixed;bottom: 160rpx; ">
+			<view style="flex-direction: row;background-color: #FFFFFF;width: 698rpx;border-radius: 20px;padding: 10rpx;align-items: center;margin-left: 28rpx;">
+				<view>
+					<image src="../../static/trafficPolice/HeadPhoto.png" style="width: 84rpx;height: 84rpx;"></image>
+				</view>
+				<view style="margin-left: 10rpx;">
+					<view>
+						<text style="font-size:34rpx;font-family:Source Han Sans SC;font-weight:bold;color:#2C2D2D;">{{driverName}}</text>
+					</view>
+					<view style="flex-direction: row;margin-top: 10rpx;">
+						<view>
+							<text style="font-size:28rpx;font-family:Source Han Sans SC;font-weight:300;color:#2C2D2D;">{{vehicleNumber}}</text>
+						</view>
+						<view style="margin-left: 18rpx;">
+							<text style="font-size:28rpx;font-family:Source Han Sans SC;font-weight:300;color:#2C2D2D;">豪华SUV</text>
+						</view>
+					</view>
+				</view>
+				<view style="margin-left: 240rpx;">
+					<image src="../../static/trafficPolice/Phone.png" style="width: 60rpx;height: 60rpx;"></image>
+				</view>
+			</view>
+			
+			<!-- 行程信息 -->
+			<view style="width: 698rpx;height: 216rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx;margin-top: 20rpx;">
+				<view>
+					<text style="height:40rpx;font-size:36rpx;font-family:Source Han Sans SC;font-weight:500;color:#333333;line-height:36rpx; margin-top: 32rpx; margin-left: 36rpx;">行程信息</text>
+				</view>
+				<view style="margin-top: 24rpx;margin-left: 38rpx;display: flex;flex-direction: row;">
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">起点：</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{startSiteName}}</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx; margin-left: 40rpx;">终点：</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{endSiteName}}</text>
+				</view>
+				<view style="margin-top: 20rpx;margin-left: 36rpx;display: flex;flex-direction: row;">
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">人数：</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{people}}人</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;margin-left: 40rpx;">上车时间：</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{time}}</text>
+				</view>
+			</view>
+			<!-- 联系电话 -->
+			<view style="width: 698rpx;height: 160rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx;margin-top: 20rpx;">
+				<view>
+					<text style="height:40rpx;font-size:36rpx;font-family:Source Han Sans SC;font-weight:500;color:#333333;line-height:36rpx; margin-top: 32rpx; margin-left: 36rpx;">当前车辆位置</text>
+				</view>
+				<view style="margin-top: 24rpx;margin-left: 38rpx;display: flex;flex-direction: row;">
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">地址：</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{address}}</text>
+				</view>
+			</view>
+			
+			<view style="width: 698rpx;height: 216rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx;margin-top: 20rpx;">
+				<view>
+					<text style="height:40rpx;font-size:36rpx;font-family:Source Han Sans SC;font-weight:500;color:#333333;line-height:36rpx; margin-top: 32rpx; margin-left: 36rpx;">志愿者信息</text>
+				</view>
+				<view style="margin-top: 24rpx;margin-left: 38rpx;display: flex;flex-direction: row;">
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">姓名：</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{volunteerName}}</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx; margin-left: 150rpx;">性别：</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{sex}}</text>
+				</view>
+				<view style="margin-top: 20rpx;margin-left: 36rpx;display: flex;flex-direction: row;">
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">手机号：</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{passengerPhone}}</text>
+				</view>
+			</view>
+			
+			<view>
+				<button style="width: 698rpx;height: 105rpx;background-color: #0073CE;border-color:#0073CE;color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx; position: fixed; padding: 6rpx;margin-top: 20rpx;"
+				 @longpress="confirmgetonCar">
+					<text style="color: #FFFFFF;">拨打志愿者手机</text>
+				</button>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import taxi from '../../common/Czc.js';
+	import uniIcons from "@/components/uni-icons/uni-icons.vue";
+	export default {
+		components: {
+			uniIcons,
+		},
+		data() {
+			return {
+				scale: 14,
+				longitude: "118.600608", //地图中心点经度
+				latitude: "24.889217", //地图中心点纬度
+				points: [],
+				polyline: [],
+				markers: [],
+				mapHeight: '',
+				viewHeight: '',
+				driverName:'张师傅',
+				vehicleNumber:'闽C1603',
+				startSiteName:'泉州客运中心站',
+				endSiteName:'厦门国际机场',
+				people:'58',
+				time:'2020-05-16 18:00',
+				address:'泉州市丰泽区泉秀街茶叶大厦',
+				volunteerName:'张三丰',
+				sex:'男',
+				passengerPhone: '15630124638',
+				resultData: {},
+				status: 0,
+				directionInterval: '',
+			}
+		},
+		onLoad() {
+			var that = this;
+			that.setMarker(1, 118.600608, 24.889217, '../../static/trafficPolice/Start.png');
+			that.setMarker(2, 118.613688, 24.912702, '../../static/trafficPolice/End.png');
+			that.getDirectionDriving(that.longitude + ',' + that.latitude, '118.613688,24.912702');
+			uni.getSystemInfo({
+				//设置地图高度为可使用的高度
+				success: function(res) {
+					that.mapHeight = res.windowHeight + 'px';
+					that.viewHeight = (res.windowHeight * 0.4) + 'px'
+				}
+			});
+		},
+		methods: {
+			confirmgetonCar() {//确认乘客上车
+				this.status = 1;
+				var that = this;
+				that.markers = [];
+				that.polyline = [];
+				that.setMarker(1, 118.613688, 24.912702, '../../static/driver/Start.png');
+				that.setMarker(2, 118.611339, 24.885683, '../../static/driver/End.png');
+				that.getDirectionDriving('118.613688, 24.912702', '118.611339, 24.885683');
+				that.directionInterval = setInterval(function() { //获取司机的实时位置并规划到终点的路线
+					that.markers = [];
+					that.polyline = [];
+					uni.getLocation({
+						type: 'gcj02',
+						success: function(res) {
+							that.longitude = res.longitude;
+							that.latitude = res.latitude;
+						}
+					})
+					that.setMarker(1, that.longitude, that.latitude, '../../static/driver/Start.png');
+					that.setMarker(2, 118.611339, 24.885683, '../../static/driver/End.png');
+					that.getDirectionDriving(that.longitude + ',' + that.latitude, '118.611339, 24.885683');
+				}, 10000);
+
+			},
+			confirmgettoDestination() {
+				//取消由 setInterval 设置的定时器
+				clearInterval(this.directionInterval);
+				uni.navigateTo({
+					url: '/pages/driver/otherExpenses',
+				})
+			},
+			call: function() {
+				//呼叫乘客
+				let that = this;
+				uni.makePhoneCall({
+					phoneNumber: that.passengerPhone
+				});
+			},
+			callPolice: function() {
+				//一键报警
+				let that = this;
+				uni.showToast({
+					title: 'callPolice'
+				});
+				uni.getLocation({
+					type: 'gcj02',
+					geocode: true,
+					success: function(res) {
+						console.log(res.address);
+						console.log(res.latitude);
+						console.log(res.longitude);
+					}
+				});
+			},
+			back: function() {
+				var that = this;
+				uni.navigateBack({});
+			},
+			setMarker: function(id, lon, lat, iconPath) {
+				var width = 20;
+				var height = 20;
+				//描绘点的方法
+				var that = this;
+				var marker = new Object();
+				//画终点经纬度
+				marker = {
+					id: id,
+					latitude: lat,
+					longitude: lon,
+					iconPath: iconPath,
+					width: width,
+					height: height
+				};
+				that.markers.push(marker);
+			},
+			getDirectionDriving: function(startLonLat, endLonLat) {
+				//调用高德api取得路径规划并绘制线路 
+				var that = this;
+				uni.request({
+					url: taxi.InterfaceAddress[0],
+					data: {
+						startLonLat: startLonLat,
+						endLonLat: endLonLat,
+					},
+					method: "GET",
+					success: function(res) {
+						//日后会加入定时，此处需清空
+						that.points = [];
+						that.polyline = [];
+
+						var polylineArr = [];
+						var points = [];
+
+						polylineArr = res.data.Polyline;
+
+						for (var i = 0; i < polylineArr.length; i++) {
+							var arr = polylineArr[i].split(';');
+							for (var j = 0; j < arr.length; j++) {
+								points.push(arr[j]);
+							}
+						}
+						//根据文件建设对象经纬度数组
+						for (var i = 0; i < points.length; i++) {
+							var arr = points[i].split(',');
+							var obj = {
+								longitude: arr[0],
+								latitude: arr[1]
+							}
+							that.points.push(obj);
+						}
+						var obj = {
+							points: that.points,
+							color: "#4BDD25",
+							arrowLine: true,
+							width: 5
+						};
+						that.polyline.push(obj);
+					},
+					fail: function(res) {
+						console.log(res);
+					}
+				});
+			},
+
+		}
+	}
+</script>
+
+<style lang="scss">
+	.map {
+		width: 750rpx;
+	}
+</style>
