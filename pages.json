@@ -69,7 +69,26 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
-		}//------------个人中心结束--------------
+		},//------------个人中心结束--------------
+		{ //------------司机端开始----------------
+			"path":"pages/driver/taxiDriver",
+			"style":{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path":"pages/driver/orderComplete",
+			"style":{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path":"pages/driver/confirmgetonCar",
+			"style":{
+				"navigationStyle": "custom"
+			}
+		}
+		//-------------司机端结束----------------
 		
     ],
 	"globalStyle": {
