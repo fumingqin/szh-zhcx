@@ -74,7 +74,7 @@
 			
 			<view>
 				<button style="width: 698rpx;height: 105rpx;background-color: #0073CE;border-color:#0073CE;color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx; position: fixed; padding: 6rpx;margin-top: 20rpx;"
-				 @longpress="confirmgetonCar">
+				 @click="call">
 					<text style="color: #FFFFFF;">拨打志愿者手机</text>
 				</button>
 			</view>
