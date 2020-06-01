@@ -9,14 +9,7 @@
 		<image src="../../static/GRZX/logo.png" class="logoClass"></image>
 		
 		
-		<uni-popup ref="centerPopup" type="center">
-			<view class="selectClass">
-				<xfl-select  :list="list" :clearable="false" :showItemNum="4"  :listShow="false" :isCanInput="false" @change="selectClick"  
-				:style_Container="'height: 50px;font-size: 16px;'" :placeholder = "'请选择用户类型'"  :selectHideType="'hideAll'">
-				</xfl-select>
-				<view>确定</view>
-			</view>
-		</uni-popup>
+
 	</view>
 </template>
 
