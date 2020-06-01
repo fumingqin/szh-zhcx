@@ -111,11 +111,11 @@
 </template>
 
 <script>
-	import $taxi from '../../common/Czc.js';
-	import $home from '../../common/Home.js'
+	import $taxi from '@/common/Czc.js';
+	import $home from '@/common/Home.js';
+	import Map from '@/common/my-openMap/openMap.js';
+	import uniPopup from "@/components/uni-popup/uni-popup.vue";
 	import uniIcons from "@/components/uni-icons/uni-icons.vue";
-	import Map from '../../common/my-openMap/openMap.js';
-	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
 		components: {
 			uniIcons,

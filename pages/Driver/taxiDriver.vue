@@ -22,10 +22,6 @@
 					<text class="destinationArea" style="width:160rpx;">订单类型:</text>
 					<text class="destinationArea" style="margin-left: 10rpx;">{{item.orderType}}</text>
 				</view>
-				<view style="margin: -10rpx 44rpx;display: flex;flex-direction: row;">
-					<text class="userType">客户类型:</text>
-					<text class="userType">{{formatUserType(item.userType)}}</text>
-				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:140rpx;height:40rpx;">目的区域:</text>
 					<text class="fontClass" style="width:140rpx;height:40rpx;">{{item.destinationArea}}</text>
@@ -63,9 +59,9 @@
 </template>
 
 <script>
-	import Map from '../../common/my-openMap/openMap.js';
+	import Map from '@/common/my-openMap/openMap.js';
 	import utils from '@/components/shoyu-date/utils.filter.js';
-	import Voice from '../../js_sdk/QuShe-baiduYY/QS-baiduyy/QS-baiduyy.js';
+	//import Voice from '../../js_sdk/QuShe-baiduYY/QS-baiduyy/QS-baiduyy.js';
 	export default {
 		data() {
 			return {
@@ -212,6 +208,7 @@
 				}
 			},
 			
+			//获取可接单订单列表
 			getOrder: function(userId, vehicleNumber) {
 				let that = this;
 				uni.request({
