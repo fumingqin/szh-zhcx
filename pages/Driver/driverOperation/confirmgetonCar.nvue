@@ -264,7 +264,7 @@
 				let that = this;
 				uni.showLoading({
 					mask:true
-				})
+				});
 				that.getOrder().then(res => {
 					uni.hideLoading();
 					//console.log(res.data.data);
