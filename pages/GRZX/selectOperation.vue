@@ -2,28 +2,39 @@
 	<view class="content" v-bind:style="{height:imgHeight+'px'}">
 		<!-- 背景图 -->
 		<image src="../../static/GRZX/backgroudimg.png" style="width: 100%; position: absolute; bottom: 0; height: 100%;"></image>
-		<!-- <image src="../../static/GRZX/back.png" class="returnClass" @click="returnClick"></image> -->
 		<view class="boxClass">
-			<!-- <image src="../../static/GRZX/btnLogin.png" class="loginClass" @click="loginClick"></image> -->
 			<text class="fontClass" @click="loginClick">登录</text>
-			<text class="registerClass" @click="registerClick">注册</text>
+			<text class="registerClass" @click="openPopup('centerPopup')">注册</text>
 		</view>
 		<image src="../../static/GRZX/logo.png" class="logoClass"></image>
+		
+		
+
 	</view>
 </template>
 
 <script>
+	import xflSelect from '@/components/YDPD/xfl-select/xfl-select.vue';
+	import uniPopup from "@/components/uni-popup/uni-popup.vue";
 	export default {
 		data() {
 			return {
 				imgHeight:'',
 				address:'',
+				list: [       //要展示的数据
+				    // {value: '香蕉', disabled: true},
+					'司机',
+				    '志愿者',
+				    '交警',
+				    '派单员',
+				],
 			}
 		},
 		onLoad(options) {
 			this.address=options.address;
 			this.load();
 		},
+		components: { uniPopup,xflSelect },  //注册为子组件
 		methods: {
 			//--------加载数据---------
 			async load(){
@@ -55,6 +66,18 @@
 				uni.navigateTo({
 					url:'/pages/GRZX/registerPage1',
 				})
+			},
+			//-----------开启弹窗------------
+			openPopup: function(value) {
+				this.$nextTick(function() {
+					this.$refs[value].open();
+				});
+			},
+			//-----------关闭弹窗------------
+			closePopup: function(value) {
+				this.$nextTick(function() {
+					this.$refs[value].close();
+				});
 			},
 		}
 	}
@@ -131,5 +154,11 @@
 		text-align: center;
 		top: 620upx;
 		position: absolute;
+	}
+	.selectClass{
+		background-color: #FFFFFF;
+		width: 200upx;
+		height: 200upx;
+		border-radius: 20upx;
 	}
 </style>

@@ -52,7 +52,6 @@
 				</canvas>
 				<view style="display: flex;flex-direction: row;">
 					<view @click='clearClick' class="clearClass">重置</view>
-					<!-- <button @click='clearClick' class="clearClass">清除</button> -->
 					<view @click='saveClick' class="saveClass">确定</view>
 				</view>
 			</view>
@@ -62,7 +61,7 @@
 
 <script>
 	import xflSelect from '@/components/YDPD/xfl-select/xfl-select.vue';
-	import uniPopup from "@/components/YDPD/uni-popup/uni-popup.vue";
+	import uniPopup from "@/components/uni-popup/uni-popup.vue";
 	import { pathToBase64, base64ToPath } from '@/components/YDPD/pathTobase64/gsq-image-tools/image-tools/index.js';
 	var content = null;
 	var touchs = [];
