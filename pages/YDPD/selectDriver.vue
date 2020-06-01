@@ -52,7 +52,6 @@
 				</canvas>
 				<view style="display: flex;flex-direction: row;">
 					<view @click='clearClick' class="clearClass">重置</view>
-					<!-- <button @click='clearClick' class="clearClass">清除</button> -->
 					<view @click='saveClick' class="saveClass">确定</view>
 				</view>
 			</view>
