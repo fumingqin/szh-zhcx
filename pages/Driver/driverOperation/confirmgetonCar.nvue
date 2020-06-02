@@ -3,18 +3,17 @@
 		<map id="map1" ref="map1" class="map" :style="{height:mapHeight}" :scale="scale" :longitude="longitude" :latitude="latitude"
 		 :polyline="polyline" :markers="markers" :show-location="true">
 		</map>
-		<image @click="back" src="../../static/driver/back1.png" style="width: 120rpx;height: 120rpx;position: fixed;top: 50px;left: 1px;"></image>
+		<image @click="back" src="@/static/driver/back1.png" style="width: 120rpx;height: 120rpx;position: fixed;top: 50px;left: 1px;"></image>
 		<view v-if="state == 2" style="position: fixed;bottom: 220rpx; ">
 			<view style="flex-direction: row;justify-content: space-between;align-items: center;">
 				<view style="flex-direction: row;">
-					<image src="../../static/driver/police.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="callPolice"></image>
-					<image src="../../static/driver/message.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="sendMessage"></image>
+					<image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="callPolice"></image>
 				</view>
-				<view style="border-radius: 9rpx;text-align: center;">
+				<!-- <view style="border-radius: 9rpx;text-align: center;">
 					<view style="background-color: #FFFFFF;padding: 20rpx;border-radius: 10rpx;">
 						<text @click="cancleOrder()" style="font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);">取消订单</text>
 					</view>
-				</view>
+				</view> -->
 			</view>
 			<!-- 行程信息 -->
 			<view style="width: 698rpx;height: 223rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx;">
@@ -41,7 +40,7 @@
 				<view>
 					<text style="width:200rpx;height:36rpx;font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);line-height:36rpx;">{{passengersPhone}}</text>
 				</view>
-				<image style="width: 60rpx;height: 60rpx; left: 220rpx; top: -12rpx;" src="../../static/driver/phone.png" @click="call"></image>
+				<image style="width: 60rpx;height: 60rpx; left: 220rpx; top: -12rpx;" src="@/static/driver/phone.png" @click="call"></image>
 			</view>
 			<view>
 				<button style="width: 698rpx;height: 105rpx;background-color: #FC6A6C;border-color:#FC6A6C;color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx; position: fixed; padding: 6rpx;bottom: 90rpx;"
@@ -52,8 +51,7 @@
 		</view>
 		<view v-if="state == 4" style="position: fixed;bottom: 220rpx; ">
 			<view style="flex-direction: row;">
-				<image src="../../static/driver/police.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="callPolice"></image>
-				<image src="../../static/driver/message.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="sendMessage"></image>
+				<image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="callPolice"></image>
 			</view>
 			<!-- 行程信息 -->
 			<view style="width: 698rpx;height: 164rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx;">
@@ -73,7 +71,7 @@
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">剩余里程:</text>
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{distance}}</text>
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;margin-left: 40rpx;">已驶时长:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{alreadyTime}}</text>
+					<text style="width:180rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{alreadyTime}}</text>
 				</view>
 				<!-- <view style="margin-top: 20rpx;margin-left: 40rpx;display: flex;flex-direction: row;">
 					<text style="width:120rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">总费用:</text>
@@ -267,12 +265,12 @@
 				});
 				that.getOrder().then(res => {
 					uni.hideLoading();
-					//console.log(res.data.data);
+					console.log(res.data.data);
 					var data = res.data.data;
 					if (res.data.status) {
 						that.markers = [];
-						that.setMarker(1, that.startLon, that.startLat, '../../static/driver/Start.png');
-						that.setMarker(2, that.endLon, that.endLat, '../../static/driver/End.png');
+						that.setMarker(1, that.startLon, that.startLat, '../../../static/driver/Start.png');
+						that.setMarker(2, that.endLon, that.endLat, '../../../static/driver/End.png');
 						if (that.state == 0) {
 							//等待接单
 
@@ -281,7 +279,7 @@
 							that.realGetOrderDetail();
 						} else if (that.state == 2) {
 							//司机已出发 
-							Map.openMap(that.startLat, that.startLon, that.startAddress, 'gcj02');
+							Map.openMap(parseFloat(that.startLat) , parseFloat(that.startLon), that.startAddress, 'gcj02');
 							that.realGetOrderDetail();
 							//规划司机到出发地路程
 							that.setToStart();
@@ -360,7 +358,7 @@
 							that.runTime = data.runTime.replace('T', ' ').replace(/-/g,'/');
 							that.setConfirmgetonCar();
 							that.state = 4;
-							Map.openMap(that.endLat, that.endLon, that.endAddress, 'gcj02');
+							Map.openMap(parseFloat(that.endLat) ,parseFloat(that.endLon) , that.endAddress, 'gcj02');
 						} else {
 							that.showToast(res.data.msg);
 						}
@@ -419,7 +417,7 @@
 							clearInterval(this.directionInterval);
 							getApp().globalData.orderNumber = 0;
 							uni.redirectTo({
-								url: '/pages/driver/otherExpenses?orderNumber=' + that.orderNumber,
+								url: '/pages/driver/driverOperation/orderComplete'
 							})
 						} else {
 							that.showToast(res.data.msg);
@@ -443,7 +441,7 @@
 				let that = this;
 				var msg = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
 				msg.to=[that.passengersPhone];
-				msg.body = '你好，我是您的出租车司机' + that.userInfo.userName.substring(0,1) + '师傅，';
+				msg.body = '你好，我是司机' + that.userInfo.userName.substring(0,1) + '师傅，';
 				plus.messaging.sendMessage(msg);
 			},
 
@@ -518,34 +516,34 @@
 				var that = this;
 				uni.navigateBack({});
 			},
-			cancleOrder:function(){
-				let that = this;
-				uni.request({
-					url:$taxi.Interface.CancelExpressOrderByOrderNum_Driver.value,
-					method:$taxi.Interface.CancelExpressOrderByOrderNum_Driver.method,
-					data:{
-						OrderNumber:that.orderNumber
-					},
-					success:function(res){
-						//console.log(res);
-						if(res.data.status){
-							that.showToast('取消成功');
-							setTimeout(function(){
-								uni.redirectTo({
-									url:'./taxiDriver'
-								});
-							},1500);
-						} else {
-							that.showToast(res.data.msg);
-							//console.log(res);
-						}
-					},
-					fail:function(res){
-						that.showToast('网络连接失败');
-						//console.log(res);
-					}
-				});
-			},
+			// cancleOrder:function(){
+			// 	let that = this;
+			// 	uni.request({
+			// 		url:$taxi.Interface.CancelExpressOrderByOrderNum_Driver.value,
+			// 		method:$taxi.Interface.CancelExpressOrderByOrderNum_Driver.method,
+			// 		data:{
+			// 			OrderNumber:that.orderNumber
+			// 		},
+			// 		success:function(res){
+			// 			//console.log(res);
+			// 			if(res.data.status){
+			// 				that.showToast('取消成功');
+			// 				setTimeout(function(){
+			// 					uni.redirectTo({
+			// 						url:'./taxiDriver'
+			// 					});
+			// 				},1500);
+			// 			} else {
+			// 				that.showToast(res.data.msg);
+			// 				//console.log(res);
+			// 			}
+			// 		},
+			// 		fail:function(res){
+			// 			that.showToast('网络连接失败');
+			// 			//console.log(res);
+			// 		}
+			// 	});
+			// },
 			
 			setMarker: function(id, lon, lat, iconPath) {
 				var width = 20;

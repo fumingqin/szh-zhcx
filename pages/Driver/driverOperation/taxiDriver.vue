@@ -1,29 +1,28 @@
 <template>
 	<view>
-		<view class="status_bar">
-
-		</view>
-		<view style="display: flex;width: 94%;margin: 30rpx auto 30rpx auto;flex-direction: row;justify-content: space-between;">
-			<view style="width: 30%;">
-				<image @click="back" src="@/static/driver/back.png" style="width: 20rpx; height: 35rpx;color: #2C2D2D;"></image>
+		<view :style="{height:menuButtonHeight,'margin-top':menuButtonTop+'px'}" style="margin: 0 auto 30rpx auto;display: flex;width: 94%;flex-direction: row;align-items: center;">
+			<view style="width: 40rpx;margin-right: 10px;">
+				<uni-icons @click="back" type="arrowleft" size="24"></uni-icons>
 			</view>
-			<view>
-				<text style="font-size:38rpx;font-family:Source Han Sans SC;font-weight:bold;color:rgba(44,45,45,1);">出租车司机</text>
+			<view style="margin-right:220rpx;display: flex;flex-direction: row;align-items: center;">
+				<text style="font-size:38rpx;font-family:Source Han Sans SC;font-weight:bold;color:rgba(44,45,45,1);">司机接单</text>
 			</view>
-			<view style="width: 30%;text-align: right;"></view>
+			<view style="text-align: right;">
+				<uni-icons @click="toOrderList" type="list" size="24"></uni-icons>
+			</view>
 		</view>
 
 		<!-- 接单信息-出租车 -->
-		<scroll-view style="height: 900rpx;" scroll-y=true>
+		<scroll-view style="height: 1100rpx;" scroll-y=true>
 			
-			<view v-if="buttonActive" v-for='(item, index) in orderArr' :key='index' style="width: 94%;padding-bottom: 30rpx; background-color: #FFFFFF;margin-left: 22rpx; border-radius:20rpx; margin-bottom: 30rpx;">
-				<view style="padding: 40rpx;display: flex;flex-direction: row;">
+			<view v-for='(item, index) in orderArr' :key='index' style="width: 94%;padding-bottom: 30rpx; background-color: #FFFFFF;margin-left: 22rpx; border-radius:20rpx; margin-bottom: 30rpx;">
+				<!-- <view style="padding: 40rpx;display: flex;flex-direction: row;">
 					<text class="destinationArea" style="width:160rpx;">订单类型:</text>
 					<text class="destinationArea" style="margin-left: 10rpx;">{{item.orderType}}</text>
-				</view>
-				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;">
-					<text class="fontClass" style="width:140rpx;height:40rpx;">目的区域:</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;">{{item.destinationArea}}</text>
+				</view> -->
+				<view style="padding: 40rpx;display: flex;flex-direction: row;">
+					<text class="destinationArea" style="width:160rpx;">目的区域:</text>
+					<text class="destinationArea">{{item.destinationArea}}</text>
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;" v-if="item.orderType == '预约'">
 					<text class="fontClass" style="width:140rpx;height:40rpx;">预约时间:</text>
@@ -58,28 +57,37 @@
 </template>
 
 <script>
+	import uniIcons from "@/components/uni-icons/uni-icons.vue";
 	import Map from '@/common/my-openMap/openMap.js';
 	import utils from '@/components/Driver/shoyu-date/utils.filter.js';
 	//import Voice from '../../js_sdk/QuShe-baiduYY/QS-baiduyy/QS-baiduyy.js';
 	export default {
+		components: {
+			uniIcons,
+		},
 		data() {
 			return {
 				orderArr: [],
-				specialLineArr: [],
 				getOrderInterval: 0,
 				userInfo: '',
 				vehicleInfo: '',
 				taxiOrderNum: 0,
-				specialLineOrderNum: 0,
 				//taxiLastIndex: 0,
-				privateLineLastIndex: 0,
+				menuButtonHeight:'',
+				menuButtonTop:'',
 			}
 		},
 		onLoad() {
 			let that = this;
+			let menuButtonInfo  = uni.getMenuButtonBoundingClientRect();
+			that.menuButtonHeight = menuButtonInfo.height;
+			that.menuButtonTop = menuButtonInfo.top;
 			
+			console.log(that.menuButtonHeight);
 			uni.setStorageSync('userInfo',{
-				driverId:'2000013',
+				driverId:'2000014',
+				userName:'施远',
+				phoneNumber:'13599291007'
 				
 			});
 			uni.setStorageSync('vehicleInfo',{
@@ -130,6 +138,7 @@
 					url: '/pages/index/index',
 				})
 			},
+			
 			receipt: function(item) {
 				//接单
 				let that = this;
@@ -149,18 +158,18 @@
 					success: function(res) {
 						uni.hideLoading();
 						if (res.data.status) {
-							switch (item.orderType) {
-								case '实时':
-									uni.navigateTo({
-										url: '/pages/driver/confirmgetonCar?orderNumber=' + item.orderNumber,
-									});
-									break;
+							/* switch (item.orderType) {
+								case '实时': */
+							uni.navigateTo({
+								url: '/pages/driver/driverOperation/confirmgetonCar?orderNumber=' + item.orderNumber,
+							});
+								/* 	break;
 								case '预约':
 									that.showToast('接单成功');
 									break;
 								default:
 									break;
-							}
+							} */
 						} else {
 							that.showToast(res.data.msg);
 						}
@@ -226,7 +235,7 @@
 					},
 					success: function(res) {
 						uni.hideLoading();
-						//console.log(res);
+						console.log(res);
 						if (res.data.status) {
 							that.orderArr = [];
 							let data = res.data.data;
@@ -304,6 +313,11 @@
 				return time.replace('T', ' ');
 			},
 			
+			toOrderList:function(){
+				uni.navigateTo({
+					url:'../order/Order'
+				});
+			}
 		}
 	}
 </script>

@@ -12,7 +12,8 @@ function openMapByDefault(latitude, longitude, name) {
 		latitude: latitude,
 		longitude: longitude,
 		name: name,
-		fail: () => {
+		fail: (res) => {
+			console.log(res);
 			uni.showModal({
 				content: '打开地图失败,请重试'
 			})
