@@ -98,7 +98,8 @@
 				"navigationStyle": "custom"
 			}
 		}
-		//-------------司机端结束----------------    ],
+		//-------------司机端结束----------------    
+		],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#F8F8F8",
