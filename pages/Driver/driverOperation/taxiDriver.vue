@@ -5,13 +5,12 @@
 		</view>
 		<view style="display: flex;width: 94%;margin: 30rpx auto 30rpx auto;flex-direction: row;justify-content: space-between;">
 			<view style="width: 30%;">
-				<image @click="back" src="../../static/driver/back.png" style="width: 20rpx; height: 35rpx;color: #2C2D2D;"></image>
+				<image @click="back" src="@/static/driver/back.png" style="width: 20rpx; height: 35rpx;color: #2C2D2D;"></image>
 			</view>
 			<view>
 				<text style="font-size:38rpx;font-family:Source Han Sans SC;font-weight:bold;color:rgba(44,45,45,1);">出租车司机</text>
 			</view>
-			<view @click="downwindCar" style="width: 30%;text-align: right;">
-			</view>
+			<view style="width: 30%;text-align: right;"></view>
 		</view>
 
 		<!-- 接单信息-出租车 -->
@@ -60,7 +59,7 @@
 
 <script>
 	import Map from '@/common/my-openMap/openMap.js';
-	// import utils from '@/components/shoyu-date/utils.filter.js';
+	import utils from '@/components/Driver/shoyu-date/utils.filter.js';
 	//import Voice from '../../js_sdk/QuShe-baiduYY/QS-baiduyy/QS-baiduyy.js';
 	export default {
 		data() {
@@ -74,29 +73,36 @@
 				specialLineOrderNum: 0,
 				//taxiLastIndex: 0,
 				privateLineLastIndex: 0,
-				isOpen: false,
 			}
 		},
 		onLoad() {
 			let that = this;
+			
+			uni.setStorageSync('userInfo',{
+				driverId:'2000013',
+				
+			});
+			uni.setStorageSync('vehicleInfo',{
+				vehicleNumber:'闽C22222',
+			});
+			
 			uni.hideLoading();
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			that.vehicleInfo = uni.getStorageSync("vehicleInfo") || '';
-		
+			
+			
 			if (that.userInfo == '') {
 				that.showToast('请先登录');
 				//console.log(that.userInfo);
 			} else if (that.vehicleInfo == '') {
 				that.showToast('请先上班');
 			} else {
-				if (!that.isOpen) {
-					uni.showLoading({
-						mask: true
-					});
-					//在getOrder里面会关闭
-					that.getOrder(that.userInfo.driverId, that.vehicleInfo.vehicleNumber);
-					that.realTimeOrder(that.userInfo.driverId, that.vehicleInfo.vehicleNumber);
-				}
+				uni.showLoading({
+					mask: true
+				});
+				//在getOrder里面会关闭
+				that.getOrder(that.userInfo.driverId, that.vehicleInfo.vehicleNumber);
+				that.realTimeOrder(that.userInfo.driverId, that.vehicleInfo.vehicleNumber);
 			}
 		},
 		onShow() {
@@ -184,7 +190,7 @@
 						//console.log(res);
 						uni.hideLoading();
 						if (res.data.status) {
-							that.showToast('已拒绝');
+							that.showToast('已拒接');
 							that.getOrder(that.userInfo.driverId, that.vehicleInfo.vehicleNumber);
 						} else {
 							that.showToast(res.data.msg);

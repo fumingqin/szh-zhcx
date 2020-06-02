@@ -11,7 +11,7 @@
 								<text class="titleFont">起点</text>
 							</view>
 							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;"> 
-								<text @click="chooseStartSite" v-model="startSiteName" class="contentFont">{{startSiteName}}</text>
+								<text @click="startStationTap" v-model="startSiteName" class="contentFont">{{startSiteName}}</text>
 							</view>
 						</view>
 						
@@ -20,7 +20,7 @@
 								<text class="titleFont">终点</text>
 							</view>
 							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;"> 
-								<text @click="chooseEndSite" v-model="endSiteName" class="contentFont">{{endSiteName}}</text>
+								<text @click="endStationTap" v-model="endSiteName" class="contentFont">{{endSiteName}}</text>
 							</view>
 						</view>
 						
@@ -104,6 +104,39 @@
 			that.getTodayDate();
 		},
 		methods: {
+			//---------------------------------点击起点站---------------------------------
+			startStationTap(){
+				var that = this;
+				//监听事件,监听下个页面返回的值
+				uni.$on('startstaionChange', function(data) {
+				    // data即为传过来的值，给上车点赋值
+					that.startSiteName = data.data;
+				    //清除监听，不清除会消耗资源
+				    uni.$off('startstaionChange');
+				});
+				uni.navigateTo({
+					//跳转到下个页面的时候加个字段，判断当前点击的是上车点
+					url:'/pages/Volunteer/homeSattionPick?&station=' + 'qidian',
+					fail(res) {
+						console.log(res)
+					}
+				})
+			},
+			//---------------------------------点击终点站---------------------------------
+			endStationTap(){
+				var that = this;
+				//监听事件,监听下个页面返回的值，给下车点赋值
+				uni.$on('endStaionChange', function(data) {
+				    // data即为传过来的值
+					that.endSiteName = data.data;
+				    //清除监听，不清除会消耗资源
+				    uni.$off('endStaionChange');
+				});
+				uni.navigateTo({
+					//跳转到下个页面的时候加个字段，判断当前点击的是下车点
+					url:'/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian',
+				})
+			},
 			showToast:function(title,icon='none'){
 				uni.showToast({
 					title:title,
@@ -165,41 +198,47 @@
 				if(! that.isVerify()){
 					return;
 				}
-				uni.request({
-					url:that.$downwindCar.Interface.CreateLine_Driver.value,
-					method:that.$downwindCar.Interface.CreateLine_Driver.method,
-					data:{
-						StartLon:that.startLon,
-						StartLat:that.startLat,
-						EndLon:that.endLon,
-						EndLat:that.endLat,
-						StartSiteName:that.startSiteName,
-						EndSiteName:that.endSiteName,
-						Mileage:that.mileage,
-						DepartureTime:that.date,
-						LineName :that.startSiteName + '-' + that.endSiteName,
-						DriverID:that.userInfo.driverId,
-						DriverName:that.userInfo.userName,
-						Price:that.price,
-						Seat:that.seat,
-						VehicleNumber:that.vehicleInfo.vehicleNumber
-					},
-					success:function(res){
-						console.log(res);
-						if(res.data.status){
-							that.showToast('发布成功');
-							setTimeout(function(){
-								uni.navigateBack({});
-							},1500)
-						}else{
-							that.showToast('发布失败');
-						}
-					},
-					fail:function(res){
-						console.log(res);
-						that.showToast('网络连接失败');
-					}
+				uni.navigateTo({
+					url:'./CallAndDrive?orderNumber=2020052510512702662305'
 				})
+				// uni.request({
+				// 	url:that.$downwindCar.Interface.CreateLine_Driver.value,
+				// 	method:that.$downwindCar.Interface.CreateLine_Driver.method,
+				// 	data:{
+				// 		StartLon:that.startLon,
+				// 		StartLat:that.startLat,
+				// 		EndLon:that.endLon,
+				// 		EndLat:that.endLat,
+				// 		StartSiteName:that.startSiteName,
+				// 		EndSiteName:that.endSiteName,
+				// 		Mileage:that.mileage,
+				// 		DepartureTime:that.date,
+				// 		LineName :that.startSiteName + '-' + that.endSiteName,
+				// 		DriverID:that.userInfo.driverId,
+				// 		DriverName:that.userInfo.userName,
+				// 		Price:that.price,
+				// 		Seat:that.seat,
+				// 		VehicleNumber:that.vehicleInfo.vehicleNumber
+				// 	},
+				// 	success:function(res){
+				// 		console.log(res);
+				// 		if(res.data.status){
+				// 			that.showToast('提交成功');
+				// 			setTimeout(function(){
+				// 				// uni.navigateBack({});
+				// 				uni.navigateTo({
+				// 					url:'../trafficPolice/trafficPolice'
+				// 				})
+				// 			},1500)
+				// 		}else{
+				// 			that.showToast('提交失败');
+				// 		}
+				// 	},
+				// 	fail:function(res){
+				// 		console.log(res);
+				// 		that.showToast('网络连接失败');
+				// 	}
+				// })
 			},
 			isVerify:function(){
 				let that = this;
@@ -213,18 +252,12 @@
 					that.showToast('请输入预计里程');
 					return false;
 				} */ else if (that.price == 0){
-					that.showToast('请输入价格');
+					that.showToast('请输入人数');
 					return false;
 				} else if (that.price < 0){
-					that.showToast('价格输入有误');
+					that.showToast('人数输入有误');
 					return false;
-				} else if (that.seat <= 0){
-					that.showToast('剩余座位不能小于1个');
-					return false;
-				} else if (that.seat > 4){
-					that.showToast('剩余座位不能大于4个');
-					return false;
-				}
+				} 
 				return true;
 			},
 			onShowDatePicker:function(type){
@@ -232,26 +265,26 @@
 				this.showPicker = true;
 				this.value = this[type];
 			},
-			chooseStartSite:function(){
-				let that = this;
-				uni.chooseLocation({
-					success:function(res){
-						that.startSiteName = res.name
-						that.startLon = res.longitude
-						that.startLat = res.latitude
-					},
-				});
-			},
-			chooseEndSite:function(){
-				let that = this;
-				uni.chooseLocation({
-					success:function(res){
-						that.endSiteName = res.name
-						that.endLon = res.longitude
-						that.endLat = res.latitude
-					},
-				});
-			},
+			// chooseStartSite:function(){
+			// 	let that = this;
+			// 	uni.chooseLocation({
+			// 		success:function(res){
+			// 			that.startSiteName = res.name
+			// 			that.startLon = res.longitude
+			// 			that.startLat = res.latitude
+			// 		},
+			// 	});
+			// },
+			// chooseEndSite:function(){
+			// 	let that = this;
+			// 	uni.chooseLocation({
+			// 		success:function(res){
+			// 			that.endSiteName = res.name
+			// 			that.endLon = res.longitude
+			// 			that.endLat = res.latitude
+			// 		},
+			// 	});
+			// },
 			
 		}
 	}

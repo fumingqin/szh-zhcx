@@ -110,21 +110,24 @@
 											vehicleNumber: that.vehicleNumber
 										},
 										success() {
-											if (that.vehicleType == "出租车") {
-												uni.redirectTo({
-													url: '/pages/driver/taxiDriver',
-												})
-											}
-											if (that.vehicleType == "包车") {
-												uni.redirectTo({
-													url: '/pages/BCDriver/bcDriver',
-												})
-											}
-											if (that.vehicleType == "客车") {
-												uni.redirectTo({
-													url: '/pages/CTKYDriver/selectOrder',
-												})
-											}
+											uni.navigateTo({
+												url:'./policeSelect'
+											})
+											// if (that.vehicleType == "出租车") {
+											// 	uni.redirectTo({
+											// 		url: '/pages/driver/taxiDriver',
+											// 	})
+											// }
+											// if (that.vehicleType == "包车") {
+											// 	uni.redirectTo({
+											// 		url: '/pages/BCDriver/bcDriver',
+											// 	})
+											// }
+											// if (that.vehicleType == "客车") {
+											// 	uni.redirectTo({
+											// 		url: '/pages/CTKYDriver/selectOrder',
+											// 	})
+											// }
 		
 										}
 									});

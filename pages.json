@@ -23,6 +23,16 @@
             "style" : {
 				"navigationStyle": "custom"
 			}
+        },{
+            "path" : "pages/Volunteer/homeSattionPick",
+            "style" : {
+				
+			}
+        },{
+            "path" : "pages/Volunteer/CallAndDrive",
+            "style" : {
+				"navigationStyle": "custom"
+			}
         },
 		//------------个人中心开始--------------
 		{
@@ -71,26 +81,25 @@
 			}
 		},//------------个人中心结束--------------
 		{ //------------司机端开始----------------
-			"path":"pages/driver/taxiDriver",
+			"path":"pages/driver/driverOperation/taxiDriver",
 			"style":{
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path":"pages/driver/orderComplete",
+			"path":"pages/driver/driverOperation/orderComplete",
 			"style":{
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path":"pages/driver/confirmgetonCar",
+			"path":"pages/driver/driverOperation/confirmgetonCar",
 			"style":{
 				"navigationStyle": "custom"
 			}
 		}
-		//-------------司机端结束----------------
-		
-    ],
+		//-------------司机端结束----------------    
+		],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#F8F8F8",
