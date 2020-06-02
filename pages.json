@@ -23,6 +23,16 @@
             "style" : {
 				"navigationStyle": "custom"
 			}
+        },{
+            "path" : "pages/Volunteer/homeSattionPick",
+            "style" : {
+				
+			}
+        },{
+            "path" : "pages/Volunteer/CallAndDrive",
+            "style" : {
+				"navigationStyle": "custom"
+			}
         }
     ],
 	"globalStyle": {

@@ -106,7 +106,40 @@ const Interface = {
 		name:'司机端-出租车-营收详情',
 		method:'POST',
 		page:[]
-	}
+	},
+	
+	
+	//旅客端接口
+	AddExpressOrder_Passenger:{
+		value: Url + '/api/taxi/AddExpressOrder_Passenger',
+		name:'旅客端-出租车下单',
+		method:'POST',
+		pages:["Home/ChooseSite.nvue"]
+	},
+	SearchExpressOrderByOrderNum_Passenger:{
+		value:Url + '/api/taxi/SearchExpressOrderByOrderNum_Passenger',
+		name:'旅客端-等车时候根据订单号查询出租车快车订单',
+		method:'POST',
+		page:["CZC/CallAndDrive.nvue"]
+	},
+	CancelExpressOrderByOrderNum_Passenger:{
+		value:Url + '/api/taxi/CancelExpressOrderByOrderNum_Passenger',
+		name:'旅客端-根据订单号取消订单',
+		method:'POST',
+		page:["CZC/CallAndDrive.nvue","order/OrderList"]
+	},
+	addPassengerOneTouchAlarm:{
+		value:Url + '/api/taxi/addPassengerOneTouchAlarm',
+		name:'旅客端-一键报警',
+		method:'POST',
+		page:["CZC/CallAndDrive.nvue","CZC/WaitTakeOrder"]
+	},
+	addPassengerEvaluate_Passenger:{
+		value:Url + '/api/taxi/addPassengerEvaluate_Passenger',
+		name:'旅客端-添加评价',
+		method:'POST',
+		page:["CZC/OrderDetail.nvue","CZC/SpecialLineDetail.nvue"]
+	},
 }
 
 export default {
