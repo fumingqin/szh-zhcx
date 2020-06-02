@@ -23,6 +23,16 @@
             "style" : {
 				"navigationStyle": "custom"
 			}
+        },{
+            "path" : "pages/Volunteer/homeSattionPick",
+            "style" : {
+				
+			}
+        },{
+            "path" : "pages/Volunteer/CallAndDrive",
+            "style" : {
+				"navigationStyle": "custom"
+			}
         },
 		//------------个人中心开始--------------
 		{
@@ -101,9 +111,8 @@
 				"navigationStyle": "custom"
 			}
 		}
-		//-------------司机端结束----------------
-		
-    ],
+		//-------------司机端结束----------------    
+		],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#F8F8F8",

@@ -18,20 +18,24 @@
 				
 			<view class="inputItem phoneNum">
 				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
-				<input type="number" placeholder="手机号码" maxlength="11" class="inputClass" name="phoneNumber" data-key="phoneNumber" @input="inputChange1" :value="phoneNumber" />
+				<input type="number" placeholder="请输入编号"  class="inputClass" name="Number" data-key="Number" @input="inputChange1" :value="Number" />
 			</view>
 			<view class="inputItem Captcha">
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
 				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange3" />
 			</view>
-			<text class="switchClass" @click="switchClick">切换登录方式</text>
-			<image src="../../static/GRZX/btnLogin.png" class="btnLogin" ></image>
+			<view class="inputItem CarNum">
+				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
+				<input type="password" placeholder="请绑定车牌号" class="inputClass" name="carNum" data-key="carNum" :value="carNum" @input="inputChange3" />
+			</view>
+			<!-- <text class="switchClass" @click="switchClick">切换登录方式</text> -->
+			<!-- <image src="../../static/GRZX/btnLogin.png" class="btnLogin" ></image> -->
 			<text class="fontStyle" @click="pwdClick">登录</text>
 		</view>
 		
 		<!-- 手机号+验证码登录 -->
 		<view class="inputContent" v-if="type==2">
-			<view class="inputItem1">
+			<!-- <view class="inputItem1">
 				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
 				<view class="selectClass">
 					<xfl-select  :list="list" :clearable="false" :showItemNum="4"  :listShow="false" :isCanInput="false"  @change="selectClick"
@@ -46,11 +50,11 @@
 			<view class="inputItem Captcha">
 				<image src="../../static/GRZX/code.png" class="iconClass2"></image>
 				<input type="number" placeholder="输入验证码" maxlength="4" class="inputClass" name="captchaCode" data-key="captchaCode" @input="inputChange2" :value="captchaCode"/>
-			</view>
+			</view> -->
 			<!-- 发送验证码 -->
-			<view class="getCode style1" @click="getCodeClick" id="Code">{{textCode}}</view>
+			<!-- <view class="getCode style1" @click="getCodeClick" id="Code">{{textCode}}</view>
 			<text class="switchClass" @click="switchClick">切换登录方式</text>
-			<text class="fontStyle" @click="codeClick">确定</text>
+			<text class="fontStyle" @click="codeClick">确定</text> -->
 		</view>
 		
 		<!-- logo -->
@@ -65,18 +69,19 @@
 			return {
 				type:1,  //1为密码登录，2为验证码登录
 				textCode:"获取验证码",
-				phoneNumber:'',
+				Number:'',
 				password:'',
 				captchaCode:'',
 				imgHeight:'',
 				userType:'司机', //用户类型
+				carNum:'',
 				//下拉列表
 				list: [       //要展示的数据
 				    // {value: '香蕉', disabled: true},
 					'司机',
 				    '志愿者',
-				    '交警',
-				    '派单员',
+				    // '交警',
+				    // '派单员',
 				],
 			}
 		},
@@ -392,7 +397,7 @@
 	}
 	.inputContent{  //登录区域的样式
 		width: 90.4%;
-		height: 855upx;
+		height: 900upx;
 		position: absolute;
 		top:324upx;
 		left: 4.8%;
@@ -414,6 +419,11 @@
 	.Captcha{
 		position: absolute;
 		top:410upx;  
+		left: 6.19%;
+	}
+	.CarNum{
+		position: absolute;
+		top:550upx;  
 		left: 6.19%;
 	}
 	.inputClass{	//输入框的位置
@@ -464,7 +474,7 @@
 	}	
 	.fontStyle{		//确定字体样式
 		position: absolute;
-		top: 662upx;
+		top: 740upx;
 		left: 5%;
 		text-align: center;
 		font-size: 36upx;
