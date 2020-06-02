@@ -33,8 +33,72 @@
             "style" : {
 				"navigationStyle": "custom"
 			}
-        }
-    ],
+        },
+		//------------个人中心开始--------------
+		{
+			"path": "pages/GRZX/user",  //个人中心
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/GRZX/userLogin",  //登录
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/YDPD/mobileDispatch",  //派单员
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/YDPD/selectDriver", //选择司机
+			"style": {
+				"navigationBarTitleText": "选择司机",
+				"navigationBarBackgroundColor": "#F5F9FC",
+				"backgroundColor": "#F5F9FC"
+			}
+		},
+		{
+			"path": "pages/GRZX/set", //设置
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/GRZX/personal",
+			"style": {
+				"navigationBarTitleText": "个人主页"
+			}
+		},
+		{
+			"path": "pages/GRZX/selectOperation", //选择操作
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},//------------个人中心结束--------------
+		{ //------------司机端开始----------------
+			"path":"pages/driver/driverOperation/taxiDriver",
+			"style":{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path":"pages/driver/driverOperation/orderComplete",
+			"style":{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path":"pages/driver/driverOperation/confirmgetonCar",
+			"style":{
+				"navigationStyle": "custom"
+			}
+		}
+		//-------------司机端结束----------------    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#F8F8F8",
