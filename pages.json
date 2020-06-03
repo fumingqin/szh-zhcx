@@ -1,9 +1,9 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/GRZX/userLogin",  //登录
 			"style": {
-				
+				"navigationStyle": "custom"
 			}
 		}
 	    ,{
@@ -37,12 +37,6 @@
 		//------------个人中心开始--------------
 		{
 			"path": "pages/GRZX/user",  //个人中心
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/GRZX/userLogin",  //登录
 			"style": {
 				"navigationStyle": "custom"
 			}
