@@ -75,6 +75,12 @@
 			}
 		},
 		{
+			"path": "pages/GRZX/oderList/volunteerOrderList", //志愿者订单列表
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/GRZX/selectOperation", //选择操作
 			"style": {
 				"navigationStyle": "custom"

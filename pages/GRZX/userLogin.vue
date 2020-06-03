@@ -5,8 +5,7 @@
 		<image src="../../static/GRZX/back.png" class="returnClass" @click="returnClick"></image>
 		
 		<!-- 手机号+密码登录 -->
-		<view class="inputContent" v-if="type==1">
-			<!-- :initValue="'苹果'" -->
+		<view class="inputContent">
 			<view class="inputItem1">
 				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
 				<view class="selectClass">
@@ -15,46 +14,23 @@
 			        </xfl-select>
 				</view>
 			</view>
-				
-			<view class="inputItem phoneNum">
+			<view class="inputItem phoneNum" v-if="userType=='司机'">
 				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
-				<input type="number" placeholder="请输入编号"  class="inputClass" name="Number" data-key="Number" @input="inputChange1" :value="Number" />
+				<input type="number" placeholder="请输入司机编号或者手机号"  class="inputClass" name="Number" data-key="Number" @input="inputChange1" :value="Number" />
+			</view>
+			<view class="inputItem phoneNum" v-if="userType=='志愿者'">
+				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
+				<input type="number" placeholder="请输入志愿者编号"  class="inputClass" name="Number" data-key="Number" @input="inputChange1" :value="Number" />
 			</view>
 			<view class="inputItem Captcha">
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
 				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange3" />
 			</view>
-			<view class="inputItem CarNum">
+			<view class="inputItem CarNum" v-if="userType=='司机'">
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
 				<input type="password" placeholder="请绑定车牌号" class="inputClass" name="carNum" data-key="carNum" :value="carNum" @input="inputChange3" />
 			</view>
-			<!-- <text class="switchClass" @click="switchClick">切换登录方式</text> -->
-			<!-- <image src="../../static/GRZX/btnLogin.png" class="btnLogin" ></image> -->
 			<text class="fontStyle" @click="pwdClick">登录</text>
-		</view>
-		
-		<!-- 手机号+验证码登录 -->
-		<view class="inputContent" v-if="type==2">
-			<!-- <view class="inputItem1">
-				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
-				<view class="selectClass">
-					<xfl-select  :list="list" :clearable="false" :showItemNum="4"  :listShow="false" :isCanInput="false"  @change="selectClick"
-					:style_Container="'height: 50px;font-size: 16px;'" :placeholder = "'请选择用户类型'" :initValue="userType" :selectHideType="'hideAll'" >
-			        </xfl-select>
-				</view>
-			</view>
-			<view class="inputItem phoneNum">
-				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
-				<input type="number" placeholder="手机号码" maxlength="11" class="inputClass" name="phoneNumber" data-key="phoneNumber" @input="inputChange1" :value="phoneNumber"/>
-			</view>
-			<view class="inputItem Captcha">
-				<image src="../../static/GRZX/code.png" class="iconClass2"></image>
-				<input type="number" placeholder="输入验证码" maxlength="4" class="inputClass" name="captchaCode" data-key="captchaCode" @input="inputChange2" :value="captchaCode"/>
-			</view> -->
-			<!-- 发送验证码 -->
-			<!-- <view class="getCode style1" @click="getCodeClick" id="Code">{{textCode}}</view>
-			<text class="switchClass" @click="switchClick">切换登录方式</text>
-			<text class="fontStyle" @click="codeClick">确定</text> -->
 		</view>
 		
 		<!-- logo -->
