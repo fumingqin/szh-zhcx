@@ -103,6 +103,19 @@
 			"style":{
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path":"pages/driver/order/Order",
+			"style":{
+				"navigationStyle": "custom",
+				"enablePullDownRefresh":true
+			}
+		},
+		{
+			"path":"pages/driver/order/orderDetail",
+			"style":{
+				"navigationStyle": "custom"
+			}
 		}
 		//-------------司机端结束----------------    
 		],
