@@ -24,10 +24,7 @@
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
 					<view v-for="(item,index) in orderArr" :key="index">
 						<!-- 志愿者开始 -->
-						<view v-if="item.title == '志愿者'" style="margin-top: 20rpx;">
-							<view class="booktime" v-if="item.orderType == '预约'">
-								预约日期：{{taxiFormatTime(item.appointmentTime)}}
-							</view>
+						<view style="margin-top: 20rpx;">
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
@@ -40,12 +37,12 @@
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
 										<view style="display: flex;justify-content: space-between;">
-											<view>
+											<!-- <view>
 												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view>
-											<view v-if="item.state == 6" style="padding-left: 40rpx;">
+											</view> -->
+											<!-- <view v-if="item.state == 6" style="padding-left: 40rpx;">
 												￥{{item.factPayPrice}}
-											</view>
+											</view> -->
 										</view>
 										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
 										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
@@ -53,19 +50,9 @@
 										<view>目的地：{{item.endAddress}}</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.state==1 || item.state==2">
-											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
-										</view>
-
 										<view v-if="item.state != 1">
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
-										<view v-if="item.state == 1">
-											<button @click="toDepart(item)" style="background-color: #FC4646;color: #FFF;width: auto;">发车</button>
-										</view>
-										<!-- <view v-if="item.state == 4">
-										<button @click="toArrive(item)" style="background-color: #FC4646;color: #FFF;width: auto;">到达</button>
-									</view> -->
 									</view>
 								</view>
 							</view>
@@ -77,10 +64,10 @@
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==1">
 					<view v-for="(item,index) in underwayArr" :key="index">
 						<!-- 志愿者开始 -->
-						<view v-if="item.title == '志愿者'" style="margin-top: 20rpx;">
-							<view class="booktime" v-if="item.orderType == '预约'">
+						<view style="margin-top: 20rpx;">
+							<!-- <view class="booktime" v-if="item.orderType == '预约'">
 								预约日期：{{taxiFormatTime(item.appointmentTime)}}
-							</view>
+							</view> -->
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
@@ -94,12 +81,12 @@
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
 										<view style="display: flex;justify-content: space-between;">
-											<view>
+											<!-- <view>
 												客户类型：{{taxiFormatUserType(item.userType)}}
 											</view>
 											<view v-if="item.state == 6" style="padding-left: 40rpx;">
 												￥{{item.factPrice}}
-											</view>
+											</view> -->
 										</view>
 										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
 										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
@@ -107,9 +94,9 @@
 										<view>目的地：{{item.endAddress}}</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.state==1 || item.state==2">
+										<!-- <view v-if="item.state==1 || item.state==2">
 											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
-										</view>
+										</view> -->
 
 										<view v-if="item.state != 1">
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
@@ -134,7 +121,7 @@
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==2">
 					<view v-for="(item,index) in finishedArr" :key="index">
 						<!-- 志愿者开始 -->
-						<view v-if="item.title == '志愿者'" style="margin-top: 20rpx;">
+						<view style="margin-top: 20rpx;">
 							<view class="booktime" v-if="item.orderType == '预约'">
 								预约日期：{{taxiFormatTime(item.appointmentTime)}}
 							</view>
@@ -151,12 +138,12 @@
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
 										<view style="display: flex;justify-content: space-between;">
-											<view>
+											<!-- <view>
 												客户类型：{{taxiFormatUserType(item.userType)}}
 											</view>
 											<view v-if="item.state == 6" style="padding-left: 40rpx;">
 												￥{{item.factPayPrice}}
-											</view>
+											</view> -->
 										</view>
 										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
 										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
@@ -178,10 +165,10 @@
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==3">
 					<view v-for="(item,index) in cancleArr" :key="index">
 						<!-- 志愿者开始 -->
-						<view v-if="item.title == '志愿者'" style="margin-top: 20rpx;">
-							<view class="booktime" v-if="item.orderType == '预约'">
+						<view style="margin-top: 20rpx;">
+							<!-- <view class="booktime" v-if="item.orderType == '预约'">
 								预约日期：{{taxiFormatTime(item.appointmentTime)}}
-							</view>
+							</view> -->
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
@@ -195,9 +182,9 @@
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
 										<view style="display: flex;justify-content: space-between;">
-											<view>
+											<!-- <view>
 												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view>
+											</view> -->
 										</view>
 										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
 										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
@@ -241,11 +228,13 @@
 				menuButtonTop: ''
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			let that = this;
 			let menuButtonInfo = uni.getMenuButtonBoundingClientRect();
 			that.menuButtonHeight = menuButtonInfo.height;
 			that.menuButtonTop = menuButtonInfo.top;
+			that.current=options.current;
+			console.log(that.current)
 		},
 		onShow() {
 			var that = this;
@@ -301,7 +290,7 @@
 							that.orderArr = [];
 							for (let item of res.data.data) {
 								var obj = {
-									title: '出租车',
+									title: '志愿者',
 									orderType: item.orderType, //实时/预约
 									orderTime: item.orderTime,
 									appointmentTime: item.appointmentTime, //预约时间
