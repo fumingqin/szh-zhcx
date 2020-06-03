@@ -390,6 +390,7 @@
 					that.showToast('网络连接失败');
 				});
 			},
+			
 		
 			//发车
 			toDepart: function(item) {
