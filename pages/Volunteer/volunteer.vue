@@ -4,7 +4,7 @@
 			<image src="../../static/Volunteer/advertisement.png" style="width: 750rpx;height: 400rpx;"></image>
 		</view>
 			<view style="margin-top: -80rpx;">
-				<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 750rpx;">
+				<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 880rpx;">
 					<!-- <scroll-view style="height: 750rpx;" :scroll-y='true'> -->
 						<view>
 							<view>
@@ -45,7 +45,15 @@
 							 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
 						</view>
 						
-						
+						<view>
+							<view style="padding-top: 20rpx ;">
+								<text class="titleFont">备注</text>
+							</view>
+							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;"> 
+								<input class="contentFont"/>
+								<!-- <text>人</text> -->
+							</view>
+						</view>
 						<!-- <view>
 							<view style="padding-top: 20rpx ;">
 								<text class="titleFont">剩余座位</text>
@@ -56,7 +64,7 @@
 							</view>
 						</view> -->
 					<!-- </scroll-view> -->
-					<view style="margin-top: 68rpx;">
+					<view style="margin-top: 50rpx;">
 						<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
 							<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
 						</button>

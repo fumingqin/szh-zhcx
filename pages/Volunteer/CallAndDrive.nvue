@@ -257,7 +257,7 @@
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			that.autograph = that.userInfo.autograph;
 			that.orderNumber = option.orderNumber;
-			getApp().globalData.orderNumber = that.orderNumber; //更改当前订单号 
+			// getApp().globalData.orderNumber = that.orderNumber; //更改当前订单号 
 			uni.getSystemInfo({
 				//设置地图高度为可使用的高度
 				success: function(res) {
@@ -388,7 +388,7 @@
 								//司机已出发
 								//state == 5
 								//开启旅客定位
-								getApp().globalData.constantly();
+								// getApp().globalData.constantly();
 								//绘制司机标记点
 								that.setMarker('taxi', that.thisDriverLon, that.thisDriverLat, '../../static/CZC/Car.png');
 								//第一次路线规划
@@ -399,11 +399,11 @@
 							} else if (that.state == 3) {
 								//司机已到出发地
 								//开启旅客定位
-								getApp().globalData.constantly();
+								// getApp().globalData.constantly();
 							} else if (that.state == 4) {
 								//订单执行中
 								//开启旅客定位
-								getApp().globalData.constantly();
+								// getApp().globalData.constantly();
 								//state == 10
 								//第一次路线规划
 								//绘制司机标记点
@@ -420,7 +420,7 @@
 								that.openRealDirection();
 							} else if (that.state == 5) {
 								//state == 15
-								getApp().globalData.closeUpload();
+								// getApp().globalData.closeUpload();
 								// uni.showToast({
 								// 	title: '请支付订单',
 								// 	icon: 'none'
@@ -439,17 +439,17 @@
 							} else if (that.state == 6) {
 								//支付完成
 								//关闭旅客上传定位
-								getApp().globalData.closeUpload();
+								// getApp().globalData.closeUpload();
 								uni.redirectTo({
 									url: "./PaymentSuccess"
 								})
 							} else if (that.state == 7) {
 								//司机取消订单
 								//关闭旅客上传定位
-								getApp().globalData.closeUpload();
+								// getApp().globalData.closeUpload();
 							} else if (that.state == 8) {
 								//关闭旅客上传定位
-								getApp().globalData.closeUpload();
+								// getApp().globalData.closeUpload();
 								uni.showToast({
 									title: '订单已取消',
 									icon: 'none',
@@ -462,7 +462,7 @@
 							} else if (that.state == 9) {
 								//支付失败
 								//关闭旅客上传定位
-								getApp().globalData.closeUpload();
+								// getApp().globalData.closeUpload();
 							}
 						} else {
 							uni.showToast({
@@ -512,7 +512,7 @@
 									//司机已出发
 									//state == 5
 									//开启旅客定位
-									getApp().globalData.constantly();
+									// getApp().globalData.constantly();
 									if (that.hintIndex == 0) {
 										uni.showToast({
 											title: '已有司机接单',
@@ -527,11 +527,11 @@
 									}
 								} else if (that.state == 3) {
 									//开启旅客定位
-									getApp().globalData.constantly();
+									// getApp().globalData.constantly();
 									//司机已到出发地
 								} else if (that.state == 4) {
 									//开启旅客定位
-									getApp().globalData.constantly();
+									// getApp().globalData.constantly();
 									//订单执行中
 									//state == 10
 									//绘制司机标记点
@@ -554,7 +554,7 @@
 									//待支付
 									//state == 15
 									//关闭旅客上传定位
-									getApp().globalData.closeUpload();
+									// getApp().globalData.closeUpload();
 									//清除定时器
 									clearInterval(that.directionInterval);
 									that.directionInterval = 0;
@@ -578,18 +578,18 @@
 								} else if (that.state == 6) {
 									//支付完成
 									//关闭旅客上传定位
-									getApp().globalData.closeUpload();
+									// getApp().globalData.closeUpload();
 									uni.redirectTo({
 										url: "./PaymentSuccess"
 									})
 								} else if (that.state == 7) {
 									//司机取消订单
 									//关闭旅客上传定位
-									getApp().globalData.closeUpload();
+									// getApp().globalData.closeUpload();
 								} else if (that.state == 8) {
 									//旅客取消订单
 									//关闭旅客上传定位
-									getApp().globalData.closeUpload();
+									// getApp().globalData.closeUpload();
 									uni.showToast({
 										title: '订单已取消',
 										icon: 'none',
@@ -601,7 +601,7 @@
 								} else if (that.state == 9) {
 									//支付失败
 									//关闭旅客上传定位
-									getApp().globalData.closeUpload();
+									// getApp().globalData.closeUpload();
 								}
 							} else {
 								uni.showToast({
@@ -792,7 +792,7 @@
 							that.directionInterval = 0;
 							clearInterval(that.orderInterval);
 							that.orderInterval = 0;
-							getApp().globalData.closeUpload();
+							// getApp().globalData.closeUpload();
 							uni.request({
 								url: $taxi.Interface.CancelExpressOrderByOrderNum_Passenger.value,
 								method: $taxi.Interface.CancelExpressOrderByOrderNum_Passenger.method,
