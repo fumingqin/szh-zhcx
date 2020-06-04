@@ -29,7 +29,7 @@
 								<text class="titleFont">人数</text>
 							</view>
 							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;"> 
-								<input class="contentFont" v-model="price" type="number"  />
+								<input class="contentFont" v-model="people" type="number"  />
 								<text>人</text>
 							</view>
 						</view>
@@ -97,7 +97,7 @@
 				endLon:'',
 				endLat:'',
 				mileage:0,
-				price:0,
+				people:0,
 				userInfo:null,
 				vehicleInfo:null,
 				seat:0,
@@ -133,17 +133,22 @@
 			//---------------------------------点击终点站---------------------------------
 			endStationTap(){
 				var that = this;
-				//监听事件,监听下个页面返回的值，给下车点赋值
-				uni.$on('endStaionChange', function(data) {
-				    // data即为传过来的值
-					that.endSiteName = data.data;
-				    //清除监听，不清除会消耗资源
-				    uni.$off('endStaionChange');
-				});
-				uni.navigateTo({
-					//跳转到下个页面的时候加个字段，判断当前点击的是下车点
-					url:'/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian',
-				})
+				console.log(that.startSiteName);
+				if(that.startSiteName === '请选择起点'){
+					that.showToast('请先选择起点');
+				} else{
+					//监听事件,监听下个页面返回的值，给下车点赋值
+					uni.$on('endStaionChange', function(data) {
+					    // data即为传过来的值
+						that.endSiteName = data.data;
+					    //清除监听，不清除会消耗资源
+					    uni.$off('endStaionChange');
+					});
+					uni.navigateTo({
+						//跳转到下个页面的时候加个字段，判断当前点击的是下车点
+						url:'/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian',
+					})
+				}
 			},
 			showToast:function(title,icon='none'){
 				uni.showToast({
@@ -250,19 +255,19 @@
 			},
 			isVerify:function(){
 				let that = this;
-				if(that.startSiteName === '请选择上车点'){
-					that.showToast('请选择上车点');
+				if(that.startSiteName === '请选择起点'){
+					that.showToast('请选择起点');
 					return false
-				} else if (that.endSiteName === '请选择下车点'){
-					that.showToast('请选择下车点');
+				} else if (that.endSiteName === '请选择终点'){
+					that.showToast('请选择终点');
 					return false;
 				} /* else if (that.mileage == 0){
 					that.showToast('请输入预计里程');
 					return false;
-				} */ else if (that.price == 0){
+				} */ else if (that.people == 0){
 					that.showToast('请输入人数');
 					return false;
-				} else if (that.price < 0){
+				} else if (that.people < 0){
 					that.showToast('人数输入有误');
 					return false;
 				} 
