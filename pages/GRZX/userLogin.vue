@@ -2,10 +2,9 @@
 	<view class="content" v-bind:style="{height:imgHeight+'px'}">
 		<!-- 背景图 -->
 		<image src="../../static/GRZX/backgroudimg.png" style="width: 100%; position: absolute; bottom: 0; height: 100%;"></image>
-		<image src="../../static/GRZX/back.png" class="returnClass" @click="returnClick"></image>
 		
-		<!-- 手机号+密码登录 -->
-		<view class="inputContent">
+		<!-- 司机登录 -->
+		<view class="inputContent height1" v-if="userType=='司机'">
 			<view class="inputItem1">
 				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
 				<view class="selectClass">
@@ -14,23 +13,61 @@
 			        </xfl-select>
 				</view>
 			</view>
-			<view class="inputItem phoneNum" v-if="userType=='司机'">
+			<view class="inputItem phoneNum">
 				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
-				<input type="number" placeholder="请输入司机编号或者手机号"  class="inputClass" name="Number" data-key="Number" @input="inputChange1" :value="Number" />
-			</view>
-			<view class="inputItem phoneNum" v-if="userType=='志愿者'">
-				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
-				<input type="number" placeholder="请输入志愿者编号"  class="inputClass" name="Number" data-key="Number" @input="inputChange1" :value="Number" />
+				<input type="number" placeholder="请输入司机编号或者手机号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
 			</view>
 			<view class="inputItem Captcha">
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
-				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange3" />
+				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange" />
 			</view>
-			<view class="inputItem CarNum" v-if="userType=='司机'">
+			<view class="inputItem CarNum">
+				<image src="../../static/GRZX/carNum.png" class="iconClass4"></image>
+				<input placeholder="请绑定车牌号" maxlength="8" class="inputClass" name="carNum" data-key="carNum" :value="carNum" @input="inputChange" @blur="checkCarNum"/>
+			</view>
+			<text class="fontStyle top1" @click="pwdClick">登录</text>
+		</view>
+		
+		<!-- 志愿者登录 -->
+		<view class="inputContent height2" v-if="userType=='志愿者'">
+			<view class="inputItem1">
+				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
+				<view class="selectClass">
+					<xfl-select  :list="list" :clearable="false" :showItemNum="4"  :listShow="false" :isCanInput="false" @change="selectClick"  
+					:style_Container="'height: 50px;font-size: 16px;'" :placeholder = "'请选择用户类型'" :initValue="userType" :selectHideType="'hideAll'">
+			        </xfl-select>
+				</view>
+			</view>
+			<view class="inputItem phoneNum">
+				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
+				<input type="number" placeholder="请输入志愿者编号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
+			</view>
+			<view class="inputItem Captcha">
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
-				<input type="password" placeholder="请绑定车牌号" class="inputClass" name="carNum" data-key="carNum" :value="carNum" @input="inputChange3" />
+				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange" />
 			</view>
-			<text class="fontStyle" @click="pwdClick">登录</text>
+			<text class="fontStyle top2" @click="pwdClick">登录</text>
+		</view>
+		
+		<!-- 交警登录 -->
+		<view class="inputContent height2" v-if="userType=='交警'">
+			<view class="inputItem1">
+				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
+				<view class="selectClass">
+					<xfl-select  :list="list" :clearable="false" :showItemNum="4"  :listShow="false" :isCanInput="false" @change="selectClick"  
+					:style_Container="'height: 50px;font-size: 16px;'" :placeholder = "'请选择用户类型'" :initValue="userType" :selectHideType="'hideAll'">
+			        </xfl-select>
+				</view>
+			</view>
+			<view class="inputItem phoneNum">
+				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
+				<input type="number" placeholder="请输入交警编号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
+			</view>
+			<view class="inputItem Captcha">
+				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
+				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange" />
+			</view>
+			<text class="fontStyle top2" @click="pwdClick">登录</text>
 		</view>
 		
 		<!-- logo -->
@@ -44,10 +81,8 @@
 		data() {
 			return {
 				type:1,  //1为密码登录，2为验证码登录
-				textCode:"获取验证码",
-				Number:'',
+				number:'',
 				password:'',
-				captchaCode:'',
 				imgHeight:'',
 				userType:'司机', //用户类型
 				carNum:'',
@@ -56,7 +91,7 @@
 				    // {value: '香蕉', disabled: true},
 					'司机',
 				    '志愿者',
-				    // '交警',
+				    '交警',
 				    // '派单员',
 				],
 			}
@@ -85,245 +120,48 @@
 				        return false;
 				    }
 			},
-			inputChange1(e){
-				var num=e.detail.value;
-				if(this.judgeNum(num)){
-					
-				}else{
-					uni.showToast({
-						title : '请输入正确的手机号码',
-						icon : 'none',
-					})
-				}
+			inputChange(e){
 				const key = e.currentTarget.dataset.key;
 				this[key] = e.detail.value;
 			},
-			inputChange2(e){
-				var num=e.detail.value;
-				if(this.judgeNum(num)){
-					
-				}else{
+			//--------------校验车牌号-------------
+			checkCarNum(e){
+				console.log(e)
+				if(!this.isLicensePlate(e.detail.value)){
 					uni.showToast({
-						title : '请输入正确的验证码',
-						icon : 'none',
+						title:'请输入正确的车牌号',
+						icon:'none'
 					})
 				}
-				const key = e.currentTarget.dataset.key;
-				this[key] = e.detail.value;
-			},
-			inputChange3(e){
-				const key = e.currentTarget.dataset.key;
-				this[key] = e.detail.value;
 			},
 			//--------------密码登录-------------
 			pwdClick(){
 				var that=this;
-				console.log(that.phoneNumber)
-				console.log(that.password)
-				if(that.phoneNumber==""){
-					uni.showToast({
-						title:'请输入手机号',
-						icon:'none'
-					})
-				}else if(that.password==""){
-					uni.showToast({
-						title:'请输入密码',
-						icon:'none'
-					})
-				}else{
-					uni.showLoading({
-						title:'登录中...'
-					})
-					uni.request({
-						url:that.$GRZXInter.Interface.LoginByPassWord_Driver.value,
-						data:{
-							phoneNumber:that.phoneNumber,
-							password:that.password,
-						},
-						method:that.$GRZXInter.Interface.LoginByPassWord_Driver.method,
-						success(res) {
-							console.log(res)
-							if(res.data.msg=='登入成功'){
-								that.getuserInfo(that.phoneNumber);
-							}else{
-								uni.showToast({
-									title:'手机号未注册或密码错误',
-									icon:'none',
-								})
-							}
-						}
-					})
-				}
-			},
-			//--------------验证码登录-------------
-			codeClick(){
-				uni.showLoading({
-					title:'登录中...'
-				})
-				var that=this;
-				const {phoneNumber, captchaCode} = this;		
-				var phone=this.phoneNumber;
-				var captcha=this.captchaCode;
-				if(phone==null||phone==""){
-					uni.showToast({
-						title:"请输入手机号码",
-						icon:"none"
-					})
-				}else{
-					if(captcha==null||captcha==""){
-						uni.showToast({
-							title:"请输入验证码",
-							icon:"none"
-						})
-					}else{
-						uni.getStorage({
-							key:'captchaCode',
-							success(res) {
-								if(captcha==res.data.code&&phone==res.data.phone){
-									that.getuserInfo(phone);
-								}else{
-									uni.showToast({
-										title:"验证码错误",
-										icon:"none"
-									})
-								}
-							},
-							fail(){
-								uni.showToast({
-									title:"验证码已过期，请重新获取",
-									icon:"none"
-								})	
-							}
-						})
-					
-					}
+				if(that.userType=="司机"){
+					console.log(that.number)
+					console.log(that.password)
+					console.log(that.carNum)
+				}else if(that.userType=="志愿者"){
+					console.log(that.number)
+					console.log(that.password)
+				}else if(that.userType=="交警"){
+					console.log(that.number)
+					console.log(that.password)
 				}
 			},
 			//--------------获取用户信息-------------
 			getuserInfo(e){
-				var that=this;
-				uni.request({
-					url:that.$GRZXInter.Interface.GetDetailInfo_Driver.value,
-					data:{
-						phoneNumber:e
-					},
-					method:that.$GRZXInter.Interface.GetDetailInfo_Driver.method,
-					success(res) {
-						uni.hideLoading();
-						if(res.data.data.userauditState=='1'||res.data.data.userauditState==1){
-							uni.setStorageSync('userInfo',res.data.data)
-							uni.showToast({
-								title:"登录成功",
-								icon:"success"
-							})
-							uni.removeStorageSync('captchaCode'); //清除验证码的缓存
-							setTimeout(function(){
-								uni.switchTab({  //返回首页
-									url:'/pages/index/index',
-								}) 
-							},500);
-						}else if(res.data.data.userauditState=='0'||res.data.data.userauditState==0){
-							uni.showToast({
-								title:'您的信息正在审核中',
-								icon:'none'
-							})
-						}else if(res.data.data.userauditState=='2'||res.data.data.userauditState==2){
-							uni.showToast({
-								title:'您的信息审核不通过，请重新注册',
-								icon:'none'
-							})
-						}
-					}
-				})
-			},
-			//--------------获取车辆信息-------------
-			getvehicleInfo(id){
-				uni.request({
-					url:'',
-					data:{
-						driverId:id,
-					},
-					method:'POST',
-					success(res) {
-						console.log(res,'vehicleInfo')
-						uni.setStorageSync('vehicleInfo',{
-							vehicleType: '',
-							vehicleNumber: '',
-						})
-					}
-				})
-			},
-			//--------------获取验证码-------------
-			getCodeClick(e){
-				var self=this;
-				const {phoneNumber, captchaCode} = this;		
-				if(self.judgeNum(self.phoneNumber)){
-					var timer=null,second=59; //倒计时的时间
-					if(self.textCode == "获取验证码"){
-					  self.textCode = second+"秒后重发";
-					  if(self.textCode == "59秒后重发"){
-						  timer=setInterval(function(){
-						  second--;
-						  if(second<=0){	
-						  	self.textCode = "获取验证码";
-						  	clearInterval(timer);
-						  	second=59;	
-						  }
-						  else{			
-						  	self.textCode = second+"秒后重发";
-						  }},1000)
-						 uni.request({
-							//url:'http://111.231.109.113:8002/api/person/getLoginCode',
-							url:self.$GRZXInter.Interface.getLoginCode.value,
-						    data:{
-								phoneNumber:self.phoneNumber,
-							},
-							method:self.$GRZXInter.Interface.getLoginCode.method,
-							success:(res)=>{
-						 		console.log(res.data.data);
-								uni.setStorage({
-									key:'captchaCode',
-									data:{
-										code:res.data.data,
-										phone:self.phoneNumber,
-									}
-								})
-								setTimeout(function(){
-									uni.removeStorage({
-										key:'captchaCode',
-									})
-								},300000);
-						    }
-						 }) 
-					  }
-					}
-				}else{
-					uni.showToast({
-						title : '请输入正确的手机号码',
-						icon : 'none',
-					})
-				}
-			},
-			//--------------返回上一页-------------
-			returnClick(){		
-				uni.navigateBack();
-			},
-			//--------------切换登录方式-------------
-			switchClick(){
-				this.password="";
-				this.captchaCode="";
-				// console.log(this.password,"this.password")
-				// console.log(this.captchaCode,"this.captchaCode")
-				if(this.type==1){
-					this.type=2;
-				}else{
-					this.type=1;
-				}
+				
 			},
 			//--------------下拉选择-------------
 			selectClick(e){
 				console.log(e.newVal)
 				this.userType=e.newVal;
+			},
+			//--------------校验车牌号-------------
+			isLicensePlate: function(str) { 
+				return /^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/
+					.test(str);
 			},
 		}
 	}
@@ -333,7 +171,7 @@
 	//该界面的全局样式
 	.content {
 		width: 100%;
-		height: 1000upx;
+		// height: 1000upx;
 		position: relative;
 	}
 	.returnClass{  //返回按钮
@@ -371,9 +209,15 @@
 		left:2%;
 		position: absolute;
 	}
+	.iconClass4{ //绑定车牌号图标
+		width: 36upx;
+		height: 32upx;
+		top: 58upx;
+		left: 2%;
+		position: absolute;
+	}
 	.inputContent{  //登录区域的样式
 		width: 90.4%;
-		height: 900upx;
 		position: absolute;
 		top:324upx;
 		left: 4.8%;
@@ -381,6 +225,12 @@
 		border-radius: 50upx;
 		display: flex;
 		flex-direction: column;
+	}
+	.height1{
+		height: 900upx;
+	}
+	.height2{
+		height: 770upx;
 	}
 	.inputItem{		//输入区域的样式
 		width: 87.6%;
@@ -450,7 +300,6 @@
 	}	
 	.fontStyle{		//确定字体样式
 		position: absolute;
-		top: 740upx;
 		left: 5%;
 		text-align: center;
 		font-size: 36upx;
@@ -461,6 +310,12 @@
 		background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));
 		box-shadow:0px 7px 38px 8px rgba(70,103,252,0.15);
 		border-radius: 20upx;
+	}
+	.top1{
+		top: 740upx;
+	}
+	.top2{
+		top:600upx;
 	}
 	.switchClass{ //切换登录方式
 		position: absolute;

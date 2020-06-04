@@ -37,21 +37,15 @@
 										</view>
 										<view class="orderstatus">{{item.orderState}}</view>
 									</view>
+									
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
-										<view style="display: flex;justify-content: space-between;">
-											<view>
-												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view>
-											<view v-if="item.state == 6" style="padding-left: 40rpx;">
-												￥{{item.factPayPrice}}
-											</view>
-										</view>
 										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
 										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
 										<view>上车点：{{item.startAddress}}</view>
 										<view>目的地：{{item.endAddress}}</view>
 									</view>
+									
 									<view class="btnarea">
 										<view v-if="item.state==1 || item.state==2">
 											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
@@ -63,9 +57,9 @@
 										<view v-if="item.state == 1">
 											<button @click="toDepart(item)" style="background-color: #FC4646;color: #FFF;width: auto;">发车</button>
 										</view>
-										<!-- <view v-if="item.state == 4">
-										<button @click="toArrive(item)" style="background-color: #FC4646;color: #FFF;width: auto;">到达</button>
-									</view> -->
+										<view v-if="item.state == 4">
+											<button @click="toArrive(item)" style="background-color: #FC4646;color: #FFF;width: auto;">到达</button>
+										</view>
 									</view>
 								</view>
 							</view>
@@ -89,41 +83,28 @@
 											<view class="ordertitle">{{item.title}}</view>
 										</view>
 										<view class="orderstatus">{{item.orderState}}</view>
-
 									</view>
+									
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
-										<view style="display: flex;justify-content: space-between;">
-											<view>
-												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view>
-											<view v-if="item.state == 6" style="padding-left: 40rpx;">
-												￥{{item.factPrice}}
-											</view>
-										</view>
 										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
 										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
 										<view>上车点：{{item.startAddress}}</view>
 										<view>目的地：{{item.endAddress}}</view>
 									</view>
+									
 									<view class="btnarea">
 										<view v-if="item.state==1 || item.state==2">
 											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
 										</view>
-
 										<view v-if="item.state != 1">
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
 										<view v-if="item.state == 1">
 											<button @click="toDepart(item)" style="background-color: #FC4646;color: #FFF;width: auto;">发车</button>
 										</view>
-										<!-- <view v-if="item.state == 4">
-										<button @click="toArrive(item)" style="background-color: #FC4646;color: #FFF;width: auto;">到达</button>
-									</view> -->
-										<view v-if="item.state == 4">
-											<button @click="toInputPrice(item)" style="background-color: #FC4646;color: #FFF;width: auto;">输入价格</button>
-										</view>
 									</view>
+									
 								</view>
 							</view>
 						</view>
@@ -150,14 +131,6 @@
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
-										<view style="display: flex;justify-content: space-between;">
-											<view>
-												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view>
-											<view v-if="item.state == 6" style="padding-left: 40rpx;">
-												￥{{item.factPayPrice}}
-											</view>
-										</view>
 										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
 										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
 										<view>上车点：{{item.startAddress}}</view>
@@ -194,11 +167,6 @@
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
-										<view style="display: flex;justify-content: space-between;">
-											<view>
-												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view>
-										</view>
 										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
 										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
 										<view>上车点：{{item.startAddress}}</view>
@@ -381,7 +349,8 @@
 					if (res.data.status) {
 						that.showToast('到达成功');
 						uni.navigateTo({
-							url: '/pages/driver/otherExpenses?orderNumber=' + item.orderNumber,
+							url:'../driverOperation/orderComplete'
+							//url: '/pages/driver/otherExpenses?orderNumber=' + item.orderNumber,
 						})
 					} else {
 						that.showToast(res.data.msg);
@@ -408,9 +377,10 @@
 
 				that.taxiRequest(url, method, data).then(res => {
 					//成功回调
+					console.log(res);
 					if (res.data.status) {
 						uni.navigateTo({
-							url: '../driver/confirmgetonCar?orderNumber=' + item.orderNumber
+							url: '../driverOperation/confirmgetonCar?orderNumber=' + item.orderNumber
 						});
 					} else {
 						that.showToast(res.data.msg);

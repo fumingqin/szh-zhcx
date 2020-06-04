@@ -13,36 +13,36 @@
 				<text class="fontClass">{{userType}}</text>
 			</view>
 			
-			<!-- <view class="grzyClass" @click="personClick">
+			<view class="grzyClass" @click="personClick">
 				<text>个人主页</text>
 				<image src="../../static/GRZX/btnRight_Home.png" class="rightClass"></image>
-			</view> -->
+			</view>
 			
 			<view class="myBox" v-if="userType=='司机'">
-				<view class="collection" @click="orderClick(3)">
+				<view class="collection" @click="orderClick(0)">
 					<image src="../../static/GRZX/tubiao_pay1.png" class="imgStyle1" mode="aspectFill"></image>
 					<text class="myFont">全部</text>
 				</view>
-				<view class="order" @click="orderClick(2)">
+				<view class="order" @click="orderClick(1)">
 					<image src="../../static/GRZX/tubiao_pay2.png" class="imgStyle2" mode="aspectFill"></image>
 					<text class="myFont">进行中</text>
 				</view>
-				<view class="history" @click="orderClick(1)">
+				<view class="history" @click="orderClick(2)">
 					<image src="../../static/GRZX/tubiao_pay3.png" class="imgStyle3" mode="aspectFill"></image>
 					<text class="myFont">已完成</text>
 				</view>
 			</view>
 			
 			<view class="myBox" v-if="userType=='志愿者'">
-				<view class="collection" @click="orderClick(3)">
+				<view class="collection" @click="orderClick(0)">
 					<image src="../../static/GRZX/tubiao_pay1.png" class="imgStyle1" mode="aspectFill"></image>
-					<text class="myFont">已取消</text>
+					<text class="myFont">全部</text>
 				</view>
-				<view class="order" @click="orderClick(2)">
+				<view class="order" @click="orderClick(1)">
 					<image src="../../static/GRZX/tubiao_pay2.png" class="imgStyle2" mode="aspectFill"></image>
 					<text class="myFont">进行中</text>
 				</view>
-				<view class="history" @click="orderClick(1)">
+				<view class="history" @click="orderClick(2)">
 					<image src="../../static/GRZX/tubiao_pay3.png" class="imgStyle3" mode="aspectFill"></image>
 					<text class="myFont">已完成</text>
 				</view>
@@ -80,7 +80,7 @@
 				nickname:'',
 				portrait:'',
 				advert:'/static/GRZX/advert.png',
-				userType:'司机',
+				userType:'志愿者',
 			}
 		},
 		onLoad(){
@@ -97,17 +97,23 @@
 			},
 			// ---------------------------跳转订单的点击-----------------------
 			orderClick(e){
-				// uni.setStorageSync('currentNum',e)
-				// uni.switchTab({
-				// 	url:'/pages/order/OrderList',
-				// })
+				var that=this;
+				if(that.userType=="司机"){
+					uni.navigateTo({
+						url:'/pages/driver/order/Order?current='+e,
+					})
+				}else if(that.userType=="志愿者"){
+					uni.navigateTo({
+						url:'/pages/GRZX/oderList/volunteerOrderList?current='+e,
+					})
+				}
 			},
 			
 			// ---------------------------进入个人主页--------------------------
 			personClick(){
-				// uni.navigateTo({
-				// 	url:'/pages/GRZX/personal',
-				// })
+				uni.navigateTo({
+					url:'/pages/GRZX/personal',
+				})
 			},
 			// ---------------------------返回上一页--------------------------
 			returnClick(){
