@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view :style="{height:menuButtonHeight,'margin-top':menuButtonTop+'px'}" style="margin: 0 auto 30rpx auto;display: flex;width: 94%;flex-direction: row;align-items: center;">
+		<view :style="{height:menuButtonHeight+'px','margin-top':menuButtonTop+'px'}" style="margin: 0 auto 30rpx auto;display: flex;width: 94%;flex-direction: row;align-items: center;">
 			<view style="width: 40rpx;margin-right: 10px;">
 				<uni-icons @click="back" type="arrowleft" size="24"></uni-icons>
 			</view>

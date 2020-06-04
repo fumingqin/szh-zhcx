@@ -71,7 +71,7 @@
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">剩余里程:</text>
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{distance}}</text>
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;margin-left: 40rpx;">已驶时长:</text>
-					<text style="width:180rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{alreadyTime}}</text>
+					<text style="width:200rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{alreadyTime}}</text>
 				</view>
 				<!-- <view style="margin-top: 20rpx;margin-left: 40rpx;display: flex;flex-direction: row;">
 					<text style="width:120rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">总费用:</text>
@@ -92,13 +92,15 @@
 				<view class="popupTitle">
 					<view style="width: 72rpx;"></view>
 					<text class="popupTitleFont">一键报警</text>
-					<uni-icons @click="cancle" color='#999999' size='24' type='closeempty'></uni-icons>
+					<view style="width: 72rpx;text-align: right;">
+						<uni-icons @click="cancle" color='#999999' size='24' type='closeempty'></uni-icons>
+					</view>
 				</view>
 				<view>
-					<picker @change='pickerChange' mode="selector" :value="pickerValue" :range='callPoliceArr' style="align-items: center;">
-						<text class="popupTitleFont" style="text-align: center;">{{alarmReason}}</text>
+					<picker @change='pickerChange' mode="selector" :value="pickerValue" :range='callPoliceArr' style="align-items: center;text-align: center;">
+						<text class="popupTitleFont"  style="text-align: center;">{{alarmReason}}</text>
 					</picker>
-					<textarea style="margin-top: 20rpx;" name='alarmRemark' v-model="alarmRemark" placeholder="备注,可不填"></textarea>
+					<textarea class="popupTitleFont" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;" name='alarmRemark' v-model="alarmRemark" placeholder="备注,可不填"></textarea>
 					<button @click="sendCall" class="popupButtonOk">
 						<text class="popupButtonOkFont">确定</text>
 					</button>
@@ -133,10 +135,12 @@
 				orderInterval: 0,
 				waitTimeInterval:0,
 				callPoliceArr: [
-					'车辆损坏',
+					'堵车',
+					'事故',
+					'故障',
 					'身体不适'
 				],
-				alarmReason: '请选择报警原因',//报警原因
+				alarmReason: '堵车',//报警原因
 				pickerValue: 0,
 				alarmRemark: '',//报警备注
 				driverId: '',
@@ -414,7 +418,7 @@
 						uni.hideLoading();
 						if(res.data.status){
 							//取消由 setInterval 设置的定时器
-							clearInterval(this.directionInterval);
+							clearInterval(that.directionInterval);
 							getApp().globalData.orderNumber = 0;
 							uni.redirectTo({
 								url: '/pages/driver/driverOperation/orderComplete'
@@ -623,13 +627,16 @@
 			},
 			packAddress:function(value){
 				//组装地址
-				var country = value.country=='undefined'?'': value.country;//国家
-				var province = value.country=='undefined'?'': value.province;//省份
-				var city = value.country=='undefined'?'': value.city;//城市
-				var district = value.country=='undefined'?'': value.district;//区
-				var street = value.country=='undefined'?'': value.street;//街道
-				var streetNum = value.country=='undefined'?'': value.streetNum;//门牌
-				var poiName = value.country=='undefined'?'': value.poiName;//POI
+				if(value== undefined){
+					return '';
+				}
+				var country = value.country;//国家
+				var province = value.province;//省份
+				var city = value.city;//城市
+				var district = value.district;//区
+				var street = value.street;//街道
+				var streetNum = value.streetNum;//门牌
+				var poiName = value.poiName;//POI
 				return country + province + city + district + street + streetNum + poiName;
 			},
 			mathWaitTime:function(startTime){
@@ -697,8 +704,12 @@
 	}
 
 	.popupButtonOk {
+		width: 75%;
 		margin-top: 50rpx;
-		padding: 30rpx;
+		padding-top: 10rpx;
+		padding-bottom: 10rpx;
+		padding-left: 30rpx;
+		padding-right: 30rpx;
 		background-color: #FC6A6C;
 		box-shadow: 0px 7px 38px 8px rgba(216, 48, 75, 0.15);
 		border-radius: 12rpx;
