@@ -1,9 +1,9 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/GRZX/userLogin",  //登录
 			"style": {
-				
+				"navigationStyle": "custom"
 			}
 		}
 	    ,{
@@ -42,12 +42,6 @@
 			}
 		},
 		{
-			"path": "pages/GRZX/userLogin",  //登录
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/YDPD/mobileDispatch",  //派单员
 			"style": {
 				"navigationStyle": "custom",
@@ -72,6 +66,12 @@
 			"path": "pages/GRZX/personal",
 			"style": {
 				"navigationBarTitleText": "个人主页"
+			}
+		},
+		{
+			"path": "pages/GRZX/oderList/volunteerOrderList", //志愿者订单列表
+			"style": {
+				"navigationStyle": "custom"
 			}
 		},
 		{
