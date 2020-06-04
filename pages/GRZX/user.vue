@@ -99,7 +99,9 @@
 			orderClick(e){
 				var that=this;
 				if(that.userType=="司机"){
-					
+					uni.navigateTo({
+						url:'/pages/driver/order/Order?current='+e,
+					})
 				}else if(that.userType=="志愿者"){
 					uni.navigateTo({
 						url:'/pages/GRZX/oderList/volunteerOrderList?current='+e,
