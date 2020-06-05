@@ -91,7 +91,7 @@
 				    // {value: '香蕉', disabled: true},
 					'司机',
 				    '志愿者',
-				    '交警',
+				    // '交警',
 				    // '派单员',
 				],
 			}
@@ -137,21 +137,112 @@
 			//--------------密码登录-------------
 			pwdClick(){
 				var that=this;
-				if(that.userType=="司机"){
-					console.log(that.number)
-					console.log(that.password)
-					console.log(that.carNum)
-				}else if(that.userType=="志愿者"){
-					console.log(that.number)
-					console.log(that.password)
-				}else if(that.userType=="交警"){
-					console.log(that.number)
-					console.log(that.password)
+				if(that.number==""){
+					uni.showToast({
+						title:'请输入编号或手机号',
+						icon:'none',
+					})
+				}else if(that.password==""){
+					uni.showToast({
+						title:'请输入密码',
+						icon:'none',
+					})
+				}else if(that.userType=="司机"&&that.carNum==""){
+					uni.showToast({
+						title:'请输入车牌号',
+						icon:'none',
+					})
+				}else if(that.userType=="司机"&&!that.isLicensePlate(that.carNum)){
+					uni.showToast({
+						title:'您输入的车牌号有误',
+						icon:'none',
+					})
+				}else{
+					that.login(that.number,that.password,that.userType,that.carNum);
 				}
 			},
-			//--------------获取用户信息-------------
-			getuserInfo(e){
-				
+			//--------------登录-------------
+			login(number,password,userType,carNum){
+				var type='';
+				if(userType=="司机"){
+					type='driver';
+				}else if(userType=="志愿者"){
+					type='volunteer';
+				}
+				var that=this;
+				uni.showLoading({
+					title:'登录中...'
+				})
+				uni.request({
+					url:'http://yvan.utools.club/api/account/login',
+					// url:that.$Grzx.Interface.login.value,
+					header:that.$Grzx.Interface.login.header,
+					data:{
+						mobile:number,
+						no:number,
+						password:password,
+						type:type,
+						licensePlate:carNum,
+					},
+					method:that.$Grzx.Interface.login.method,
+					success(res) {
+						console.log(res)
+						if(res.data.code===200){
+							uni.hideLoading();
+							uni.showToast({
+								title:"登录成功",
+								icon:'success',
+							})
+							var data=res.data.data;
+							// --------司机登录--------
+							if(type=="driver"){
+								var driverList={
+									address:data.address,
+									company:data.company,
+									driverType:data.driverType,
+									portrait:data.headPic,
+									driverId:data.id,
+									userName:data.name,
+									driverNo:data.no,
+									phoneNumber:data.tel,
+									state:data.state,
+									gender:data.sex,
+									type:'司机',
+								}
+								uni.setStorageSync('userInfo',driverList)
+								uni.setStorageSync('vehicleInfo',{
+									vehicleNumber:carNum
+								})
+								setTimeout(function(){
+									uni.redirectTo({
+										url:'/pages/driver/driverOperation/taxiDriver',
+									})	
+								},200)
+							// --------志愿者登录--------
+							}else if(type=="volunteer"){
+								var volunteerList={
+									portrait:data.headPic,
+									volunteerNo:data.no,
+									volunteerId:data.id,
+									userName:data.name,
+									phoneNumber:data.tel,
+									type:'志愿者',
+								}
+								uni.setStorageSync('userInfo',volunteerList)
+								setTimeout(function(){
+									uni.redirectTo({
+										url:'/pages/Volunteer/volunteer',
+									})	
+								},200)
+							}
+						}else{
+							uni.showToast({
+								title:res.data.msg,
+								icon:'none',
+							})
+						}
+					}
+				})
 			},
 			//--------------下拉选择-------------
 			selectClick(e){

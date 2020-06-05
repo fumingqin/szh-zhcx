@@ -16,10 +16,6 @@
 				<text class="fontClass">电&nbsp;话：</text>
 				<text class="fontStyle">{{phoneNumber}}</text>
 			</view>
-			<view class="itemClass" v-if="userType=='志愿者'">
-				<text class="fontClass">类&nbsp;型：</text>
-				<text class="fontStyle">{{volunteerType}}</text>
-			</view>
 			
 			<!-- 司机 -->
 			<view class="itemClass" v-if="userType=='司机'">

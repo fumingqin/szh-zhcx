@@ -80,7 +80,7 @@
 				nickname:'',
 				portrait:'',
 				advert:'/static/GRZX/advert.png',
-				userType:'志愿者',
+				userType:'',
 			}
 		},
 		onLoad(){
@@ -93,7 +93,14 @@
 			// ---------------------------加载数据----------------------------
 			loadData(){
 				var that=this;
-				
+				uni.getStorage({
+					key:'userInfo',
+					success(res) {
+						that.nickname=res.data.userName;
+						that.portrait=res.data.portrait;
+						that.userType=res.data.type;
+					}
+				})
 			},
 			// ---------------------------跳转订单的点击-----------------------
 			orderClick(e){
@@ -121,20 +128,9 @@
 			},
 			// ---------------------------电话客服--------------------------
 			phoneClick(){
-				var that=this;
-				// uni.request({
-				// 	url:that.$GrzxInter.Interface.SearchCustomerService.value,
-				// 	data:{
-				// 		region:'泉州',
-				// 	},
-				// 	method:that.$GrzxInter.Interface.SearchCustomerService.method,
-				// 	success(res){
-				// 		console.log(res)
-				// 		uni.makePhoneCall({
-				// 		    phoneNumber: res.data.data.phone, //仅为示例
-				// 		});
-				// 	}
-				// })
+				uni.makePhoneCall({
+					phoneNumber: '18065328329', //仅为示例
+				});
 			},
 			setClick(){
 				uni.navigateTo({
