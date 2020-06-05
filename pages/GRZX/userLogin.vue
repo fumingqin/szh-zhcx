@@ -173,9 +173,10 @@
 				uni.showLoading({
 					title:'登录中...'
 				})
+				console.log(that.$Grzx.Interface.login.value)
 				uni.request({
-					url:'http://yvan.utools.club/api/account/login',
-					// url:that.$Grzx.Interface.login.value,
+					// url:'http://yvan.utools.club/api/account/login',
+					url:that.$Grzx.Interface.login.value,
 					header:that.$Grzx.Interface.login.header,
 					data:{
 						mobile:number,

@@ -43,7 +43,7 @@
 	export default {
 		data() {
 			return {
-				userType:'司机',  //用户类型
+				userType:'',  //用户类型
 				name:'',  //姓名
 				portrait:'',  //头像
 				//志愿者
@@ -62,7 +62,13 @@
 		},
 		methods:{
 			loadUserInfo(){
-				
+				var that=this;
+				uni.getStorage({
+					key:'userInfo',
+					success(res){
+						that.userType=res.data.type;
+					}
+				})
 			},
 			//------------判断是否为base64格式-----------
 			isBase64:function(str) {
