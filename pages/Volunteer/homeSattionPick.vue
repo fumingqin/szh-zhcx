@@ -64,12 +64,16 @@
 				isShowAllList:true,//是否显示联动列表
 				isShowList:false,//是否显示站点列表
 				stationType:'',//判断上个页面点击的是上车点还是下车点
+				startSiteName:'',
+				pointType:'',
 			}
 		},
 		onLoad(param){
 			var that = this;
 			// console.log(param);
 			that.stationType = param.station;
+			that.startSiteName = param.startSiteName || '';
+			that.pointType = param.pointType || '';
 			//获取站点列表
 			that.getBusStationList('hotel');
 			/* 设置当前滚动容器的高，若非窗口的高度，请自行修改 */
@@ -85,26 +89,38 @@
 				var that=this;
 				uni.showLoading();
 				that.mainArray=[];
+				if(that.startSiteName === '请选择起点'){
+					that.startSiteName='';
+				}
 				uni.request({
-					url:that.$Volunteer.Interface.getlines.value,
-					method:that.$Volunteer.Interface.getlines.method,
+					url:that.$volunteer.Interface.getlines.value,
+					method:that.$volunteer.Interface.getlines.method,
 					data:{
 						lineType:e,
-						pointType:'start',
-						startName:'',
+						pointType:that.pointType,
+						startName:that.startSiteName,
 					},
 					success: (res) => {
 						console.log(res)
 						uni.hideLoading();
 						let that = this;
-						console.log(res.data);
 						if (res.data.length != 0) {
+							if(that.pointType === 'start'){
 								for (var j = 0; j < res.data.data.data.length;j++) {
 									var countysArray = {
 										countys : res.data.data.data[j].startName
 									}
 									that.mainArray.push(countysArray);
 								}
+							}else if (that.pointType === 'end'){
+								for (var j = 0; j < res.data.data.data.length;j++) {
+									var countysArray = {
+										countys : res.data.data.data[j].endName
+									}
+									that.mainArray.push(countysArray);
+								}
+							}
+								
 						}
 					},
 					fail(res) {
