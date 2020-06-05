@@ -4,7 +4,7 @@
 			<image src="../../static/Volunteer/advertisement.png" style="width: 750rpx;height: 400rpx;"></image>
 		</view>
 			<view style="margin-top: -80rpx;">
-				<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 750rpx;">
+				<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 880rpx;">
 					<!-- <scroll-view style="height: 750rpx;" :scroll-y='true'> -->
 						<view>
 							<view>
@@ -29,7 +29,7 @@
 								<text class="titleFont">人数</text>
 							</view>
 							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;"> 
-								<input class="contentFont" v-model="price" type="number"  />
+								<input class="contentFont" v-model="people" type="number"  />
 								<text>人</text>
 							</view>
 						</view>
@@ -45,7 +45,15 @@
 							 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
 						</view>
 						
-						
+						<view>
+							<view style="padding-top: 20rpx ;">
+								<text class="titleFont">备注</text>
+							</view>
+							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;"> 
+								<input class="contentFont"/>
+								<!-- <text>人</text> -->
+							</view>
+						</view>
 						<!-- <view>
 							<view style="padding-top: 20rpx ;">
 								<text class="titleFont">剩余座位</text>
@@ -56,7 +64,7 @@
 							</view>
 						</view> -->
 					<!-- </scroll-view> -->
-					<view style="margin-top: 68rpx;">
+					<view style="margin-top: 50rpx;">
 						<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
 							<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
 						</button>
@@ -89,7 +97,7 @@
 				endLon:'',
 				endLat:'',
 				mileage:0,
-				price:0,
+				people:0,
 				userInfo:null,
 				vehicleInfo:null,
 				seat:0,
@@ -125,17 +133,22 @@
 			//---------------------------------点击终点站---------------------------------
 			endStationTap(){
 				var that = this;
-				//监听事件,监听下个页面返回的值，给下车点赋值
-				uni.$on('endStaionChange', function(data) {
-				    // data即为传过来的值
-					that.endSiteName = data.data;
-				    //清除监听，不清除会消耗资源
-				    uni.$off('endStaionChange');
-				});
-				uni.navigateTo({
-					//跳转到下个页面的时候加个字段，判断当前点击的是下车点
-					url:'/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian',
-				})
+				console.log(that.startSiteName);
+				if(that.startSiteName === '请选择起点'){
+					that.showToast('请先选择起点');
+				} else{
+					//监听事件,监听下个页面返回的值，给下车点赋值
+					uni.$on('endStaionChange', function(data) {
+					    // data即为传过来的值
+						that.endSiteName = data.data;
+					    //清除监听，不清除会消耗资源
+					    uni.$off('endStaionChange');
+					});
+					uni.navigateTo({
+						//跳转到下个页面的时候加个字段，判断当前点击的是下车点
+						url:'/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian',
+					})
+				}
 			},
 			showToast:function(title,icon='none'){
 				uni.showToast({
@@ -242,19 +255,19 @@
 			},
 			isVerify:function(){
 				let that = this;
-				if(that.startSiteName === '请选择上车点'){
-					that.showToast('请选择上车点');
+				if(that.startSiteName === '请选择起点'){
+					that.showToast('请选择起点');
 					return false
-				} else if (that.endSiteName === '请选择下车点'){
-					that.showToast('请选择下车点');
+				} else if (that.endSiteName === '请选择终点'){
+					that.showToast('请选择终点');
 					return false;
 				} /* else if (that.mileage == 0){
 					that.showToast('请输入预计里程');
 					return false;
-				} */ else if (that.price == 0){
+				} */ else if (that.people == 0){
 					that.showToast('请输入人数');
 					return false;
-				} else if (that.price < 0){
+				} else if (that.people < 0){
 					that.showToast('人数输入有误');
 					return false;
 				} 
