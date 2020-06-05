@@ -33,7 +33,7 @@
 		data() {
 			return {
 				driverId: '',
-				driverName:'',
+				driverName: '',
 				imgHeight: "",
 				current: 0,
 				items: ['燃油汽车', '新能源汽车'],
@@ -43,7 +43,7 @@
 				keyType: 0,
 				vehicleNumber: "",
 				keyTitle: '汽车键盘',
-				
+
 			}
 		},
 		methods: {
@@ -57,10 +57,10 @@
 				});
 			}, */
 			//本页面统一调用此方法
-			showToast:function(title,icon='none'){
+			showToast: function(title, icon = 'none') {
 				uni.showToast({
-					title:title,
-					icon:icon
+					title: title,
+					icon: icon
 				});
 			},
 			isLicensePlate: function(str) { //验证是不车牌
@@ -83,64 +83,51 @@
 			Confirm(e) {
 				var that = this;
 				uni.showLoading({
-					mask:true
+					mask: true
 				});
-				getApp().globalData.vehicleNumber = that.vehicleNumber;
-				getApp().globalData.constantly();
+				// getApp().globalData.vehicleNumber = that.vehicleNumber;
+				// getApp().globalData.constantly();
 				var plate = this.vehicleNumber;
-				
+
 				if (that.isLicensePlate(plate)) {
 					if ((this.current == 0 && plate.length == 7) || (this.current == 1 && plate == 8)) {
-						uni.request({
-							url: that.$home.Interface.DriverVehicleBinding_Check.value,
-							method: that.$home.Interface.DriverVehicleBinding_Check.method,
-							data: {
-								vehicleNumber: that.vehicleNumber,
-								driverId: that.driverId,
-								vehicleType: that.vehicleType,
-								driverName:that.driverName
-							},
-							success: function(res) {
-								uni.hideLoading();
-								if (res.data.status) {
-									uni.setStorage({
-										key: 'vehicleInfo',
-										data: {
-											vehicleType: that.vehicleType,
-											vehicleNumber: that.vehicleNumber
-										},
-										success() {
-											uni.navigateTo({
-												url:'./policeSelect'
-											})
-											// if (that.vehicleType == "出租车") {
-											// 	uni.redirectTo({
-											// 		url: '/pages/driver/taxiDriver',
-											// 	})
-											// }
-											// if (that.vehicleType == "包车") {
-											// 	uni.redirectTo({
-											// 		url: '/pages/BCDriver/bcDriver',
-											// 	})
-											// }
-											// if (that.vehicleType == "客车") {
-											// 	uni.redirectTo({
-											// 		url: '/pages/CTKYDriver/selectOrder',
-											// 	})
-											// }
-		
-										}
-									});
-								} else {
-									that.showToast(res.data.msg);
-								}
-							},
-							fail: function(res) {
-								uni.hideLoading();
-								that.showToast('网络连接失败');
-								console.log(res);
-							}
+						uni.navigateTo({
+							url: './policeSelect'
 						})
+						// uni.request({
+						// 	url: that.$home.Interface.DriverVehicleBinding_Check.value,
+						// 	method: that.$home.Interface.DriverVehicleBinding_Check.method,
+						// 	data: {
+						// 		vehicleNumber: that.vehicleNumber,
+						// 		driverId: that.driverId,
+						// 		vehicleType: that.vehicleType,
+						// 		driverName:that.driverName
+						// 	},
+						// 	success: function(res) {
+						// 		uni.hideLoading();
+						// 		if (res.data.status) {
+						// 			uni.setStorage({
+						// 				key: 'vehicleInfo',
+						// 				data: {
+						// 					vehicleType: that.vehicleType,
+						// 					vehicleNumber: that.vehicleNumber
+						// 				},
+						// 				success() {
+						// 					uni.navigateTo({
+						// 						url:'./policeSelect'
+						// 					})
+						// 				}
+						// 			});
+						// 		} else {
+						// 			that.showToast(res.data.msg);
+						// 		}
+						// 	},
+						// 	fail: function(res) {
+						// 		uni.hideLoading();
+						// 		that.showToast('网络连接失败');
+						// 		console.log(res);
+						// 	}
+						// })
 					} else {
 						that.showToast('请输入正确车牌号');
 					}
@@ -153,7 +140,7 @@
 </script>
 
 <style>
-page{
+	page {
 		background-color: #F5F7F9;
 	}
 </style>
