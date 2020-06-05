@@ -7,6 +7,12 @@ const Interface={
 		method:'GET',
 		pages: [],
 	},
+	placeorder:{
+		value:Url+'/api/volunteer/place-order',
+		name:'志愿者下单',
+		method:'POST',
+		pages: [],
+	},
 	
 }
 
