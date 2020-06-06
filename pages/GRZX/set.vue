@@ -56,9 +56,9 @@
 						if(e.confirm){
 							uni.removeStorageSync('userInfo');
 							setTimeout(()=>{
-								// uni.switchTab({
-								// 	url:'/pages/GRZX/user'
-								// })
+								uni.redirectTo({
+									url:'/pages/GRZX/userLogin'
+								})
 							}, 200)
 						}
 					}

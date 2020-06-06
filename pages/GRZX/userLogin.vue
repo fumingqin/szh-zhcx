@@ -214,11 +214,11 @@
 								uni.setStorageSync('vehicleInfo',{
 									vehicleNumber:carNum
 								})
-								setTimeout(function(){
+								//setTimeout(function(){},100)
 									uni.redirectTo({
 										url:'/pages/driver/driverOperation/taxiDriver',
+										// url:'/pages/GRZX/user'
 									})	
-								},200)
 							// --------志愿者登录--------
 							}else if(type=="volunteer"){
 								var volunteerList={
@@ -230,11 +230,9 @@
 									type:'志愿者',
 								}
 								uni.setStorageSync('userInfo',volunteerList)
-								setTimeout(function(){
-									uni.redirectTo({
-										url:'/pages/Volunteer/volunteer',
-									})	
-								},200)
+								uni.redirectTo({
+									url:'/pages/Volunteer/volunteer',
+								})	
 							}
 						}else{
 							uni.showToast({

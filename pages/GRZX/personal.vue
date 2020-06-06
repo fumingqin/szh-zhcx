@@ -12,7 +12,7 @@
 			</view>
 			
 			<!-- 志愿者 -->
-			<view class="itemClass" v-if="userType=='志愿者'">
+			<view class="itemClass">
 				<text class="fontClass">电&nbsp;话：</text>
 				<text class="fontStyle">{{phoneNumber}}</text>
 			</view>
@@ -67,6 +67,15 @@
 					key:'userInfo',
 					success(res){
 						that.userType=res.data.type;
+						that.name=res.data.userName;
+						that.portrait=res.data.portrait;
+						that.phoneNumber=res.data.phoneNumber;
+						if(res.data.type=="司机"){
+							that.gender=res.data.gender;
+							that.address=res.data.address;
+							that.company=res.data.company;
+							that.licenseType=res.data.driverType;
+						}
 					}
 				})
 			},
