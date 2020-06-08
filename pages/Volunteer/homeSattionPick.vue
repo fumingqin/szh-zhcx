@@ -25,7 +25,7 @@
 						:class="{ 'active':index==leftIndex }" 
 						:data-index="index"
 						@tap="leftTap"
-					>{{item.cityName}}</view>
+					>{{item}}</view>
 		        </scroll-view>
 			</view>
 			<!-- 右边的列表 -->
@@ -51,12 +51,12 @@
 </template>
 
 <script>
-	import $KyInterface from "@/common/Ctky.js"
+	// import $KyInterface from "@/common/Ctky.js"
 	export default {
 		data() {
 			return {
 				scrollHeight:'500px',
-				stationArray:[],
+				stationArray:['酒店','场馆'],
 				leftArray:[],
 				mainArray:[],
 				leftIndex:0,
@@ -64,14 +64,18 @@
 				isShowAllList:true,//是否显示联动列表
 				isShowList:false,//是否显示站点列表
 				stationType:'',//判断上个页面点击的是上车点还是下车点
+				startSiteName:'',
+				pointType:'',
 			}
 		},
 		onLoad(param){
 			var that = this;
 			// console.log(param);
 			that.stationType = param.station;
+			that.startSiteName = param.startSiteName || '';
+			that.pointType = param.pointType || '';
 			//获取站点列表
-			that.getBusStationList();
+			that.getBusStationList('hotel');
 			/* 设置当前滚动容器的高，若非窗口的高度，请自行修改 */
 			uni.getSystemInfo({
 				success:(res)=>{
@@ -80,34 +84,43 @@
 			});
 		},
 		methods: {
-			//-------------------------获取车站列表数据-------------------------
-			getBusStationList() {
+			//-------------------------获取站点列表数据-------------------------
+			getBusStationList(e) {
+				var that=this;
 				uni.showLoading();
+				that.mainArray=[];
+				if(that.startSiteName === '请选择起点'){
+					that.startSiteName='';
+				}
 				uni.request({
-					url:$KyInterface.KyInterface.Ky_GetStations.Url,
-					method:$KyInterface.KyInterface.Ky_GetStations.method,
-					header:$KyInterface.KyInterface.Ky_GetStations.header,
+					url:that.$volunteer.Interface.getlines.value,
+					method:that.$volunteer.Interface.getlines.method,
 					data:{
-						systemName:'泉运公司综合出行'
+						lineType:e,
+						pointType:that.pointType,
+						startName:that.startSiteName,
 					},
 					success: (res) => {
 						console.log(res)
 						uni.hideLoading();
 						let that = this;
-						// console.log(res.data);
 						if (res.data.length != 0) {
-							for (var i = 0; i < res.data.length; i++) {
-								var cityNameArray = {
-									cityName : res.data[i].cityName
-								}
-								this.stationArray.push(cityNameArray);
-								for (var j = 0; j < res.data[i].countys.length;j++) {
+							if(that.pointType === 'start'){
+								for (var j = 0; j < res.data.data.data.length;j++) {
 									var countysArray = {
-										countys : res.data[i].countys[j]
+										countys : res.data.data.data[j].startName
 									}
-									this.mainArray.push(countysArray);
+									that.mainArray.push(countysArray);
+								}
+							}else if (that.pointType === 'end'){
+								for (var j = 0; j < res.data.data.data.length;j++) {
+									var countysArray = {
+										countys : res.data.data.data[j].endName
+									}
+									that.mainArray.push(countysArray);
 								}
 							}
+								
 						}
 					},
 					fail(res) {
@@ -209,6 +222,11 @@
 			leftTap(e){
 				let index=e.currentTarget.dataset.index;
 				this.leftIndex=Number(index);
+				if(e.currentTarget.dataset.index==0){
+					this.getBusStationList('hotel');
+				}else{
+					this.getBusStationList('venue');
+				}
 			},
 			/* 轮播图切换 */
 			swiperChange(e){

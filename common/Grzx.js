@@ -1,9 +1,10 @@
-const Url = 'https://zntc.145u.net:9099'; //https请求
+const Url = 'http://36.148.9.1:10022'; //https请求
 
 const Interface={
 	login:{
-		value:Url+'/api/person/login',
+		value:Url+'/api/account/login',
 		name:'用户登录',
+		header:{'content-type':'application/json'},
 		method:'POST',
 		pages: [],
 	},
@@ -21,16 +22,8 @@ const Route={
 	
 }
 
-const GetImage={
-	url:Url+'/api/zhcx/GetImage',
-	name:'获取图片',
-	method:'POST',
-	pages: [],
-}
-
 // 接口声明区
 export default {
 	Interface,
-	Route,
-	GetImage
+	Route
 }

@@ -4,7 +4,7 @@
 			<image src="../../static/Volunteer/advertisement.png" style="width: 750rpx;height: 400rpx;"></image>
 		</view>
 			<view style="margin-top: -80rpx;">
-				<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 750rpx;">
+				<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 880rpx;">
 					<!-- <scroll-view style="height: 750rpx;" :scroll-y='true'> -->
 						<view>
 							<view>
@@ -29,7 +29,7 @@
 								<text class="titleFont">人数</text>
 							</view>
 							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;"> 
-								<input class="contentFont" v-model="price" type="number"  />
+								<input class="contentFont" v-model="people" type="number"  />
 								<text>人</text>
 							</view>
 						</view>
@@ -45,7 +45,15 @@
 							 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
 						</view>
 						
-						
+						<view>
+							<view style="padding-top: 20rpx ;">
+								<text class="titleFont">备注</text>
+							</view>
+							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;"> 
+								<input :value="remark" class="contentFont"/>
+								<!-- <text>人</text> -->
+							</view>
+						</view>
 						<!-- <view>
 							<view style="padding-top: 20rpx ;">
 								<text class="titleFont">剩余座位</text>
@@ -56,7 +64,7 @@
 							</view>
 						</view> -->
 					<!-- </scroll-view> -->
-					<view style="margin-top: 68rpx;">
+					<view style="margin-top: 50rpx;">
 						<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
 							<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
 						</button>
@@ -80,7 +88,7 @@
 				value:'',
 				type:'',
 				showPicker:false,
-				
+				remark:'',
 				startSiteName:'请选择起点',
 				startLon:'',
 				startLat:'',
@@ -89,16 +97,16 @@
 				endLon:'',
 				endLat:'',
 				mileage:0,
-				price:0,
-				userInfo:null,
-				vehicleInfo:null,
+				people:0,
+				userInfo:'',
+				// vehicleInfo:null,
 				seat:0,
 			}
 		},
 		onLoad() {
 			let that =this;
 			that.userInfo = uni.getStorageSync('userInfo') || '';
-			that.vehicleInfo = uni.getStorageSync('vehicleInfo') || '';
+			// that.vehicleInfo = uni.getStorageSync('vehicleInfo') || '';
 			
 			
 			that.getTodayDate();
@@ -116,7 +124,7 @@
 				});
 				uni.navigateTo({
 					//跳转到下个页面的时候加个字段，判断当前点击的是上车点
-					url:'/pages/Volunteer/homeSattionPick?&station=' + 'qidian',
+					url:'/pages/Volunteer/homeSattionPick?&station=' + 'qidian' + '&pointType=start',
 					fail(res) {
 						console.log(res)
 					}
@@ -125,17 +133,22 @@
 			//---------------------------------点击终点站---------------------------------
 			endStationTap(){
 				var that = this;
-				//监听事件,监听下个页面返回的值，给下车点赋值
-				uni.$on('endStaionChange', function(data) {
-				    // data即为传过来的值
-					that.endSiteName = data.data;
-				    //清除监听，不清除会消耗资源
-				    uni.$off('endStaionChange');
-				});
-				uni.navigateTo({
-					//跳转到下个页面的时候加个字段，判断当前点击的是下车点
-					url:'/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian',
-				})
+				console.log(that.startSiteName);
+				if(that.startSiteName === '请选择起点'){
+					that.showToast('请先选择起点');
+				} else{
+					//监听事件,监听下个页面返回的值，给下车点赋值
+					uni.$on('endStaionChange', function(data) {
+					    // data即为传过来的值
+						that.endSiteName = data.data;
+					    //清除监听，不清除会消耗资源
+					    uni.$off('endStaionChange');
+					});
+					uni.navigateTo({
+						//跳转到下个页面的时候加个字段，判断当前点击的是下车点
+						url:'/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian' + '&startSiteName=' + that.startSiteName + '&pointType=end',//startSiteName
+					})
+				}
 			},
 			showToast:function(title,icon='none'){
 				uni.showToast({
@@ -154,7 +167,7 @@
 				day >= 0 && day <= 9 ? (day = "0" + day) : "";
 				var timer = year + '年' + month + '月' + day + '日' + ' ' + hour + ':' + minutes;
 				this.datestring = timer;
-				this.date = year + '/' + month + '/' + day + ' ' + hour + ':' + minutes;
+				this.date = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes ;
 			},
 			onSelected:function(e) { //选择
 				this.showPicker = false;
@@ -198,63 +211,65 @@
 				if(! that.isVerify()){
 					return;
 				}
-				uni.navigateTo({
-					url:'./CallAndDrive?orderNumber=2020052510512702662305'
-				})
-				// uni.request({
-				// 	url:that.$downwindCar.Interface.CreateLine_Driver.value,
-				// 	method:that.$downwindCar.Interface.CreateLine_Driver.method,
-				// 	data:{
-				// 		StartLon:that.startLon,
-				// 		StartLat:that.startLat,
-				// 		EndLon:that.endLon,
-				// 		EndLat:that.endLat,
-				// 		StartSiteName:that.startSiteName,
-				// 		EndSiteName:that.endSiteName,
-				// 		Mileage:that.mileage,
-				// 		DepartureTime:that.date,
-				// 		LineName :that.startSiteName + '-' + that.endSiteName,
-				// 		DriverID:that.userInfo.driverId,
-				// 		DriverName:that.userInfo.userName,
-				// 		Price:that.price,
-				// 		Seat:that.seat,
-				// 		VehicleNumber:that.vehicleInfo.vehicleNumber
-				// 	},
-				// 	success:function(res){
-				// 		console.log(res);
-				// 		if(res.data.status){
-				// 			that.showToast('提交成功');
-				// 			setTimeout(function(){
-				// 				// uni.navigateBack({});
-				// 				uni.navigateTo({
-				// 					url:'../trafficPolice/trafficPolice'
-				// 				})
-				// 			},1500)
-				// 		}else{
-				// 			that.showToast('提交失败');
-				// 		}
-				// 	},
-				// 	fail:function(res){
-				// 		console.log(res);
-				// 		that.showToast('网络连接失败');
-				// 	}
+				// uni.navigateTo({
+				// 	url:'./CallAndDrive?orderNumber=2020052510512702662305'
 				// })
+				
+				console.log(that.userInfo.volunteerId);
+				uni.request({
+					url:that.$volunteer.Interface.placeorder.value,
+					method:that.$volunteer.Interface.placeorder.method,
+					data:{
+						startName:that.startSiteName,
+						endName:that.endSiteName,
+						seatCount:that.people,
+						startDate:that.date + ':00',
+						remark:that.remark,
+						volunteerId:that.userInfo.volunteerId,
+						// Mileage:that.mileage,
+						// DepartureTime:that.date,
+						// LineName :that.startSiteName + '-' + that.endSiteName,
+						// DriverID:that.userInfo.driverId,
+						// DriverName:that.userInfo.userName,
+						// Price:that.price,
+						// Seat:that.seat,
+						// VehicleNumber:that.vehicleInfo.vehicleNumber
+					},
+					success:function(res){
+						console.log(res);
+						if(res.data.code==200){
+							that.showToast('提交成功');
+							setTimeout(function(){
+								// uni.navigateBack({});
+								uni.navigateTo({
+									url:'./CallAndDrive'
+								})
+							},1500)
+						}else{
+							that.showToast('提交失败');
+						}
+					},
+					fail:function(res){
+						console.log(res);
+						that.showToast('网络连接失败');
+					}
+				})
 			},
 			isVerify:function(){
 				let that = this;
-				if(that.startSiteName === '请选择上车点'){
-					that.showToast('请选择上车点');
+				if(that.startSiteName === '请选择起点'){
+					that.showToast('请选择起点');
 					return false
-				} else if (that.endSiteName === '请选择下车点'){
-					that.showToast('请选择下车点');
+				} else if (that.endSiteName === '请选择终点'){
+					that.showToast('请选择终点');
 					return false;
 				} /* else if (that.mileage == 0){
 					that.showToast('请输入预计里程');
 					return false;
-				} */ else if (that.price == 0){
+				} */ else if (that.people == 0){
 					that.showToast('请输入人数');
 					return false;
-				} else if (that.price < 0){
+				} else if (that.people < 0){
 					that.showToast('人数输入有误');
 					return false;
 				} 

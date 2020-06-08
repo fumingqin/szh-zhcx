@@ -12,13 +12,9 @@
 			</view>
 			
 			<!-- 志愿者 -->
-			<view class="itemClass" v-if="userType=='志愿者'">
+			<view class="itemClass">
 				<text class="fontClass">电&nbsp;话：</text>
 				<text class="fontStyle">{{phoneNumber}}</text>
-			</view>
-			<view class="itemClass" v-if="userType=='志愿者'">
-				<text class="fontClass">类&nbsp;型：</text>
-				<text class="fontStyle">{{volunteerType}}</text>
 			</view>
 			
 			<!-- 司机 -->
@@ -47,7 +43,7 @@
 	export default {
 		data() {
 			return {
-				userType:'司机',  //用户类型
+				userType:'',  //用户类型
 				name:'',  //姓名
 				portrait:'',  //头像
 				//志愿者
@@ -66,7 +62,22 @@
 		},
 		methods:{
 			loadUserInfo(){
-				
+				var that=this;
+				uni.getStorage({
+					key:'userInfo',
+					success(res){
+						that.userType=res.data.type;
+						that.name=res.data.userName;
+						that.portrait=res.data.portrait;
+						that.phoneNumber=res.data.phoneNumber;
+						if(res.data.type=="司机"){
+							that.gender=res.data.gender;
+							that.address=res.data.address;
+							that.company=res.data.company;
+							that.licenseType=res.data.driverType;
+						}
+					}
+				})
 			},
 			//------------判断是否为base64格式-----------
 			isBase64:function(str) {
