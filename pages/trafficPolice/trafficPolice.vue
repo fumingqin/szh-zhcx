@@ -88,9 +88,9 @@
 				// getApp().globalData.vehicleNumber = that.vehicleNumber;
 				// getApp().globalData.constantly();
 				var plate = this.vehicleNumber;
-
+                console.log(plate);
 				if (that.isLicensePlate(plate)) {
-					if ((this.current == 0 && plate.length == 7) || (this.current == 1 && plate == 8)) {
+					if ((this.current == 0 && plate.length == 7) || (this.current == 1 && plate.length == 8)) {
 						uni.navigateTo({
 							url: './policeSelect'
 						})
