@@ -1,9 +1,12 @@
 <template>
 	<view>
-		<view style="position: relative;z-index: -1;">
+		<view style="position: relative;">
 			<image src="../../static/Volunteer/advertisement.png" style="width: 750rpx;height: 400rpx;"></image>
+			<view style="position: fixed;top: 56rpx;left: 20rpx; z-index: 99999;" @click="toPersonal">
+				<uni-icons type="contact" size="34"></uni-icons>
+			</view>
 		</view>
-			<view style="margin-top: -80rpx;">
+			<view style="margin-top: -80rpx;z-index: 99999;position: relative;">
 				<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 880rpx;">
 					<!-- <scroll-view style="height: 750rpx;" :scroll-y='true'> -->
 						<view>
@@ -75,7 +78,8 @@
 </template>
 
 <script>
-	import MxDatePicker from '@/components/mx-datepicker/mx-datepicker.vue'
+	import MxDatePicker from '@/components/mx-datepicker/mx-datepicker.vue';
+	import uniIcons from "@/components/uni-icons/uni-icons.vue";
 	export default {
 		components: {
 			MxDatePicker,
@@ -149,6 +153,11 @@
 						url:'/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian' + '&startSiteName=' + that.startSiteName + '&pointType=end',//startSiteName
 					})
 				}
+			},
+			toPersonal: function() {
+				uni.navigateTo({
+					url:'../GRZX/user'
+				});
 			},
 			showToast:function(title,icon='none'){
 				uni.showToast({
