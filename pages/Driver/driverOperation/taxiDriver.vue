@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<view :style="{height:menuButtonHeight+'px','margin-top':menuButtonTop+'px'}" style="margin: 0 auto 30rpx auto;display: flex;width: 94%;flex-direction: row;align-items: center;">
-			<view style="width: 40rpx;margin-right: 20px;">
-				<uni-icons @click="toPersonal" type="contact" size="24"></uni-icons>
+			<view style="width: 40rpx;margin-right: 10px;">
+				<uni-icons @click="back" type="arrowleft" size="24"></uni-icons>
 			</view>
 			<view style="margin-right:220rpx;display: flex;flex-direction: row;align-items: center;">
 				<text style="font-size:38rpx;font-family:Source Han Sans SC;font-weight:bold;color:rgba(44,45,45,1);">司机接单</text>
@@ -133,10 +133,10 @@
 				});
 			},
 			
-			toPersonal: function() {
-				uni.navigateTo({
-					url:'../../GRZX/user'
-				});
+			back: function() {
+				uni.switchTab({
+					url: '/pages/index/index',
+				})
 			},
 			
 			receipt: function(item) {

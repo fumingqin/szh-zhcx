@@ -227,7 +227,7 @@
 									volunteerId:data.id,
 									userName:data.name,
 									phoneNumber:data.tel,
-									type:'志愿者',
+									type:data.type,
 								}
 								uni.setStorageSync('userInfo',volunteerList)
 								uni.redirectTo({

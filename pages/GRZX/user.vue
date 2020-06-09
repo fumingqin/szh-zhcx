@@ -33,7 +33,7 @@
 				</view>
 			</view>
 			
-			<view class="myBox" v-if="userType=='志愿者'">
+			<view class="myBox" v-if="userType=='志愿者'||userType=='随车志愿者'">
 				<view class="collection" @click="orderClick(0)">
 					<image src="../../static/GRZX/tubiao_pay1.png" class="imgStyle1" mode="aspectFill"></image>
 					<text class="myFont">全部</text>
@@ -220,7 +220,7 @@
 		top:0upx;
 	}
 	.typeBox{  //普通用户
-		width: 126upx;
+		width: 142upx;
 		height: 42upx;
 		background-color: #3280B8;
 		position: absolute;
@@ -236,6 +236,8 @@
 		top: 10upx;
 	}
 	.fontClass{
+		width: 65%;
+		text-align: center;
 		font-size: 20upx;
 		color: #FFFFFF;
 		line-height: 42upx;
