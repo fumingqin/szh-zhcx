@@ -83,7 +83,6 @@
 			that.menuButtonHeight = menuButtonInfo.height;
 			that.menuButtonTop = menuButtonInfo.top;
 			
-			console.log(that.menuButtonHeight);
 			uni.setStorageSync('userInfo',{
 				driverId:'2000014',
 				userName:'施远',
@@ -97,11 +96,8 @@
 			uni.hideLoading();
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			that.vehicleInfo = uni.getStorageSync("vehicleInfo") || '';
-			
-			
 			if (that.userInfo == '') {
 				that.showToast('请先登录');
-				//console.log(that.userInfo);
 			} else if (that.vehicleInfo == '') {
 				that.showToast('请先上班');
 			} else {
@@ -118,12 +114,16 @@
 		},
 		onUnload() {
 			let that = this;
+			console.log('onUnload');
 			clearInterval(that.getOrderInterval);
+			that.orderArr = [];
 		},
-		onHide() {
+		/* onHide() {
 			let that = this;
+			console.log('onHide');
 			clearInterval(that.getOrderInterval);
-		},
+			that.orderArr = [];
+		}, */
 		methods: {
 			//本页面统一调用此方法
 			showToast: function(title, icon = 'none') {
@@ -177,7 +177,6 @@
 					fail: function(res) {
 						uni.hideLoading();
 						that.showToast('网络连接失败');
-						//console.log(res);
 					}
 				})
 			},
@@ -196,7 +195,6 @@
 						driverId: that.userInfo.driverId,
 					},
 					success: function(res) {
-						//console.log(res);
 						uni.hideLoading();
 						if (res.data.status) {
 							that.showToast('已拒接');
