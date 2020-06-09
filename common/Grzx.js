@@ -1,4 +1,4 @@
-const Url = 'http://36.148.9.1:10022'; //https请求
+const Url = 'http://36.148.9.1:10022'; //http请求
 
 const Interface={
 	login:{
@@ -9,6 +9,13 @@ const Interface={
 		pages: [],
 	},
 	
+	getOrders:{
+		value:Url+'/api/volunteer/get-orders',
+		name:'用户登录',
+		header:{'content-type':'application/json'},
+		method:'GET',
+		pages: [],
+	},
 }
 
 const MainPackage='/pages/GRZX';   //主包

@@ -243,9 +243,9 @@
 				that.showToast('请先登录');
 			} else {
 				uni.showLoading({
-					mask: true
+					title:'加载订单中...',
 				});
-				that.getTaxiOrder();
+				that.getVolunteerOrder();
 			}
 		},
 		onPullDownRefresh() {
@@ -254,7 +254,7 @@
 				uni.showLoading({
 					mask: true
 				});
-				that.getTaxiOrder();
+				that.getVolunteerOrder();
 			}
 		},
 		methods: {
@@ -274,52 +274,64 @@
 			show: function(el) {
 				el.IsShow = !el.IsShow
 			},
-			getTaxiOrder: function() {
+			getVolunteerOrder: function() {
 				let that = this;
+				console.log(that.userInfo.volunteerId,'id')
 				uni.stopPullDownRefresh();
 				uni.request({
-					url: that.$order.Interface.GetExpressOrderByDriverID_Driver.value,
-					method: that.$order.Interface.GetExpressOrderByDriverID_Driver.method,
-					data: {
-						driverId: that.userInfo.driverId,
-						state: -1
+					url:that.$Grzx.Interface.getOrders.value,
+					method:that.$Grzx.Interface.getOrders.method,
+					data:{
+						volunteerId:that.userInfo.volunteerId,
 					},
-					success: function(res) {
+					success(res){
 						uni.hideLoading();
-						if (res.data.status) {
-							that.orderArr = [];
-							for (let item of res.data.data) {
-								var obj = {
-									title: '志愿者',
-									orderType: item.orderType, //实时/预约
-									orderTime: item.orderTime,
-									appointmentTime: item.appointmentTime, //预约时间
-									userType: item.userType, //用户类型：普通/会员
-									runTime: item.runTime, //出发时间
-									endAddress: item.endAddress,
-									startAddress: item.startAddress,
-									orderState: that.taxiFormatState(item.state),
-									factPrice: item.factPrice,
-									factPayPrice: item.factPayPrice,
-									orderNumber: item.orderNumber,
-									state: item.state,
-									passengersPhone: item.passengersPhone
-								};
-								that.orderArr.push(obj);
-							};
-							that.underwayArr = that.orderArr.filter(x => {
-								return x.orderState == '进行中';
-							});
-							that.finishedArr = that.orderArr.filter(x => {
-								return x.orderState == '已完成';
-							});
-							that.cancleArr = that.orderArr.filter(x => {
-								return x.orderState == '已取消';
-							});
-						} else {
-							that.showToast(res.data.msg);
-						}
+						console.log(res)
 					},
+				// })
+				// uni.request({
+				// 	url: that.$order.Interface.GetExpressOrderByDriverID_Driver.value,
+				// 	method: that.$order.Interface.GetExpressOrderByDriverID_Driver.method,
+				// 	data: {
+				// 		driverId: that.userInfo.driverId,
+				// 		state: -1
+				// 	},
+				// 	success: function(res) {
+				// 		uni.hideLoading();
+				// 		if (res.data.status) {
+				// 			that.orderArr = [];
+				// 			for (let item of res.data.data) {
+				// 				var obj = {
+				// 					title: '志愿者',
+				// 					orderType: item.orderType, //实时/预约
+				// 					orderTime: item.orderTime,
+				// 					appointmentTime: item.appointmentTime, //预约时间
+				// 					userType: item.userType, //用户类型：普通/会员
+				// 					runTime: item.runTime, //出发时间
+				// 					endAddress: item.endAddress,
+				// 					startAddress: item.startAddress,
+				// 					orderState: that.taxiFormatState(item.state),
+				// 					factPrice: item.factPrice,
+				// 					factPayPrice: item.factPayPrice,
+				// 					orderNumber: item.orderNumber,
+				// 					state: item.state,
+				// 					passengersPhone: item.passengersPhone
+				// 				};
+				// 				that.orderArr.push(obj);
+				// 			};
+				// 			that.underwayArr = that.orderArr.filter(x => {
+				// 				return x.orderState == '进行中';
+				// 			});
+				// 			that.finishedArr = that.orderArr.filter(x => {
+				// 				return x.orderState == '已完成';
+				// 			});
+				// 			that.cancleArr = that.orderArr.filter(x => {
+				// 				return x.orderState == '已取消';
+				// 			});
+				// 		} else {
+				// 			that.showToast(res.data.msg);
+				// 		}
+					// },
 					fail: function(res) {
 						//console.log(res);
 						uni.hideLoading();
