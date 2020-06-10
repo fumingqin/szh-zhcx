@@ -39,7 +39,7 @@
 						
 						<view>
 							<view style="padding-top: 20rpx ;">
-								<text class="titleFont">出发时间</text>
+								<text class="titleFont">上车时间</text>
 							</view>
 							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;"> 
 								<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}} {{Week}}</text>
@@ -247,11 +247,12 @@
 					success:function(res){
 						console.log(res);
 						if(res.data.code==200){
-							that.showToast('提交成功');
+							that.showToast('提交成功,请等待后台审核！');
 							setTimeout(function(){
 								// uni.navigateBack({});
 								uni.navigateTo({
-									url:'./CallAndDrive'
+									// url:'./CallAndDrive?orderNumber='+res.data.data.id
+									url:'../GRZX/oderList/volunteerOrderList'
 								})
 							},1500)
 						}else{
