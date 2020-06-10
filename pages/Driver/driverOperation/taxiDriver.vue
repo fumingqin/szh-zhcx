@@ -49,9 +49,9 @@
 					<button v-show="item.state === 'waiting'" @click="reject(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
 						拒接
 					</button>
-					<button v-show="item.state === 'received'" @click="driverLeaves(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
+					<!-- <button v-show="item.state === 'received'" @click="driverLeaves(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
 						发车
-					</button>
+					</button> -->
 				</view>
 			</view>
 			
@@ -129,7 +129,7 @@
 					url:'../../GRZX/user'
 				});
 			},
-			driverLeaves:function(item){
+			/* driverLeaves:function(item){
 				//发车
 				let that = this;
 				uni.showLoading({
@@ -157,7 +157,7 @@
 						that.showToast('网络连接失败');
 					}
 				})
-			},
+			}, */
 					
 			receipt: function(item) {
 				//接单
@@ -243,7 +243,6 @@
 							that.orderArr = [];
 							let data = res.data.data;
 							that.orderArr = data;
-			
 						} else {
 							that.showToast(res.data.msg);
 						}

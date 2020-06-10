@@ -15,7 +15,7 @@
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==0?'tabactive':''" @click="tabclick(0)">全部</view>
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==1?'tabactive':''" @click="tabclick(1)">进行中</view>
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==2?'tabactive':''" @click="tabclick(2)">已完成</view>
-					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">已取消</view>
+					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">被取消</view>
 				</view>
 			</view>
 			<scroll-view style="height: 1100rpx;" scroll-y=true refresher-enabled=true>
@@ -46,16 +46,16 @@
 									</view>
 									
 									<view class="btnarea">
-										<view>
+										<view v-show="item.state === 'received' || item.state === 'setout'">
 											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
 										</view>
-										<view>
+										<view v-show="item.state === 'passenger' || item.state === 'setout' || item.state === 'arrive'">
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
-										<view>
+										<view v-show="item.state === 'received'">
 											<button @click="toDepart(item)" style="background-color: #FC4646;color: #FFF;width: auto;">发车</button>
 										</view>
-										<view>
+										<view v-show="item.state === 'passenger'">
 											<button @click="toArrive(item)" style="background-color: #FC4646;color: #FFF;width: auto;">到达</button>
 										</view>
 									</view>
@@ -91,14 +91,17 @@
 									</view>
 									
 									<view class="btnarea">
-										<view v-if="item.state==1 || item.state==2">
+										<view v-show="item.state === 'received' || item.state === 'setout'">
 											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
 										</view>
-										<view v-if="item.state != 1">
+										<view v-show="item.state === 'passenger' || item.state === 'setout' || item.state === 'arrive'">
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
-										<view v-if="item.state == 1">
+										<view v-show="item.state === 'received'">
 											<button @click="toDepart(item)" style="background-color: #FC4646;color: #FFF;width: auto;">发车</button>
+										</view>
+										<view v-show="item.state === 'passenger'">
+											<button @click="toArrive(item)" style="background-color: #FC4646;color: #FFF;width: auto;">到达</button>
 										</view>
 									</view>
 									
@@ -133,7 +136,7 @@
 										<view>终点：{{item.endAddress}}</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.state != 1">
+										<view>
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
 									</view>
@@ -168,7 +171,7 @@
 										<view>终点：{{item.endAddress}}</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.state != 1">
+										<view>
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
 									</view>
@@ -265,19 +268,14 @@
 							that.orderArr = data;
 						
 							that.underwayArr = that.orderArr.filter(x => {
-								//return x.orderState == '进行中';
-								return true;
+								return x.state === 'received' || x.state === 'departure' || x.state === 'passenger' || x.state === 'setout'
 							});
 							that.finishedArr = that.orderArr.filter(x => {
-								//return x.orderState == '已完成';
-								return true;
+								return x.state === 'arrive';
 							});
 							that.cancleArr = that.orderArr.filter(x => {
-								//return x.orderState == '已取消';
-								return true;
+								return x.state === '';
 							}); 
-						} else {
-							that.showToast(res.data.msg);
 						}
 					},
 					fail: function(res) {
