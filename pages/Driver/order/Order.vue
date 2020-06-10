@@ -24,40 +24,38 @@
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
 					<view v-for="(item,index) in orderArr" :key="index">
 						<!-- 出租车开始 -->
-						<view v-if="item.title == '出租车'" style="margin-top: 20rpx;">
-							<view class="booktime" v-if="item.orderType == '预约'">
-								预约日期：{{taxiFormatTime(item.appointmentTime)}}
+						<view style="margin-top: 20rpx;">
+							<view class="booktime">
+								上车时间：{{item.orderTime}}
 							</view>
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">{{item.title}}</view>
+											<view class="ordertitle">世中会车辆</view>
 										</view>
-										<view class="orderstatus">{{item.orderState}}</view>
+										<view class="orderstatus">{{formatState(item.state)}}</view>
 									</view>
 									
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
-										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
-										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
-										<view>上车点：{{item.startAddress}}</view>
-										<view>目的地：{{item.endAddress}}</view>
+										<view>上车时间：{{item.orderTime}}</view>
+										<view>起点：{{item.startAddress}}</view>
+										<view>终点：{{item.endAddress}}</view>
 									</view>
 									
 									<view class="btnarea">
-										<view v-if="item.state==1 || item.state==2">
+										<view>
 											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
 										</view>
-
-										<view v-if="item.state != 1">
+										<view>
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
-										<view v-if="item.state == 1">
+										<view>
 											<button @click="toDepart(item)" style="background-color: #FC4646;color: #FFF;width: auto;">发车</button>
 										</view>
-										<view v-if="item.state == 4">
+										<view>
 											<button @click="toArrive(item)" style="background-color: #FC4646;color: #FFF;width: auto;">到达</button>
 										</view>
 									</view>
@@ -71,26 +69,25 @@
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==1">
 					<view v-for="(item,index) in underwayArr" :key="index">
 						<!-- 出租车开始 -->
-						<view v-if="item.title == '出租车'" style="margin-top: 20rpx;">
-							<view class="booktime" v-if="item.orderType == '预约'">
-								预约日期：{{taxiFormatTime(item.appointmentTime)}}
+						<view style="margin-top: 20rpx;">
+							<view class="booktime">
+								上车时间：{{item.orderTime}}
 							</view>
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">{{item.title}}</view>
+											<view class="ordertitle">世中会车辆</view>
 										</view>
-										<view class="orderstatus">{{item.orderState}}</view>
+										<view class="orderstatus">{{formatState(item.state)}}</view>
 									</view>
 									
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
-										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
-										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
-										<view>上车点：{{item.startAddress}}</view>
-										<view>目的地：{{item.endAddress}}</view>
+										<view>上车时间：{{item.orderTime}}</view>
+										<view>起点：{{item.startAddress}}</view>
+										<view>终点：{{item.endAddress}}</view>
 									</view>
 									
 									<view class="btnarea">
@@ -115,26 +112,25 @@
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==2">
 					<view v-for="(item,index) in finishedArr" :key="index">
 						<!-- 出租车开始 -->
-						<view v-if="item.title == '出租车'" style="margin-top: 20rpx;">
-							<view class="booktime" v-if="item.orderType == '预约'">
-								预约日期：{{taxiFormatTime(item.appointmentTime)}}
+						<view style="margin-top: 20rpx;">
+							<view class="booktime">
+								上车时间：{{item.orderTime}}
 							</view>
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">{{item.title}}</view>
+											<view class="ordertitle">世中会车辆</view>
 										</view>
-										<view class="orderstatus">{{item.orderState}}</view>
+										<view class="orderstatus">{{formatState(item.state)}}</view>
 
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
-										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
-										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
-										<view>上车点：{{item.startAddress}}</view>
-										<view>目的地：{{item.endAddress}}</view>
+										<view>上车时间：{{item.orderTime}}</view>
+										<view>起点：{{item.startAddress}}</view>
+										<view>终点：{{item.endAddress}}</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.state != 1">
@@ -151,27 +147,25 @@
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==3">
 					<view v-for="(item,index) in cancleArr" :key="index">
 						<!-- 出租车开始 -->
-						<view v-if="item.title == '出租车'" style="margin-top: 20rpx;">
-							<view class="booktime" v-if="item.orderType == '预约'">
-								预约日期：{{taxiFormatTime(item.appointmentTime)}}
+						<view style="margin-top: 20rpx;">
+							<view class="booktime">
+								上车时间：{{item.orderTime}}
 							</view>
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">{{item.title}}</view>
+											<view class="ordertitle">世中会车辆</view>
 										</view>
-										<view class="orderstatus">{{item.orderState}}</view>
+										<view class="orderstatus">{{formatState(item.state)}}</view>
 
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.orderNumber}}</view>
-										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
-										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
-										<view>上车点：{{item.startAddress}}</view>
-										<view>目的地：{{item.endAddress}}</view>
-
+										<view>上车时间：{{item.orderTime}}</view>
+										<view>起点：{{item.startAddress}}</view>
+										<view>终点：{{item.endAddress}}</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.state != 1">
@@ -257,44 +251,31 @@
 				let that = this;
 				uni.stopPullDownRefresh();
 				uni.request({
-					url: that.$order.Interface.GetExpressOrderByDriverID_Driver.value,
-					method: that.$order.Interface.GetExpressOrderByDriverID_Driver.method,
+					url: that.$taxi.Interface.getOrdersDriver.value,
+					method: that.$taxi.Interface.getOrdersDriver.method,
 					data: {
 						driverId: that.userInfo.driverId,
-						state: -1
 					},
 					success: function(res) {
 						uni.hideLoading();
-						if (res.data.status) {
+						console.log(res);
+						let data = res.data.data;
+						if (res.data.code===200) {
 							that.orderArr = [];
-							for (let item of res.data.data) {
-								var obj = {
-									title: '出租车',
-									orderType: item.orderType, //实时/预约
-									orderTime: item.orderTime,
-									appointmentTime: item.appointmentTime, //预约时间
-									userType: item.userType, //用户类型：普通/会员
-									runTime: item.runTime, //出发时间
-									endAddress: item.endAddress,
-									startAddress: item.startAddress,
-									orderState: that.taxiFormatState(item.state),
-									factPrice: item.factPrice,
-									factPayPrice: item.factPayPrice,
-									orderNumber: item.orderNumber,
-									state: item.state,
-									passengersPhone: item.passengersPhone
-								};
-								that.orderArr.push(obj);
-							};
+							that.orderArr = data;
+						
 							that.underwayArr = that.orderArr.filter(x => {
-								return x.orderState == '进行中';
+								//return x.orderState == '进行中';
+								return true;
 							});
 							that.finishedArr = that.orderArr.filter(x => {
-								return x.orderState == '已完成';
+								//return x.orderState == '已完成';
+								return true;
 							});
 							that.cancleArr = that.orderArr.filter(x => {
-								return x.orderState == '已取消';
-							});
+								//return x.orderState == '已取消';
+								return true;
+							}); 
 						} else {
 							that.showToast(res.data.msg);
 						}
@@ -310,13 +291,13 @@
 			//详情
 			toDetail: function(item) {
 				let that = this;
-				if (item.state == 0 || item.state == 1 || item.state == 2 || item.state == 3 || item.state == 4) {
+				if (item.state === 'received' || item.state === 'departure' || item.state === 'passenger' || item.state === 'setout') {
 					uni.navigateTo({
-						url: '../driverOperation/confirmgetonCar?orderNumber=' + item.orderNumber
+						url: '../driverOperation/confirmgetonCar?orderNumber=' + item.id
 					});
 				} else {
 					uni.navigateTo({
-						url: './orderDetail?orderNumber=' + item.orderNumber
+						url: './orderDetail?orderNumber=' + item.id
 					});
 				}
 			},
@@ -331,120 +312,88 @@
 					phoneNumber: item.passengersPhone
 				});
 			},
-			//到达
 			toArrive: function(item) {
+				//到达
 				let that = this;
 				uni.showLoading({
 					mask: true
 				});
-				let url = '';
-				let method = '';
-				let data = '';
-				url = that.$taxi.Interface.FinishExpressOrder_Driver.value;
-				method = that.$taxi.Interface.FinishExpressOrder_Driver.method;
-				data = {
-					orderNumber: item.orderNumber
-				};
-				that.taxiRequest(url, method, data).then(res => {
-					if (res.data.status) {
-						that.showToast('到达成功');
-						uni.navigateTo({
-							url:'../driverOperation/orderComplete'
-							//url: '/pages/driver/otherExpenses?orderNumber=' + item.orderNumber,
-						})
-					} else {
-						that.showToast(res.data.msg);
-					}
-				}).catch(rej => {
-					that.showToast('网络连接失败');
-				});
-			},
-
-			//发车
-			toDepart: function(item) {
-				let that = this;
-				uni.showLoading({
-					mask: true
-				});
-				let url = '';
-				let method = '';
-				let data = '';
-				url = that.$taxi.Interface.SetoutExpressOrder_Driver.value;
-				method = that.$taxi.Interface.SetoutExpressOrder_Driver.method;
-				data = {
-					orderNumber: item.orderNumber
-				};
-
-				that.taxiRequest(url, method, data).then(res => {
-					//成功回调
-					console.log(res);
-					if (res.data.status) {
-						uni.navigateTo({
-							url: '../driverOperation/confirmgetonCar?orderNumber=' + item.orderNumber
-						});
-					} else {
-						that.showToast(res.data.msg);
-					}
-				}).catch(rej => {
-					//失败回调
-					that.showToast('网络连接失败');
-				});
-			},
-			//出租车、专线车出发按钮
-			taxiRequest: function(url, method, data) {
-				return new Promise((resolve, reject) => {
-					uni.request({
-						url: url,
-						method: method,
-						data: data,
-						success: function(res) {
-							uni.hideLoading();
-							resolve(res);
-						},
-						fail: function(res) {
-							uni.hideLoading();
-							reject(res);
+				uni.request({
+					url:that.$taxi.Interface.terminus.value,
+					method:that.$taxi.Interface.terminus.method,
+					data:{
+						orderId:item.id
+					},
+					success:function(res){
+						console.log(res);
+						uni.hideLoading();
+						if (res.data.code===200) {
+							that.showToast('到达成功');
 						}
-					})
+					},
+					fail:function(res){
+						uni.hideLoading();
+						that.showToast('网络连接失败');
+					}
 				});
 			},
-			//取消
-			// toCancle: function(item) {
-			// 	//出租车OK、专线车OK
-			// 	let that = this;
-			// 	uni.showLoading({
-			// 		mask: true
-			// 	});
-			// 	let url = '';
-			// 	let method = '';
 
-			// 	url = that.$taxi.Interface.CancelExpressOrderByOrderNum_Driver.value;
-			// 	method = that.$taxi.Interface.CancelExpressOrderByOrderNum_Driver.method;
-
-			// 	uni.request({
-			// 		url: url,
-			// 		method: method,
-			// 		data: {
-			// 			orderNumber: item.orderNumber
-			// 		},
-			// 		success: function(res) {
-			// 			//console.log(res);
-			// 			uni.hideLoading();
-			// 			if (res.data.status) {
-			// 				that.showToast('订单已取消');
-			// 				that.getTaxiOrder();
-			// 			} else {
-			// 				that.showToast(res.data.msg);
-			// 			}
-			// 		},
-			// 		fail: function(res) {
-			// 			uni.hideLoading();
-			// 			//console.log(res);
-			// 			that.showToast('网络连接失败');
-			// 		}
-			// 	});
-			// },
-
+			toDepart: function(item) {
+				//发车
+				let that = this;
+				uni.showLoading({
+					mask: true
+				});
+				uni.request({
+					url:that.$taxi.Interface.driverLeaves.value,
+					method:that.$taxi.Interface.driverLeaves.method,
+					data:{
+						orderId:item.id
+					},
+					success:function(res){
+						console.log(res);
+						uni.hideLoading();
+						if (res.data.code===200) {
+							that.showToast('发车成功');
+							setTimeout(function(){
+								uni.navigateTo({
+									url: '/pages/driver/driverOperation/confirmgetonCar?orderNumber=' + item.id,
+								});
+							},1500);
+						}
+					},
+					fail:function(res){
+						uni.hideLoading();
+						that.showToast('网络连接失败');
+					}
+				});
+			},
+			
+			formatState:function(state){
+				if(state === 'examine'){
+					return '待审核'
+				}else if(state === 'waiting'){
+					return '待接单'
+				}else if(state === 'received'){
+					return '已接单'
+				}else if(state === 'departure'){
+					return '待上车'
+				}else if(state === 'passenger'){
+					return '进行中'
+				}else if(state === 'setout'){
+					return '已出发' 
+				}else if(state === 'arrive'){
+					return '已到达'
+				}else if(state === 'refuse'){
+					return '已拒绝'
+				}else if(state === 'fault'){
+					return '故障'
+				}else if(state === 'fail'){
+					return '未通过'
+				}
+			},
+			
+			
 			// 出租车格式化
 			taxiFormatState: function(state) {
 				if (state == 6) {

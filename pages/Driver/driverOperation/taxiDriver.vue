@@ -2,7 +2,7 @@
 	<view>
 		<view :style="{height:menuButtonHeight+'px','margin-top':menuButtonTop+'px'}" style="margin: 0 auto 30rpx auto;display: flex;width: 94%;flex-direction: row;align-items: center;">
 			<view style="width: 40rpx;margin-right: 10px;">
-				<uni-icons @click="back" type="arrowleft" size="24"></uni-icons>
+				<uni-icons @click="toPersonal" type="contact" size="24"></uni-icons>
 			</view>
 			<view style="margin-right:220rpx;display: flex;flex-direction: row;align-items: center;">
 				<text style="font-size:38rpx;font-family:Source Han Sans SC;font-weight:bold;color:rgba(44,45,45,1);">司机接单</text>
@@ -22,32 +22,35 @@
 				</view> -->
 				<view style="padding: 40rpx;display: flex;flex-direction: row;">
 					<text class="destinationArea" style="width:160rpx;">目的区域:</text>
-					<text class="destinationArea">{{item.destinationArea}}</text>
+					<text class="destinationArea">丰泽区</text>
 				</view>
-				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;" v-if="item.orderType == '预约'">
-					<text class="fontClass" style="width:140rpx;height:40rpx;">预约时间:</text>
-					<text class="fontClass" style="height:40rpx;">{{formatTime(item.appointmentTime)}}</text>
+				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;">
+					<text class="fontClass" style="width:140rpx;height:40rpx;">出发时间:</text>
+					<text class="fontClass" style="height:40rpx;">{{item.orderTime}}</text>
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:140rpx;height:40rpx;">预计里程:</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatEstimateDistance(item.estimateDistance)}}</text>
+					<text class="fontClass" style="width:140rpx;height:40rpx;">5公里</text>
 					<text class="fontClass" style="width:140rpx;height:40rpx;margin-left: 40rpx;">预计时长:</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatEstimateTime(item.estimateTime)}}</text>
+					<text class="fontClass" style="width:140rpx;height:40rpx;">30分钟</text>
 				</view>
 				<view style="margin: -10rpx 40rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:110rpx;height:40rpx;">上车点:</text>
-					<text class="fontClass" style="height:40rpx;">{{item.startAddress}}</text>
+					<text class="fontClass" style="height:40rpx;">茶叶大厦</text>
 				</view>
 				<view style="margin: 20rpx 40rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:110rpx;height:40rpx;">下车点:</text>
-					<text class="fontClass" style="height:40rpx;">{{item.endAddress}}</text>
+					<text class="fontClass" style="height:40rpx;">丰泽广场</text>
 				</view>
 				<view style="display: flex; margin-left: 4rpx;">
-					<button @click="receipt(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
+					<button v-show="item.state === 'waiting'" @click="receipt(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
 						接单
 					</button>
-					<button @click="reject(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #FFFFFF; border: 1px solid #666666; color: #666666; align-items: center; margin-left: -16rpx;">
+					<button v-show="item.state === 'waiting'" @click="reject(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
 						拒接
+					</button>
+					<button v-show="item.state === 'received'" @click="driverLeaves(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
+						发车
 					</button>
 				</view>
 			</view>
@@ -83,19 +86,10 @@
 			that.menuButtonHeight = menuButtonInfo.height;
 			that.menuButtonTop = menuButtonInfo.top;
 			
-			uni.setStorageSync('userInfo',{
-				driverId:'2000014',
-				userName:'施远',
-				phoneNumber:'13599291007'
-				
-			});
-			uni.setStorageSync('vehicleInfo',{
-				vehicleNumber:'闽C22222',
-			});
 			
-			uni.hideLoading();
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			that.vehicleInfo = uni.getStorageSync("vehicleInfo") || '';
+			
 			if (that.userInfo == '') {
 				that.showToast('请先登录');
 			} else if (that.vehicleInfo == '') {
@@ -105,8 +99,8 @@
 					mask: true
 				});
 				//在getOrder里面会关闭
-				that.getOrder(that.userInfo.driverId, that.vehicleInfo.vehicleNumber);
-				that.realTimeOrder(that.userInfo.driverId, that.vehicleInfo.vehicleNumber);
+				that.getOrder(that.userInfo.driverId);
+				that.realTimeOrder(that.userInfo.driverId);
 			}
 		},
 		onShow() {
@@ -114,13 +108,11 @@
 		},
 		onUnload() {
 			let that = this;
-			console.log('onUnload');
 			clearInterval(that.getOrderInterval);
 			that.orderArr = [];
 		},
 		/* onHide() {
 			let that = this;
-			console.log('onHide');
 			clearInterval(that.getOrderInterval);
 			that.orderArr = [];
 		}, */
@@ -132,13 +124,41 @@
 					icon: icon
 				});
 			},
-			
-			back: function() {
-				uni.switchTab({
-					url: '/pages/index/index',
+			toPersonal: function() {
+				uni.navigateTo({
+					url:'../../GRZX/user'
+				});
+			},
+			driverLeaves:function(item){
+				//发车
+				let that = this;
+				uni.showLoading({
+					mask: true
+				});
+				uni.request({
+					url:that.$taxi.Interface.driverLeaves.value,
+					method:that.$taxi.Interface.driverLeaves.method,
+					data:{
+						orderId:item.id
+					},
+					success:function(res){
+						uni.hideLoading();
+						if (res.data.code===200) {
+							that.showToast('发车成功');
+							setTimeout(function(){
+								uni.navigateTo({
+									url: '/pages/driver/driverOperation/confirmgetonCar?orderNumber=' + item.id,
+								});
+							},1500);
+						}
+					},
+					fail:function(res){
+						uni.hideLoading();
+						that.showToast('网络连接失败');
+					}
 				})
 			},
-			
+					
 			receipt: function(item) {
 				//接单
 				let that = this;
@@ -146,30 +166,15 @@
 					mask: true
 				});
 				uni.request({
-					url: that.$taxi.Interface.ReceiptExpressOrder_Driver.value,
-					method: that.$taxi.Interface.ReceiptExpressOrder_Driver.method,
+					url: that.$taxi.Interface.receivingOrder.value,
+					method: that.$taxi.Interface.receivingOrder.method,
 					data: {
-						OrderNumber: item.orderNumber,
-						driverId: that.userInfo.driverId,
-						driverName: that.userInfo.userName,
-						driverPhone: that.userInfo.phoneNumber,
-						vehicleNumber: that.vehicleInfo.vehicleNumber,
+						orderId: item.id,
 					},
 					success: function(res) {
 						uni.hideLoading();
-						if (res.data.status) {
-							/* switch (item.orderType) {
-								case '实时': */
-							uni.navigateTo({
-								url: '/pages/driver/driverOperation/confirmgetonCar?orderNumber=' + item.orderNumber,
-							});
-								/* 	break;
-								case '预约':
-									that.showToast('接单成功');
-									break;
-								default:
-									break;
-							} */
+						if (res.data.code===200) {
+							that.showToast('接单成功');
 						} else {
 							that.showToast(res.data.msg);
 						}
@@ -180,25 +185,22 @@
 					}
 				})
 			},
-			
-			reject: function(item) {
-				//拒接
+			reject:function(item){
+				//拒绝
 				let that = this;
 				uni.showLoading({
 					mask: true
 				});
 				uni.request({
-					url: that.$taxi.Interface.RefuseExpressOrderByOrderNumDriverID_Driver.value,
-					method: that.$taxi.Interface.RefuseExpressOrderByOrderNumDriverID_Driver.method,
+					url: that.$taxi.Interface.rejectOrder.value,
+					method: that.$taxi.Interface.rejectOrder.method,
 					data: {
-						orderNumber: item.orderNumber,
-						driverId: that.userInfo.driverId,
+						orderId: item.id,
 					},
 					success: function(res) {
 						uni.hideLoading();
-						if (res.data.status) {
-							that.showToast('已拒接');
-							that.getOrder(that.userInfo.driverId, that.vehicleInfo.vehicleNumber);
+						if (res.data.code===200) {
+							that.showToast('拒接成功');
 						} else {
 							that.showToast(res.data.msg);
 						}
@@ -206,46 +208,42 @@
 					fail: function(res) {
 						uni.hideLoading();
 						that.showToast('网络连接失败');
-						//console.log(res);
 					}
-				})
+				});
 			},
-
-			realTimeOrder: function(userId, vehicleNumber) {
+			
+			toDetail:function(item){
+				uni.navigateTo({
+					url: '/pages/driver/driverOperation/confirmgetonCar?orderNumber=' + item.id,
+				});
+			},
+			
+			realTimeOrder: function(userId) {
 				//定时器开启
 				let that = this;
 				if (that.getOrderInterval == 0) {
 					that.getOrderInterval = setInterval(function() {
-						that.getOrder(userId, vehicleNumber);
-					}, that.$taxi.delayTime.getOrderDelay.time);
+						that.getOrder(userId);
+					}, 5000);
 				}
 			},
 			
 			//获取可接单订单列表
-			getOrder: function(userId, vehicleNumber) {
+			getOrder: function(userId) {
 				let that = this;
 				uni.request({
-					url: that.$taxi.Interface.GetCanReceiptExpressOrder_Driver.value,
-					method: that.$taxi.Interface.GetCanReceiptExpressOrder_Driver.method,
+					url: that.$taxi.Interface.getOrders.value,
+					method: that.$taxi.Interface.getOrders.method,
 					data: {
 						driverId: userId,
-						vehicleNumber: vehicleNumber
 					},
 					success: function(res) {
 						uni.hideLoading();
-						console.log(res);
-						if (res.data.status) {
+						if (res.data.code===200) {
 							that.orderArr = [];
 							let data = res.data.data;
 							that.orderArr = data;
-							// if (that.orderArr.length > 0) {
-							// 	var newIndex = parseInt(that.orderArr[0].orderNumber.substring(0, 14));
-							// 	if (newIndex > that.taxiLastIndex) {
-							// 		that.taxiLastIndex = newIndex;
-							// 		var text = '有新的出租车订单等待接单';
-							// 		Voice(text);
-							// 	}
-							// }
+			
 						} else {
 							that.showToast(res.data.msg);
 						}
@@ -253,33 +251,6 @@
 					fail: function(res) {
 						uni.hideLoading();
 						that.showToast('网络连接失败');
-						//console.log(res);
-					}
-				})
-			},
-
-			getTaxiTodayOrderCount: function() {
-				let that = this;
-				var startDate = that.$myTime.getNowDate();
-				var endDate = that.$myTime.addDay(startDate, 1);
-				uni.request({
-					url: that.$taxi.Interface.GetExpressOrderCountByDriverID_Driver.value,
-					method: that.$taxi.Interface.GetExpressOrderCountByDriverID_Driver.method,
-					data: {
-						driverId: that.userInfo.driverId,
-						orderStartTime: utils.timeTodate(that.$home.dateFormat.dateformat, startDate.getTime()),
-						orderEndTime: utils.timeTodate(that.$home.dateFormat.dateformat, endDate.getTime())
-					},
-					success: function(res) {
-						if (res.data.status) {
-							let data = res.data.data[0];
-							that.taxiOrderNum = data == undefined ? 0 : data.orderNum;
-						} else {
-							//console.log(res);
-						}
-					},
-					fail: function(res) {
-						//console.log(res);
 					}
 				})
 			},

@@ -4,7 +4,7 @@
 		 :polyline="polyline" :markers="markers" :show-location="true">
 		</map>
 		<image @click="back" src="@/static/driver/back1.png" style="width: 120rpx;height: 120rpx;position: fixed;top: 50px;left: 1px;"></image>
-		<view v-if="state == 2" style="position: fixed;bottom: 220rpx; ">
+		<view v-if="state === 'setout'" style="position: fixed;bottom: 220rpx;">
 			<view style="flex-direction: row;justify-content: space-between;align-items: center;">
 				<view style="flex-direction: row;">
 					<image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="callPolice"></image>
@@ -16,24 +16,20 @@
 				</view> -->
 			</view>
 			<!-- 行程信息 -->
-			<view style="width: 698rpx;height: 223rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx;">
-				<view style="margin-top: 36rpx;margin-left: 38rpx;display: flex;flex-direction: row;">
+			<view style="width: 700rpx;background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;padding-top: 36rpx;padding-bottom: 36rpx;">
+				<view style="margin-left: 38rpx;display: flex;flex-direction: row;">
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">预计里程:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{formatEstimateDistance(estimateDistance)}}</text>
+					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">5公里</text>
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx; margin-left: 40rpx;">预计时长:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{formatEstimateTime(estimateTime)}}</text>
-				</view>
-				<view style="margin-top: 20rpx;margin-left: 40rpx;display: flex;flex-direction: row;">
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">等待时长:</text>
-					<text style="width:400rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{waitTime}}</text>
+					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">30分钟</text>
 				</view>
 				<view style="margin-top: 20rpx;margin-left: 36rpx;display: flex;flex-direction: row;">
 					<text style="width:110rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">上车点:</text>
-					<text style="width:400rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{startAddress}}</text>
+					<text style="width:400rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">茶叶大厦</text>
 				</view>
 			</view>
 			<!-- 联系电话 -->
-			<view style="width: 698rpx;height: 105rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx; padding: 34rpx;display: flex;flex-direction: row;margin-top: 20rpx;">
+			<view style="width: 700rpx;height: 105rpx; background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx; padding: 34rpx;display: flex;flex-direction: row;margin-top: 20rpx;">
 				<view>
 					<text style="width:140rpx;height:36rpx;font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);line-height:36rpx; margin-left: 10rpx;">乘客电话:</text>
 				</view>
@@ -43,35 +39,33 @@
 				<image style="width: 60rpx;height: 60rpx; left: 220rpx; top: -12rpx;" src="@/static/driver/phone.png" @click="call"></image>
 			</view>
 			<view>
-				<button style="width: 698rpx;height: 105rpx;background-color: #FC6A6C;border-color:#FC6A6C;color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx; position: fixed; padding: 6rpx;bottom: 90rpx;"
+				<button style="width: 700rpx;height: 105rpx;background-color: #FC6A6C;border-color:#FC6A6C;color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx; position: fixed; padding: 6rpx;bottom: 90rpx;"
 				 @longpress="confirmgetonCar">
 					<text style="color: #FFFFFF;">长按确认乘客已上车</text>
 				</button>
 			</view>
 		</view>
-		<view v-if="state == 4" style="position: fixed;bottom: 220rpx; ">
+		<view v-if="state === 'passenger'" style="position: fixed;bottom: 220rpx; ">
 			<view style="flex-direction: row;">
 				<image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="callPolice"></image>
 			</view>
 			<!-- 行程信息 -->
-			<view style="width: 698rpx;height: 164rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx;">
+			<view style="width: 700rpx;height: 164rpx; background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;">
 				<view style="margin-top: 36rpx;margin-left: 38rpx;display: flex;flex-direction: row;">
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">预计里程:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{formatEstimateDistance(estimateDistance)}}</text>
+					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">5公里</text>
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx; margin-left: 40rpx;">预计时长:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{formatEstimateTime(estimateTime)}}</text>
+					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">30分钟</text>
 				</view>
 				<view style="margin-top: 20rpx;margin-left: 40rpx;display: flex;flex-direction: row;">
 					<text style="width:120rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">下车点:</text>
-					<text style="width:400rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{endAddress}}</text>
+					<text style="width:400rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">丰泽广场</text>
 				</view>
 			</view>
-			<view style="width: 698rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx; margin-top: 30rpx;padding-bottom: 30rpx;">
+			<view style="width: 700rpx; background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx; margin-top: 30rpx;padding-bottom: 30rpx;">
 				<view style="margin-top: 36rpx;margin-left: 38rpx;display: flex;flex-direction: row;">
 					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">剩余里程:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{distance}}</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;margin-left: 40rpx;">已驶时长:</text>
-					<text style="width:200rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{alreadyTime}}</text>
+					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">3公里</text>
 				</view>
 				<!-- <view style="margin-top: 20rpx;margin-left: 40rpx;display: flex;flex-direction: row;">
 					<text style="width:120rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">总费用:</text>
@@ -79,7 +73,7 @@
 				</view> -->
 			</view>
 			<view>
-				<button style="width: 698rpx;height: 105rpx;background-color: #FC6A6C;border-color:#FC6A6C;margin-left: 28rpx; border-radius:20rpx; position: fixed; padding: 6rpx;bottom: 90rpx;"
+				<button style="width: 700rpx;height: 105rpx;background-color: #FC6A6C;border-color:#FC6A6C;margin-left: 25rpx; border-radius:20rpx; position: fixed; padding: 6rpx;bottom: 90rpx;"
 				 @longpress="confirmGetToDestination">
 					<text style="color: #FFFFFF;">长按确认到达目的地</text>
 				</button>
@@ -146,7 +140,7 @@
 				driverId: '',
 
 				orderNumber: '', //订单编号
-				state: 0,
+				state: '',
 				startLon: '',
 				startLat: '',
 				startAddress: '',
@@ -190,6 +184,8 @@
 			});
 			that.setOrderStatus();
 			that.getMyLocation();
+			that.polyline = [];
+			that.getDirectionDriving();
 		},
 		onUnload() {
 			let that = this;
@@ -219,17 +215,20 @@
 			
 			getOrder: function() {
 				let that = this;
+				//获取订单详情
 				return new Promise((resolve, reject) => {
 					uni.request({
-						url: $taxi.Interface.GetExpressOrderByOrderNumber_Driver.value,
-						method: $taxi.Interface.GetExpressOrderByOrderNumber_Driver.method,
+						url: $taxi.Interface.getOrderDetail.value,
+						method: $taxi.Interface.getOrderDetail.method,
 						data: {
-							ordernumber: that.orderNumber,
-							driverId:that.driverId 
+							orderId: that.orderNumber,
 						},
 						success: function(res) {
 							let data = res.data.data;
-							if (res.data.status) {
+							if (res.data.code===200) {
+								that.state = data.state;
+							}
+							/* if (res.data.status) {
 								that.startLon = data.startLon;
 								that.startLat = data.startLat;
 								that.startAddress = data.startAddress;
@@ -246,14 +245,13 @@
 								that.estimateTime = data.estimateTime;
 								that.runTime = data.runTime.replace('T', ' ').replace(/-/g,'/');
 								that.setoutTime = data.setoutTime.replace('T', ' ').replace(/-/g,'/');
-								resolve(res);
 							} else {
 								that.showToast(res.data.msg);
-							}
+							} */
+							resolve(res);
 						},
 						fail: function(res) {
 							reject(res);
-							//console.log(res);
 							that.showToast('网络连接失败');
 						}
 					});
@@ -271,10 +269,10 @@
 					uni.hideLoading();
 					console.log(res.data.data);
 					var data = res.data.data;
-					if (res.data.status) {
+					if (res.data.code===200) {
 						that.markers = [];
-						that.setMarker(1, that.startLon, that.startLat, '../../../static/driver/Start.png');
-						that.setMarker(2, that.endLon, that.endLat, '../../../static/driver/End.png');
+						//that.setMarker(1, that.startLon, that.startLat, '../../../static/driver/Start.png');
+						//that.setMarker(2, that.endLon, that.endLat, '../../../static/driver/End.png');
 						if (that.state == 0) {
 							//等待接单
 
@@ -286,7 +284,6 @@
 							Map.openMap(parseFloat(that.startLat) , parseFloat(that.startLon), that.startAddress, 'gcj02');
 							that.realGetOrderDetail();
 							//规划司机到出发地路程
-							that.setToStart();
 							that.mathWaitTime(new Date(that.setoutTime)); 
 						} else if (that.state == 3) {
 							//司机已到出发地
@@ -334,15 +331,6 @@
 					}, 10000);
 				}
 			},
-			setToStart:function(){
-				let that = this;
-				uni.getLocation({
-					type:'gcj02',
-					success:function(res){
-						that.getDirectionDriving(res.longitude + ',' + res.latitude,that.startLon + ',' + that.startLat);
-					}
-				});
-			},
 			
 			confirmgetonCar: function() { //长按确认乘客上车
 				let that = this;
@@ -350,18 +338,17 @@
 					mask:true
 				});
 				uni.request({
-					url:$taxi.Interface.RunExpressOrder_Driver.value,
-					method:$taxi.Interface.RunExpressOrder_Driver.method,
+					url:$taxi.Interface.confirmBoarding.value,
+					method:$taxi.Interface.confirmBoarding.method,
 					data:{
-						orderNumber:that.orderNumber
+						orderId:that.orderNumber
 					},
 					success:function(res){
 						uni.hideLoading();
 						let data = res.data.data;
-						if(res.data.status){
-							that.runTime = data.runTime.replace('T', ' ').replace(/-/g,'/');
+						if(res.data.code===200){
 							that.setConfirmgetonCar();
-							that.state = 4;
+							that.state = 'passenger';
 							Map.openMap(parseFloat(that.endLat) ,parseFloat(that.endLon) , that.endAddress, 'gcj02');
 						} else {
 							that.showToast(res.data.msg);
@@ -369,7 +356,6 @@
 					},
 					fail:function(res){
 						uni.hideLoading();
-						//console.log(res);
 						that.showToast('网络连接失败');
 					}
 				})
@@ -378,29 +364,12 @@
 				
 			},
 			setConfirmgetonCar:function(){
-				//确认乘客上车
+				//确认乘客上车操作
 				let that = this;
 				clearInterval(that.orderInterval);
 				that.orderInterval = 0;
-				that.mathWaitTime(new Date(that.runTime));
-				that.polyline = []; 
-				uni.getLocation({
-					type:'gcj02',
-					success:function(res){
-						that.getDirectionDriving(res.longitude + ',' + res.latitude,that.endLon + ',' + that.endLat);
-					}
-				});
-				that.directionInterval = setInterval(function() { //获取司机的实时位置并规划到终点的路线
-					that.polyline = [];
-					uni.getLocation({
-						type: 'gcj02',
-						success: function(res) {
-							that.longitude = res.longitude;
-							that.latitude = res.latitude;
-							that.getDirectionDriving(res.longitude + ',' + res.latitude,that.endLon + ',' + that.endLat);
-						} 
-					})
-				}, 10000);
+				//that.mathWaitTime(new Date(that.runTime));
+				
 			},
 			confirmGetToDestination: function() {
 				//长按确认到达目的地
@@ -409,17 +378,17 @@
 					mask:true
 				});
 				uni.request({
-					url:$taxi.Interface.FinishExpressOrder_Driver.value,
-					method:$taxi.Interface.FinishExpressOrder_Driver.method,
+					url:$taxi.Interface.terminus.value,
+					method:$taxi.Interface.terminus.method,
 					data:{
-						orderNumber:that.orderNumber
+						orderId:that.orderNumber
 					},
 					success:function(res){
 						uni.hideLoading();
-						if(res.data.status){
+						if(res.data.code===200){
 							//取消由 setInterval 设置的定时器
 							clearInterval(that.directionInterval);
-							getApp().globalData.orderNumber = 0;
+							getApp().globalData.orderNumber = '';
 							uni.redirectTo({
 								url: '/pages/driver/driverOperation/orderComplete'
 							})
@@ -429,7 +398,6 @@
 					},
 					fail:function(res){
 						uni.hideLoading();
-						//console.log(res);
 						that.showToast('网络连接失败');
 					}
 				})
@@ -440,13 +408,6 @@
 				uni.makePhoneCall({
 					phoneNumber: that.passengersPhone
 				});
-			},
-			sendMessage:function(){
-				let that = this;
-				var msg = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
-				msg.to=[that.passengersPhone];
-				msg.body = '你好，我是司机' + that.userInfo.userName.substring(0,1) + '师傅，';
-				plus.messaging.sendMessage(msg);
 			},
 
 			//picker相关
@@ -474,7 +435,6 @@
 						type: 'gcj02',
 						geocode: true,
 						success: function(res) {
-							//console.log(res);
 							resolve(res);
 						},
 						fail: function(rej) {
@@ -495,7 +455,6 @@
 							alarmRemark: that.alarmRemark //报警备注
 						},
 						success: function(res) {
-							//console.log(res);
 							if (res.data.status) {
 								uni.showToast({
 									title: '报警成功',
@@ -510,7 +469,6 @@
 						},
 						fail: function(res) {
 							that.showToast('网络连接中断');
-							//console.log(res);
 						}
 					})
 				});
@@ -520,34 +478,6 @@
 				var that = this;
 				uni.navigateBack({});
 			},
-			// cancleOrder:function(){
-			// 	let that = this;
-			// 	uni.request({
-			// 		url:$taxi.Interface.CancelExpressOrderByOrderNum_Driver.value,
-			// 		method:$taxi.Interface.CancelExpressOrderByOrderNum_Driver.method,
-			// 		data:{
-			// 			OrderNumber:that.orderNumber
-			// 		},
-			// 		success:function(res){
-			// 			//console.log(res);
-			// 			if(res.data.status){
-			// 				that.showToast('取消成功');
-			// 				setTimeout(function(){
-			// 					uni.redirectTo({
-			// 						url:'./taxiDriver'
-			// 					});
-			// 				},1500);
-			// 			} else {
-			// 				that.showToast(res.data.msg);
-			// 				//console.log(res);
-			// 			}
-			// 		},
-			// 		fail:function(res){
-			// 			that.showToast('网络连接失败');
-			// 			//console.log(res);
-			// 		}
-			// 	});
-			// },
 			
 			setMarker: function(id, lon, lat, iconPath) {
 				var width = 20;
@@ -568,51 +498,36 @@
 			},
 
 
-			getDirectionDriving: function(startLonLat, endLonLat) {
-				//调用高德api取得路径规划并绘制线路 
+			getDirectionDriving: function() {
+				//路径规划
 				var that = this;
 				uni.request({
-					url: $taxi.InterfaceAddress[0],
+					url:$taxi.Interface.track.value,
+					method: $taxi.Interface.track.method,
 					data: {
-						startLonLat: startLonLat,
-						endLonLat: endLonLat,
+						orderId:that.orderNumber
 					},
-					method: "GET",
 					success: function(res) {
-						//日后会加入定时，此处需清空
-						that.points = [];
-						that.polyline = [];
-
-						var polylineArr = [];
-						var points = [];
-						that.distance =  (parseInt(res.data.Distance) / 1000).toFixed(2) + '公里';
-						polylineArr = res.data.Polyline;
-
-						for (var i = 0; i < polylineArr.length; i++) {
-							var arr = polylineArr[i].split(';');
-							for (var j = 0; j < arr.length; j++) {
-								points.push(arr[j]);
+						let data = res.data.data;
+						if(res.data.code===200){
+							for (let i of data) {
+								var obj = {
+									longitude: i.lng,
+									latitude: i.lat
+								}
+								that.points.push(obj);
 							}
-						}
-						//根据文件建设对象经纬度数组
-						for (var i = 0; i < points.length; i++) {
-							var arr = points[i].split(',');
 							var obj = {
-								longitude: arr[0],
-								latitude: arr[1]
-							}
-							that.points.push(obj);
+								points: that.points,
+								color: "#4BDD25",
+								arrowLine: true,
+								width: 5
+							};
+							that.polyline.push(obj);
 						}
-						var obj = {
-							points: that.points,
-							color: "#4BDD25",
-							arrowLine: true,
-							width: 5
-						};
-						that.polyline.push(obj);
 					},
 					fail: function(res) {
-						//console.log(res);
+						that.showToast('网络连接失败');
 					}
 				});
 			},
@@ -652,7 +567,6 @@
 					that.alreadyTime = (parseInt(that.initialMin/60) + '小时') + (that.initialMin % 60 + '分钟')
 					//						that.waitTime = that.initialMin / 60 > 0 ? (parseInt(that.initialMin/60) + '小时') + (that.initialMin % 60 + '分钟') : that.initialMin + '分钟'
 				},60000);
-				//console.log('打开定时器：' + that.waitTimeInterval);
 			}
 			//计算等待时间
 		}
