@@ -21,8 +21,6 @@
 				</view>
 			</view>
 		</view>
-
-
 	</view>
 </template>
 
@@ -46,17 +44,12 @@
 				viewHeight: '',
 				userInfo:'',
 				waitTime:'',
-				
 				startLon:'',
 				startLat:'',
 				endLon:'',
 				endLat:'',
 				state:'',
-				factPayPrice:0,
-				userType:0,
 				estimateDistance:'',
-				
-				
 			}
 		},
 		onLoad(option) {
@@ -73,8 +66,8 @@
 					that.viewHeight = (res.windowHeight * 0.4) + 'px'
 				}
 			});
-			
 			that.getOrderDetail();
+			that.getDirectionDriving();
 		},
 		onShow() {
 			let that = this;
@@ -89,34 +82,16 @@
 			getOrderDetail:function(){
 				let that = this;
 				uni.request({
-					url:$taxi.Interface.GetExpressOrderByOrderNumber_Driver.value,
-					method:$taxi.Interface.GetExpressOrderByOrderNumber_Driver.method,
-					data:{
-						ordernumber : that.orderNumber,
-						driverId : that.userInfo.driverId
+					url: $taxi.Interface.getOrderDetail.value,
+					method: $taxi.Interface.getOrderDetail.method,
+					data: {
+						orderId: that.orderNumber,
 					},
 					success:function(res){
-						if(res.data.status){
-							let data = res.data.data;
-							that.startLon = data.startLon;
-							that.startLat = data.startLat;
-							that.endLon = data.endLon;
-							that.endLat = data.endLat;
-							that.setMarker(1, that.startLon, that.startLat, '../../../static/driver/Start.png');
-							that.setMarker(2, that.endLon, that.endLat, '../../../static/driver/End.png');
-							that.longitude = that.startLon;
-							that.startLat = that.startLat; 
-							that.state = data.state;
-							that.factPayPrice = data.factPayPrice;
-							that.userType = data.userType;
-							that.estimateDistance = data.estimateDistance;
-							that.runTime = new Date(data.runTime.replace('T', ' ').replace(/-/g,'/')); 
-							that.finishTime = new Date(data.finishTime.replace('T', ' ').replace(/-/g,'/'));
-							that.waitTime = that.mathTime(that.runTime,that.finishTime);
+						if(res.data.code===200){
+							that.state = res.data.data.state;
+						}else {
 							
-						} else {
-							//console.log(res);
-							that.showToast(res.data.msg);
 						}
 					},
 					fail:function(res){
@@ -124,9 +99,40 @@
 						that.showToast('网络连接失败');
 					},
 				})
-				
 			},
-			
+			getDirectionDriving: function() {
+				//路径规划
+				var that = this;
+				uni.request({
+					url:$taxi.Interface.track.value,
+					method: $taxi.Interface.track.method,
+					data: {
+						orderId:that.orderNumber
+					},
+					success: function(res) {
+						let data = res.data.data;
+						if(res.data.code===200){
+							for (let i of data) {
+								var obj = {
+									longitude: i.lng,
+									latitude: i.lat
+								}
+								that.points.push(obj);
+							}
+							var obj = {
+								points: that.points,
+								color: "#4BDD25",
+								arrowLine: true,
+								width: 5
+							};
+							that.polyline.push(obj);
+						}
+					},
+					fail: function(res) {
+						that.showToast('网络连接失败');
+					}
+				});
+			},
 			back: function() {
 				var that = this;
 				uni.navigateBack({});
@@ -137,9 +143,9 @@
 				return  parseInt((end - start) / 1000 / 60);
 			},
 			taxiFormatState: function(state) {
-				if (state == 6) {
+				if (state === 'arrive') {
 					return '已完成';
-				} else if (state == 0 || state == 1 || state == 2 || state == 3 || state == 4 || state == 5 || state == 9) {
+				} else if (state === 'received' || state === 'departure' || state === 'passenger' || state === 'setout') {
 					return '进行中';
 				} else if (state == 8) {
 					return '已取消';
@@ -148,26 +154,36 @@
 				}
 			},
 			taxiFormatOrderState:function(state){
-				if(state == 0){
-					return '等待接单'
-				} else if( state == 1){
+				if(state === 'examine'){
+					//调度员审核
+					return '待审核'
+				}else if(state === 'waiting'){
+					//待接单
+					return '待接单'
+				}else if(state === 'received'){
+					//已接单
 					return '已接单'
-				} else if( state == 2){
-					return '已出发'
-				} else if( state == 3){
-					return '到出发地'
-				} else if( state == 4){
+				}else if(state === 'departure'){
+					//到达出发地
+					return '待上车'
+				}else if(state === 'passenger'){
+					//接到乘客
 					return '进行中'
-				} else if( state == 5){
-					return '待支付'
-				} else if( state == 6){
-					return '已完成'
-				} else if( state == 7){
-					return '已取消'
-				} else if( state == 8){
-					return '已取消'
-				} else if( state == 9){
-					return '支付失败'
+				}else if(state === 'setout'){
+					//出发
+					return '已出发' 
+				}else if(state === 'arrive'){
+					//到达
+					return '已到达'
+				}else if(state === 'refuse'){
+					//拒接
+					return '已拒接'
+				}else if(state === 'fault'){
+					//故障
+					return '故障'
+				}else if(state === 'fail'){
+					//审核未通过
+					return '未通过'
 				}
 			},
 			
@@ -191,25 +207,6 @@
 				arr.push(marker);
 				that.markers = arr;
 			},
-			formatUserType:function(userType){
-				switch(userType){
-					case 0 : 
-						return '普通用户';
-						break;
-					case 1:
-						return '普通会员';
-						break;
-					case 2:
-						return '超级会员';
-						break;
-					case 3:
-						return '其他用户';
-						break;
-					case 9:
-						return '体验用户';
-						break;
-				}
-			}
 		}
 	}
 </script>
