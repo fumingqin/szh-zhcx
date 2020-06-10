@@ -278,7 +278,7 @@
 			toDetail: function(item) {
 				console.log(item.id)
 				uni.navigateTo({
-					url:'../../Volunteer/CallAndDrive?orderNumber=' + item.id,
+					url:'./OrderDetail?orderNumber=' + item.id,
 				});
 			},
 		
