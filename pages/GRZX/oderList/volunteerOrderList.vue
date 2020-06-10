@@ -229,8 +229,8 @@
 									runTime: item.orderTime, //出发时间
 									endAddress: item.line.endName, //目的地
 									startAddress: item.line.startName, //出发点
-									//orderState: that.formatState(item.state), //订单状态
-									orderState:'审核未通过',
+									orderState: that.formatState(item.state), //订单状态
+									// orderState:'审核未通过',
 									state: item.state,	//订单状态
 									passengers: item.peoperNumber, //乘车人数
 								};
@@ -266,34 +266,34 @@
 			// 出租车格式化
 			formatState: function(state) {
 				switch(state){
-					case arrive:
+					case 'arrive':
 						return '已完成';
 						break;
-					case examine:
+					case 'examine':
 						return '审核中';
 						break;
-					case waiting:
+					case 'waiting':
 						return '待接单';
 						break;
-					case received:
+					case 'received':
 						return '已接单';
 						break;
-					case departure:
+					case 'departure':
 						return '到达出发地';
 						break;
-					case passenger:
+					case 'passenger':
 						return '接到乘客';
 						break;
-					case setout:
+					case 'setout':
 						return '出发';
 						break;
-					case refuse:
+					case 'refuse':
 						return '待接单';
 						break;
-					case fault:
+					case 'fault':
 						return '故障';
 						break;
-					case fail:
+					case 'fail':
 						return '审核未通过';
 						break;
 					default:
@@ -301,12 +301,13 @@
 				}
 			},
 			formatTime: function(time) {
-				var dateTime = time.replace('T', ' ');
-				if (dateTime.indexOf('1900') > -1) {
-					return '';
-				} else {
-					return dateTime;
-				}
+				// var dateTime = time.replace('T', ' ');
+				// if (dateTime.indexOf('1900') > -1) {
+				// 	return '';
+				// } else {
+				// 	return dateTime;
+				// }
+				return time;
 			},
 		}
 	}
