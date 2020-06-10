@@ -214,7 +214,9 @@
 								uni.setStorageSync('userInfo',driverList)
 								uni.setStorageSync('vehicleInfo',{
 									vehicleNumber:carNum
-								})
+								});
+								getApp().globalData.carId = data.car.id;
+								getApp().globalData.constantly();
 								//setTimeout(function(){},100)
 									uni.redirectTo({
 										url:'/pages/driver/driverOperation/taxiDriver',
