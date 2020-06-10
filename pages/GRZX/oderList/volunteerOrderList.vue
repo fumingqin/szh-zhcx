@@ -34,23 +34,14 @@
 										</view>
 										<view class="orderstatus">{{item.orderState}}</view>
 									</view>
-									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
-										<view>订单号：{{item.orderNumber}}</view>
-										<view style="display: flex;justify-content: space-between;">
-											<!-- <view>
-												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view> -->
-											<!-- <view v-if="item.state == 6" style="padding-left: 40rpx;">
-												￥{{item.factPayPrice}}
-											</view> -->
-										</view>
-										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
-										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
-										<view>上车点：{{item.startAddress}}</view>
-										<view>目的地：{{item.endAddress}}</view>
+									<view style="padding-left: 60rpx;padding-top: 10rpx;" class="orderstatus">
+										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
+										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
+										<view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view>
+										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.state != 1">
+										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
 									</view>
@@ -65,9 +56,6 @@
 					<view v-for="(item,index) in underwayArr" :key="index">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
-							<!-- <view class="booktime" v-if="item.orderType == '预约'">
-								预约日期：{{taxiFormatTime(item.appointmentTime)}}
-							</view> -->
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
@@ -76,39 +64,16 @@
 											<view class="ordertitle">{{item.title}}</view>
 										</view>
 										<view class="orderstatus">{{item.orderState}}</view>
-
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
-										<view>订单号：{{item.orderNumber}}</view>
-										<view style="display: flex;justify-content: space-between;">
-											<!-- <view>
-												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view>
-											<view v-if="item.state == 6" style="padding-left: 40rpx;">
-												￥{{item.factPrice}}
-											</view> -->
-										</view>
-										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
-										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
-										<view>上车点：{{item.startAddress}}</view>
-										<view>目的地：{{item.endAddress}}</view>
+										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
+										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
+										<view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view>
+										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
 									</view>
 									<view class="btnarea">
-										<!-- <view v-if="item.state==1 || item.state==2">
-											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
-										</view> -->
-
-										<view v-if="item.state != 1">
+										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
-										</view>
-										<view v-if="item.state == 1">
-											<button @click="toDepart(item)" style="background-color: #FC4646;color: #FFF;width: auto;">发车</button>
-										</view>
-										<!-- <view v-if="item.state == 4">
-										<button @click="toArrive(item)" style="background-color: #FC4646;color: #FFF;width: auto;">到达</button>
-									</view> -->
-										<view v-if="item.state == 4">
-											<button @click="toInputPrice(item)" style="background-color: #FC4646;color: #FFF;width: auto;">输入价格</button>
 										</view>
 									</view>
 								</view>
@@ -123,7 +88,7 @@
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="booktime" v-if="item.orderType == '预约'">
-								预约日期：{{taxiFormatTime(item.appointmentTime)}}
+								预约日期：{{formatTime(item.appointmentTime)}}
 							</view>
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
@@ -133,27 +98,12 @@
 											<view class="ordertitle">{{item.title}}</view>
 										</view>
 										<view class="orderstatus">{{item.orderState}}</view>
-
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
-										<view>订单号：{{item.orderNumber}}</view>
-										<view style="display: flex;justify-content: space-between;">
-											<!-- <view>
-												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view>
-											<view v-if="item.state == 6" style="padding-left: 40rpx;">
-												￥{{item.factPayPrice}}
-											</view> -->
-										</view>
-										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
-										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
-										<view>上车点：{{item.startAddress}}</view>
-										<view>目的地：{{item.endAddress}}</view>
-									</view>
-									<view class="btnarea">
-										<view v-if="item.state != 1">
-											<button @click="toDetail(item)" style="width: auto;">详情</button>
-										</view>
+										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
+										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
+										<view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view>
+										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
 									</view>
 								</view>
 							</view>
@@ -166,9 +116,6 @@
 					<view v-for="(item,index) in cancleArr" :key="index">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
-							<!-- <view class="booktime" v-if="item.orderType == '预约'">
-								预约日期：{{taxiFormatTime(item.appointmentTime)}}
-							</view> -->
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
@@ -177,25 +124,12 @@
 											<view class="ordertitle">{{item.title}}</view>
 										</view>
 										<view class="orderstatus">{{item.orderState}}</view>
-
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
-										<view>订单号：{{item.orderNumber}}</view>
-										<view style="display: flex;justify-content: space-between;">
-											<!-- <view>
-												客户类型：{{taxiFormatUserType(item.userType)}}
-											</view> -->
-										</view>
-										<view>下单时间：{{taxiFormatTime(item.orderTime)}}</view>
-										<view>出发时间：{{taxiFormatTime(item.runTime)}}</view>
-										<view>上车点：{{item.startAddress}}</view>
-										<view>目的地：{{item.endAddress}}</view>
-
-									</view>
-									<view class="btnarea">
-										<view v-if="item.state != 1">
-											<button @click="toDetail(item)" style="width: auto;">详情</button>
-										</view>
+										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
+										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
+										<view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view>
+										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
 									</view>
 								</view>
 							</view>
@@ -287,53 +221,35 @@
 					success(res){
 						uni.hideLoading();
 						console.log(res)
+						if(res.data.code==200){
+							for (let item of res.data.data) {
+								var obj = {
+									title:item.line.name,//线路名称
+									orderTime: item.createTime, //订单手机
+									runTime: item.orderTime, //出发时间
+									endAddress: item.line.endName, //目的地
+									startAddress: item.line.startName, //出发点
+									//orderState: that.formatState(item.state), //订单状态
+									orderState:'审核未通过',
+									state: item.state,	//订单状态
+									passengers: item.peoperNumber, //乘车人数
+								};
+								that.orderArr.push(obj);
+							};
+							that.underwayArr = that.orderArr.filter(x => {
+								return x.orderState != '已完成'&&x.orderState != '已取消'&&x.orderState != '审核未通过';
+							});
+							that.finishedArr = that.orderArr.filter(x => {
+								return x.orderState == '已完成';
+							});
+							that.cancleArr = that.orderArr.filter(x => {
+								return x.orderState == '已取消'||x.orderState == '审核未通过';
+							});
+						}else{
+							that.showToast('获取订单失败');
+						}
 					},
-				// })
-				// uni.request({
-				// 	url: that.$order.Interface.GetExpressOrderByDriverID_Driver.value,
-				// 	method: that.$order.Interface.GetExpressOrderByDriverID_Driver.method,
-				// 	data: {
-				// 		driverId: that.userInfo.driverId,
-				// 		state: -1
-				// 	},
-				// 	success: function(res) {
-				// 		uni.hideLoading();
-				// 		if (res.data.status) {
-				// 			that.orderArr = [];
-				// 			for (let item of res.data.data) {
-				// 				var obj = {
-				// 					title: '志愿者',
-				// 					orderType: item.orderType, //实时/预约
-				// 					orderTime: item.orderTime,
-				// 					appointmentTime: item.appointmentTime, //预约时间
-				// 					userType: item.userType, //用户类型：普通/会员
-				// 					runTime: item.runTime, //出发时间
-				// 					endAddress: item.endAddress,
-				// 					startAddress: item.startAddress,
-				// 					orderState: that.taxiFormatState(item.state),
-				// 					factPrice: item.factPrice,
-				// 					factPayPrice: item.factPayPrice,
-				// 					orderNumber: item.orderNumber,
-				// 					state: item.state,
-				// 					passengersPhone: item.passengersPhone
-				// 				};
-				// 				that.orderArr.push(obj);
-				// 			};
-				// 			that.underwayArr = that.orderArr.filter(x => {
-				// 				return x.orderState == '进行中';
-				// 			});
-				// 			that.finishedArr = that.orderArr.filter(x => {
-				// 				return x.orderState == '已完成';
-				// 			});
-				// 			that.cancleArr = that.orderArr.filter(x => {
-				// 				return x.orderState == '已取消';
-				// 			});
-				// 		} else {
-				// 			that.showToast(res.data.msg);
-				// 		}
-					// },
-					fail: function(res) {
-						//console.log(res);
+					fail: function(err) {
 						uni.hideLoading();
 						that.showToast('网络连接失败');
 					}
@@ -342,131 +258,49 @@
 		
 			//详情
 			toDetail: function(item) {
-				let that = this;
-				if (item.state == 0 || item.state == 1 || item.state == 2 || item.state == 3 || item.state == 4) {
-					uni.navigateTo({
-						url: '../driverOperation/confirmgetonCar?orderNumber=' + item.orderNumber
-					});
-				} else {
-					uni.navigateTo({
-						url: './orderDetail?orderNumber=' + item.orderNumber
-					});
-				}
-			},
-			//联系乘客
-			toCallPassenger: function(item) {
-				let that = this;
-				if (item.passengersPhone == null) {
-					that.showToast('获取手机号出错');
-					return;
-				}
-				uni.makePhoneCall({
-					phoneNumber: item.passengersPhone
-				});
-			},
-			//到达
-			toArrive: function(item) {
-				let that = this;
-				uni.showLoading({
-					mask: true
-				});
-				let url = '';
-				let method = '';
-				let data = '';
-				url = that.$taxi.Interface.FinishExpressOrder_Driver.value;
-				method = that.$taxi.Interface.FinishExpressOrder_Driver.method;
-				data = {
-					orderNumber: item.orderNumber
-				};
-				that.taxiRequest(url, method, data).then(res => {
-					if (res.data.status) {
-						that.showToast('到达成功');
-						uni.navigateTo({
-							url: '/pages/driver/otherExpenses?orderNumber=' + item.orderNumber,
-						})
-					} else {
-						that.showToast(res.data.msg);
-					}
-				}).catch(rej => {
-					that.showToast('网络连接失败');
-				});
-			},
-			
-		
-			//发车
-			toDepart: function(item) {
-				let that = this;
-				uni.showLoading({
-					mask: true
-				});
-				let url = '';
-				let method = '';
-				let data = '';
-				url = that.$taxi.Interface.SetoutExpressOrder_Driver.value;
-				method = that.$taxi.Interface.SetoutExpressOrder_Driver.method;
-				data = {
-					orderNumber: item.orderNumber
-				};
-		
-				that.taxiRequest(url, method, data).then(res => {
-					//成功回调
-					if (res.data.status) {
-						uni.navigateTo({
-							url: '../driver/confirmgetonCar?orderNumber=' + item.orderNumber
-						});
-					} else {
-						that.showToast(res.data.msg);
-					}
-				}).catch(rej => {
-					//失败回调
-					that.showToast('网络连接失败');
-				});
-			},
-			//出租车、专线车出发按钮
-			taxiRequest: function(url, method, data) {
-				return new Promise((resolve, reject) => {
-					uni.request({
-						url: url,
-						method: method,
-						data: data,
-						success: function(res) {
-							uni.hideLoading();
-							resolve(res);
-						},
-						fail: function(res) {
-							uni.hideLoading();
-							reject(res);
-						}
-					})
+				uni.navigateTo({
+					url:'../../Volunteer/CallAndDrive?orderNumber=' + item.id,
 				});
 			},
 		
 			// 出租车格式化
-			taxiFormatState: function(state) {
-				if (state == 6) {
-					return '已完成';
-				} else if (state == 0 || state == 1 || state == 2 || state == 3 || state == 4 || state == 5 || state == 9) {
-					return '进行中';
-				} else if (state == 8) {
-					return '已取消';
-				} else {
-					return '';
+			formatState: function(state) {
+				switch(state){
+					case arrive:
+						return '已完成';
+						break;
+					case examine:
+						return '审核中';
+						break;
+					case waiting:
+						return '待接单';
+						break;
+					case received:
+						return '已接单';
+						break;
+					case departure:
+						return '到达出发地';
+						break;
+					case passenger:
+						return '接到乘客';
+						break;
+					case setout:
+						return '出发';
+						break;
+					case refuse:
+						return '待接单';
+						break;
+					case fault:
+						return '故障';
+						break;
+					case fail:
+						return '审核未通过';
+						break;
+					default:
+						return '已取消';
 				}
 			},
-			taxiFormatUserType: function(userType) {
-				if (userType == 0) {
-					return '普通用户';
-				} else if (userType == 1) {
-					return '普通会员';
-				} else if (userType == 2) {
-					return '超级会员';
-				} else if (userType == 3) {
-					return '其他用户';
-				} else if (userType == 9) {
-					return '体验会员';
-				}
-			},
-			taxiFormatTime: function(time) {
+			formatTime: function(time) {
 				var dateTime = time.replace('T', ' ');
 				if (dateTime.indexOf('1900') > -1) {
 					return '';
@@ -516,7 +350,7 @@
 	
 	.ordertitle {
 		font-size: 36rpx;
-		padding-left: 5rpx;
+		padding-left: 22rpx;
 		font-family: Source Han Sans SC;
 		font-weight: bold;
 		color: rgba(44, 45, 45, 1);
