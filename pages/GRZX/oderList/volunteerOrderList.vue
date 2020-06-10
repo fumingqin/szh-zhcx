@@ -37,12 +37,13 @@
 									<view style="padding-left: 60rpx;padding-top: 10rpx;" class="orderstatus">
 										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
-										<view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view>
+										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
-											<button @click="toDetail(item)" style="width: auto;">详情</button>
+											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 									</view>
 								</view>
@@ -68,8 +69,9 @@
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
-										<view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view>
+										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
@@ -102,8 +104,14 @@
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
-										<view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view>
+										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
+											<button @click="toDetail(item)" style="width: auto;">详情</button>
+										</view>
 									</view>
 								</view>
 							</view>
@@ -128,8 +136,14 @@
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
-										<view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view>
+										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
+											<button @click="toDetail(item)" style="width: auto;">详情</button>
+										</view>
 									</view>
 								</view>
 							</view>
@@ -186,7 +200,7 @@
 			var that = this;
 			if (that.userInfo != '') {
 				uni.showLoading({
-					mask: true
+					title:'加载订单中...',
 				});
 				that.getVolunteerOrder();
 			}
@@ -210,6 +224,10 @@
 			},
 			getVolunteerOrder: function() {
 				let that = this;
+				that.orderArr=[];
+				that.underwayArr=[];
+				that.finishedArr=[];
+				that.cancleArr=[];
 				console.log(that.userInfo.volunteerId,'id')
 				uni.stopPullDownRefresh();
 				uni.request({
@@ -224,15 +242,15 @@
 						if(res.data.code==200){
 							for (let item of res.data.data) {
 								var obj = {
+									id:item.id,  //订单ID
 									title:item.line.name,//线路名称
-									orderTime: item.createTime, //订单手机
+									//orderTime: item.createTime, //订单时间
 									runTime: item.orderTime, //出发时间
 									endAddress: item.line.endName, //目的地
 									startAddress: item.line.startName, //出发点
 									orderState: that.formatState(item.state), //订单状态
-									// orderState:'审核未通过',
 									state: item.state,	//订单状态
-									passengers: item.peoperNumber, //乘车人数
+									peoperNumber: item.peoperNumber, //乘车人数
 								};
 								that.orderArr.push(obj);
 							};
@@ -258,6 +276,7 @@
 		
 			//详情
 			toDetail: function(item) {
+				console.log(item.id)
 				uni.navigateTo({
 					url:'../../Volunteer/CallAndDrive?orderNumber=' + item.id,
 				});

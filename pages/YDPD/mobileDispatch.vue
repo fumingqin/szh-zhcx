@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<text class="titleClass">派单员</text>
-		<image src="../../static/btnGrzx.png" class="btnGrzx" @click="navTouser"></image>
+		<!-- <image src="../../static/btnGrzx.png" class="btnGrzx" @click="navTouser"></image> -->
 		<view class="boxClass">
 			<view class="box1">
 				<text class="fontStyle">平台接单量</text>

@@ -209,6 +209,7 @@
 									state:data.state,
 									gender:data.sex,
 									type:'司机',
+									carId:data.car.id,
 								}
 								uni.setStorageSync('userInfo',driverList)
 								uni.setStorageSync('vehicleInfo',{
