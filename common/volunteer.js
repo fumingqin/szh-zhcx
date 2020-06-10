@@ -13,7 +13,12 @@ const Interface={
 		method:'POST',
 		pages: [],
 	},
-	
+	getorderDetail:{
+		value:Url+'/api/volunteer/get-order-detail',
+		name:'根据订单id获取详情',
+		method:'GET',
+		pages: [],
+	},
 }
 
 

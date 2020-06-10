@@ -71,6 +71,13 @@
 		{
 			"path": "pages/GRZX/oderList/volunteerOrderList", //志愿者订单列表
 			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/GRZX/oderList/OrderDetail", //志愿者订单详情
+			"style": {
 				"navigationStyle": "custom"
 			}
 		},
