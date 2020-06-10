@@ -371,24 +371,34 @@
 			
 			formatState:function(state){
 				if(state === 'examine'){
+					//调度员审核
 					return '待审核'
 				}else if(state === 'waiting'){
+					//待接单
 					return '待接单'
 				}else if(state === 'received'){
+					//已接单
 					return '已接单'
 				}else if(state === 'departure'){
+					//到达出发地
 					return '待上车'
 				}else if(state === 'passenger'){
+					//接到乘客
 					return '进行中'
 				}else if(state === 'setout'){
+					//出发
 					return '已出发' 
 				}else if(state === 'arrive'){
+					//到达
 					return '已到达'
 				}else if(state === 'refuse'){
-					return '已拒绝'
+					//拒接
+					return '已拒接'
 				}else if(state === 'fault'){
+					//故障
 					return '故障'
 				}else if(state === 'fail'){
+					//审核未通过
 					return '未通过'
 				}
 			},
