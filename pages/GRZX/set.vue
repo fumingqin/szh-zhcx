@@ -56,7 +56,7 @@
 						if(e.confirm){
 							uni.removeStorageSync('userInfo');
 							setTimeout(()=>{
-								uni.redirectTo({
+								uni.reLaunch({
 									url:'/pages/GRZX/userLogin'
 								})
 							}, 200)
