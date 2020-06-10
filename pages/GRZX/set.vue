@@ -57,7 +57,7 @@
 							uni.removeStorageSync('userInfo');
 							getApp().globalData.closeUpload();
 							setTimeout(()=>{
-								uni.redirectTo({
+								uni.reLaunch({
 									url:'/pages/GRZX/userLogin'
 								})
 							}, 200)

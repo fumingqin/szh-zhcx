@@ -9,7 +9,7 @@
 			<view style="width: 700rpx;margin-left: 25rpx;margin-right: 25rpx;">
 				<view style="flex-direction: row;background-color: #FFFFFF;width: 380rpx;border-radius: 48px;padding: 10rpx;align-items: center;">
 					<view>
-						<image src="../../static/Order/HeadPhoto.png" style="width: 84rpx;height: 84rpx;"></image>
+						<image src="../../../static/Volunteer/HeadPhoto.png" style="width: 84rpx;height: 84rpx;"></image>
 					</view>
 					<view style="margin-left: 10rpx;">
 						<view>
@@ -36,13 +36,13 @@
 					</view> -->
 				</view>
 
-				</view>
+			</view>
 		</scroll-view>
-		</template>
+	</view>
+</template>
 
 <script>
-	import $taxi from '../../common/Czc.js';//出租车
-	import uniIcons from "@/components/Order/uni-icons/uni-icons.vue";
+	import uniIcons from "@/components/uni-icons/uni-icons.vue";
 	export default {
 		components: {
 			uniIcons
@@ -57,9 +57,9 @@
 				markers: [],
 				mapHeight: '',
 				viewHeight: '',
-				orderNumber:'',
-				driverName:'',
-				driverPhone:'',
+				orderNumber: '',
+				driverName: '',
+				driverPhone: '',
 				vehicleNumber: '',
 				startLon: "", //开始
 				startLat: "",
@@ -68,12 +68,12 @@
 			}
 		},
 		onLoad(option) {
-			let that=this;
+			let that = this;
 			that.getOrderDetailInfo(option.orderNumber);
-			that.orderNumber=option.orderNumber;
+			that.orderNumber = option.orderNumber;
 		},
 		mounted() {
-			let that=this;
+			let that = this;
 			uni.getSystemInfo({
 				//设置地图高度为可使用的高度
 				success: function(res) {
@@ -84,17 +84,17 @@
 		},
 		methods: {
 			//-------------------------------请求订单详情数据-------------------------------
-			getOrderDetailInfo:function(param){
+			getOrderDetailInfo: function(param) {
 				var that = this;
 				uni.request({
-					url:that.$volunteer.Interface.getorderDetail.value,
-					method:that.$volunteer.Interface.getorderDetail.method,
+					url: that.$volunteer.Interface.getorderDetail.value,
+					method: that.$volunteer.Interface.getorderDetail.method,
 					data: {
-						orderId: that.orderNumber
+						orderId: param
 					},
 					success(res) {
 						let data = res.data.data;
-							if (res.data.code==200) {
+						if (res.data.code == 200) {
 							console.log(res.data)
 							that.startLon = data.line.startLng; //起点
 							that.startLat = data.line.startLat;
@@ -106,17 +106,17 @@
 							that.setMarker(1, that.startLon, that.startLat, '../../../static/Volunteer/Start.png');
 							that.setMarker(2, that.endLon, that.endLat, '../../../static/Volunteer/End.png');
 							// that.getDirectionDriving(that.orderInfo.startLon + ',' + that.orderInfo.startLat, that.orderInfo.endtLon + ',' + that.orderInfo.endLat);
-						}else{
+						} else {
 							uni.showToast({
-								title:res.data.msg,
-								icon:"none"
+								title: res.data.msg,
+								icon: "none"
 							})
 						}
 					},
 					fail(res) {
 						uni.showToast({
-							title:"网络连接失败",
-							icon:"none"
+							title: "网络连接失败",
+							icon: "none"
 						})
 					}
 				})
@@ -145,8 +145,8 @@
 				arr.push(marker);
 				that.markers = arr;
 			},
-			formatDriverName:function(name){
-				return name.substring(0,1) + '师傅';
+			formatDriverName: function(name) {
+				return name.substring(0, 1) + '师傅';
 			}
 			// getDirectionDriving: function(startLonLat, endLonLat) {
 			// 	//调用高德api取得路径规划并绘制线路 
@@ -204,51 +204,56 @@
 	.map {
 		width: 750rpx;
 	}
+
 	/* 点击文字框后样式 */
 	.cur {
-		height:54rpx;
+		height: 54rpx;
 		border-width: 1px;
-		border-radius:8rpx; 
-		justify-content: center; 
-		padding: 8rpx; 
+		border-radius: 8rpx;
+		justify-content: center;
+		padding: 8rpx;
 		margin-top: 30rpx;
 		margin-right: 20rpx;
 		background-color: #FC4646;
 		border-color: #FC4646;
 	}
+
 	/* 点击文字后样式 */
-	.color{
+	.color {
 		color: #FFFFFF;
-		font-size:28rpx;
-		font-family:Source Han Sans SC;
-		font-weight:300;
+		font-size: 28rpx;
+		font-family: Source Han Sans SC;
+		font-weight: 300;
 	}
-	.unCur{
-		height:54rpx;
+
+	.unCur {
+		height: 54rpx;
 		border-width: 1px;
 		border-color: #AAAAAA;
-		border-radius:8rpx; 
-		justify-content: center; 
-		padding: 8rpx; 
+		border-radius: 8rpx;
+		justify-content: center;
+		padding: 8rpx;
 		margin-top: 30rpx;
 		margin-right: 20rpx;
 	}
-	.unColor{
-		color:#AAAAAA;
-		font-size:28rpx;
-		font-family:Source Han Sans SC;
-		font-weight:300;
+
+	.unColor {
+		color: #AAAAAA;
+		font-size: 28rpx;
+		font-family: Source Han Sans SC;
+		font-weight: 300;
 	}
-	.textArea{
-		height:164rpx;
+
+	.textArea {
+		height: 164rpx;
 		border-width: 1px;
 		padding: 10rpx;
 		border-color: #AAAAAA;
-		border-radius:6rpx;
+		border-radius: 6rpx;
 		margin-top: 30rpx;
-		font-size:28rpx;
-		font-family:Source Han Sans SC;
-		font-weight:300;
-		color:#999999;
+		font-size: 28rpx;
+		font-family: Source Han Sans SC;
+		font-weight: 300;
+		color: #999999;
 	}
 </style>

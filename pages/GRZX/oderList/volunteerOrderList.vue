@@ -42,7 +42,7 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 									</view>
@@ -74,8 +74,8 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
-											<button @click="toDetail(item)" style="width: auto;">详情</button>
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
+											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 									</view>
 								</view>
@@ -109,8 +109,8 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
-											<button @click="toDetail(item)" style="width: auto;">详情</button>
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
+											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 									</view>
 								</view>
@@ -141,8 +141,8 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState != '已完成'&&item.orderState != '已取消'&&item.orderState != '审核未通过'">
-											<button @click="toDetail(item)" style="width: auto;">详情</button>
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
+											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 									</view>
 								</view>
@@ -278,7 +278,7 @@
 			toDetail: function(item) {
 				console.log(item.id)
 				uni.navigateTo({
-					url:'../../Volunteer/CallAndDrive?orderNumber=' + item.id,
+					url:'./OrderDetail?orderNumber=' + item.id,
 				});
 			},
 		
