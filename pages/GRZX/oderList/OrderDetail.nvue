@@ -31,9 +31,9 @@
 						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">司机号码：{{driverPhone}}</text>
 						<!-- <text style="font-size:28rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">元（已优惠9.45元）</text> -->
 					</view>
-					<!-- <view>
-						<text @click="payDetail" style="font-size:26rpx;font-family:Source Han Sans SC;font-weight:400;color:#4281FF;">费用明细></text>
-					</view> -->
+					<view>
+						<image src="../../../static/trafficPolice/Phone.png" @click="call" style="width: 60rpx;height: 60rpx;"></image>
+					</view>
 				</view>
 
 			</view>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+	import $taxi from '@/common/Czc.js';
 	import uniIcons from "@/components/uni-icons/uni-icons.vue";
 	export default {
 		components: {
@@ -71,6 +72,7 @@
 			let that = this;
 			that.getOrderDetailInfo(option.orderNumber);
 			that.orderNumber = option.orderNumber;
+			that.getDirectionDriving();
 		},
 		mounted() {
 			let that = this;
@@ -121,6 +123,13 @@
 					}
 				})
 			},
+			call: function() {
+				//呼叫司机
+				let that = this;
+				uni.makePhoneCall({
+					phoneNumber: that.driverPhone
+				});
+			},
 			back: function() {
 				var that = this;
 				uni.navigateBack({});
@@ -147,55 +156,38 @@
 			},
 			formatDriverName: function(name) {
 				return name.substring(0, 1) + '师傅';
-			}
-			// getDirectionDriving: function(startLonLat, endLonLat) {
-			// 	//调用高德api取得路径规划并绘制线路 
-			// 	var that = this;
-			// 	uni.request({
-			// 		url: taxi.InterfaceAddress[0],
-			// 		data: {
-			// 			startLonLat: startLonLat,
-			// 			endLonLat: endLonLat,
-			// 		},
-			// 		method: "GET",
-			// 		success: function(res) {
-			// 			//日后会加入定时，此处需清空
-			// 			that.points = [];
-			// 			that.polyline = [];
-
-			// 			var polylineArr = [];
-			// 			var points = [];
-
-			// 			polylineArr = res.data.Polyline;
-			// 			for (var i = 0; i < polylineArr.length; i++) {
-			// 				var arr = polylineArr[i].split(';');
-			// 				for (var j = 0; j < arr.length; j++) {
-			// 					points.push(arr[j]);
-			// 				}
-			// 			}
-			// 			//根据文件建设对象经纬度数组
-			// 			for (var i = 0; i < points.length; i++) {
-			// 				var arr = points[i].split(',');
-			// 				var obj = {
-			// 					longitude: arr[0],
-			// 					latitude: arr[1]
-			// 				}
-			// 				that.points.push(obj);
-			// 			}
-			// 			var obj = {
-			// 				points: that.points,
-			// 				color: "#4BDD25",
-			// 				arrowLine: true,
-			// 				width: 5
-			// 			};
-			// 			that.polyline.push(obj);
-			// 		},
-			// 		fail: function(res) {
-			// 			console.log(res);
-			// 		}
-			// 	});
-			// },
-
+			},
+			getDirectionDriving: function() {
+				//路径规划
+				var that = this;
+				uni.request({
+					url:$taxi.Interface.track.value,
+					method: $taxi.Interface.track.method,
+					data: {
+						orderId:that.orderNumber
+					},
+					success: function(res) {
+						let data = res.data.data;
+						if(res.data.code===200){
+							for (let i of data) {
+								var obj = {
+									longitude: i.lng,
+									latitude: i.lat
+								}
+								that.points.push(obj);
+							}
+							var obj = {
+								points: that.points,
+								color: "#4BDD25",
+								arrowLine: true,
+								width: 5
+							};
+							that.polyline.push(obj);
+						}
+					},
+				});
+			},
+			
 		}
 	}
 </script>
