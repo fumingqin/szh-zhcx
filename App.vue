@@ -7,25 +7,32 @@
 			carId:0,
 			uploadMyLocation: function() {
 				let that = this;
+				
 				uni.getLocation({
 					type: 'gcj02 ',
 					success: function(res) {
-					
 						uni.request({
 							url: $taxi.Interface.reportAddress.value, 
 							method:$taxi.Interface.reportAddress.method,
 							data: {
 								carId:that.carId,
+								lon:res.longitude,
+								lat:res.latitude,
 							},
 							success:function(res){
 								console.log(res);
 							},
 							fail:function(res){
-							    console.log(res);
+								console.log(res);
 							}
 						});
-					}
+					},
+					fail:function(res){
+						
+					},
 				});
+				
+				
 			},
 			constantly: function() {
 				let that = this;
