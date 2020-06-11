@@ -261,7 +261,7 @@
 								return x.orderState == '已完成';
 							});
 							that.cancleArr = that.orderArr.filter(x => {
-								return x.orderState == '已取消'||x.orderState == '审核未通过';
+								return x.orderState == '已取消';
 							});
 						}else{
 							that.showToast('获取订单失败');
