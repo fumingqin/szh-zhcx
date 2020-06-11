@@ -73,7 +73,7 @@ const Interface = {
 	reportAddress:{
 		value:Url1 + '/api/driver/report-address',
 		name:'司机端持续上报经纬度',
-		method:'GET',
+		method:'POST',
 		pages:[]
 	},
 	terminus:{

@@ -4,7 +4,7 @@
 		<image src="../../static/GRZX/backgroudimg.png" style="width: 100%; position: absolute; bottom: 0; height: 100%;"></image>
 		
 		<!-- 司机登录 -->
-		<view class="inputContent height1" v-if="userType=='司机'">
+		<view class="inputContent height" v-if="userType=='司机'">
 			<view class="inputItem1">
 				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
 				<view class="selectClass">
@@ -15,21 +15,21 @@
 			</view>
 			<view class="inputItem phoneNum">
 				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
-				<input type="number" placeholder="请输入司机编号或者手机号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
+				<input type="number" placeholder="请输入司机编号或手机号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
 			</view>
 			<view class="inputItem Captcha">
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
 				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange" />
 			</view>
-			<view class="inputItem CarNum">
+			<!-- <view class="inputItem CarNum">
 				<image src="../../static/GRZX/carNum.png" class="iconClass4"></image>
 				<input placeholder="请绑定车牌号" maxlength="8" class="inputClass" name="carNum" data-key="carNum" :value="carNum" @input="inputChange" @blur="checkCarNum"/>
-			</view>
-			<text class="fontStyle top1" @click="pwdClick">登录</text>
+			</view> -->
+			<text class="fontStyle top" @click="pwdClick">登录</text>
 		</view>
 		
 		<!-- 志愿者登录 -->
-		<view class="inputContent height2" v-if="userType=='志愿者'">
+		<view class="inputContent height" v-if="userType=='志愿者'">
 			<view class="inputItem1">
 				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
 				<view class="selectClass">
@@ -40,17 +40,17 @@
 			</view>
 			<view class="inputItem phoneNum">
 				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
-				<input type="number" placeholder="请输入志愿者编号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
+				<input type="number" placeholder="请输入志愿者编号或手机号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
 			</view>
 			<view class="inputItem Captcha">
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
 				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange" />
 			</view>
-			<text class="fontStyle top2" @click="pwdClick">登录</text>
+			<text class="fontStyle top" @click="pwdClick">登录</text>
 		</view>
 		
 		<!-- 交警登录 -->
-		<view class="inputContent height2" v-if="userType=='交警'">
+		<view class="inputContent height" v-if="userType=='交警'">
 			<view class="inputItem1">
 				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
 				<view class="selectClass">
@@ -67,7 +67,7 @@
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
 				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange" />
 			</view>
-			<text class="fontStyle top2" @click="pwdClick">登录</text>
+			<text class="fontStyle top" @click="pwdClick">登录</text>
 		</view>
 		
 		<!-- logo -->
@@ -147,22 +147,12 @@
 						title:'请输入密码',
 						icon:'none',
 					})
-				}else if(that.userType=="司机"&&that.carNum==""){
-					uni.showToast({
-						title:'请输入车牌号',
-						icon:'none',
-					})
-				}else if(that.userType=="司机"&&!that.isLicensePlate(that.carNum)){
-					uni.showToast({
-						title:'您输入的车牌号有误',
-						icon:'none',
-					})
 				}else{
-					that.login(that.number,that.password,that.userType,that.carNum);
+					that.login(that.number,that.password,that.userType);
 				}
 			},
 			//--------------登录-------------
-			login(number,password,userType,carNum){
+			login(number,password,userType){
 				var type='';
 				if(userType=="司机"){
 					type='driver';
@@ -183,7 +173,7 @@
 						no:number,
 						password:password,
 						type:type,
-						licensePlate:carNum,
+						licensePlate:'闽CT0007',
 					},
 					method:that.$Grzx.Interface.login.method,
 					success(res) {
@@ -214,7 +204,9 @@
 								uni.setStorageSync('userInfo',driverList)
 								uni.setStorageSync('vehicleInfo',{
 									vehicleNumber:carNum
-								})
+								});
+								getApp().globalData.carId = data.car.id;
+								getApp().globalData.constantly();
 								//setTimeout(function(){},100)
 									uni.redirectTo({
 										url:'/pages/driver/driverOperation/taxiDriver',
@@ -320,7 +312,7 @@
 	.height1{
 		height: 900upx;
 	}
-	.height2{
+	.height{
 		height: 770upx;
 	}
 	.inputItem{		//输入区域的样式
@@ -405,7 +397,7 @@
 	.top1{
 		top: 740upx;
 	}
-	.top2{
+	.top{
 		top:600upx;
 	}
 	.switchClass{ //切换登录方式
