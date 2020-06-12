@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view style="position: relative;">
-			<image src="../../static/Volunteer/advertisement.png" style="width: 750rpx;height: 400rpx;"></image>
+			<image :src="volunteerImg" style="width: 750rpx;height: 400rpx;"></image>
 			<view style="position: fixed;top: 56rpx;left: 20rpx; z-index: 99999;" @click="toPersonal">
 				<uni-icons type="contact" size="34"></uni-icons>
 			</view>
@@ -125,6 +125,7 @@
 				userInfo: '',
 				// vehicleInfo:null,
 				seat: 0,
+				volunteerImg:'',
 			}
 		},
 		onLoad() {
@@ -143,8 +144,26 @@
 			content.setLineCap('round')
 			//设置两条线连接处更加圆润
 			content.setLineJoin('round')
+			that.loadImg();
 		},
 		methods: {
+			// ---------------------------加载图片----------------------------
+			loadImg(){
+				var that=this;
+				uni.request({
+					url:that.$volunteer.GetImage.url,
+					data:{
+						model:10,
+					},
+					method:'POST',
+					success(res) {
+						var image=res.data.data.filter(item => {
+							return item.type=='shizhonghui2';
+						})
+						that.volunteerImg=image[0].imageUrl;
+					}
+				})
+			},
 			//---------------------------------点击起点站---------------------------------
 			startStationTap() {
 				var that = this;
