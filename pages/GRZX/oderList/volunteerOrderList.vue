@@ -336,7 +336,7 @@
 						return '到达出发地';
 						break;
 					case 'passenger':
-						return '接到乘客';
+						return '已上车';
 						break;
 					case 'setout':
 						return '出发';
