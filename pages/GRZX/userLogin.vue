@@ -15,7 +15,7 @@
 			</view>
 			<view class="inputItem phoneNum">
 				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
-				<input type="number" placeholder="请输入司机编号或手机号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
+				<input placeholder="请输入司机编号或手机号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
 			</view>
 			<view class="inputItem Captcha">
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
@@ -40,7 +40,7 @@
 			</view>
 			<view class="inputItem phoneNum">
 				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
-				<input type="number" placeholder="请输入志愿者编号或手机号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
+				<input placeholder="请输入志愿者编号或手机号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
 			</view>
 			<view class="inputItem Captcha">
 				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
