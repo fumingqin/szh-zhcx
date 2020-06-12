@@ -46,6 +46,16 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '到达出发地'">
+											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
+										</view>
+									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '接到乘客'">
+											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
+										</view>
+									</view>
 								</view>
 							</view>
 						</view>
@@ -76,6 +86,16 @@
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
+										</view>
+									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '到达出发地'">
+											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
+										</view>
+									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '接到乘客'">
+											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
 										</view>
 									</view>
 								</view>
@@ -113,6 +133,16 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '到达出发地'">
+											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
+										</view>
+									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '接到乘客'">
+											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
+										</view>
+									</view>
 								</view>
 							</view>
 						</view>
@@ -145,6 +175,16 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '到达出发地'">
+											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
+										</view>
+									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '接到乘客'">
+											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
+										</view>
+									</view>
 								</view>
 							</view>
 						</view>
@@ -158,6 +198,7 @@
 
 <script>
 	import uniTransition from '@/components/uni-transition/uni-transition.vue';
+	import $taxi from '@/common/Czc.js';
 	export default {
 		components: {
 			uniTransition
@@ -240,20 +281,55 @@
 						uni.hideLoading();
 						console.log(res)
 						if(res.data.code==200){
+							var obj=new Object();
 							for (let item of res.data.data) {
-								var obj = {
-									id:item.id,  //订单ID
-									title:item.line.name,//线路名称
-									//orderTime: item.createTime, //订单时间
-									runTime: item.orderTime, //出发时间
-									endAddress: item.line.endName, //目的地
-									startAddress: item.line.startName, //出发点
-									orderState: that.formatState(item.state), //订单状态
-									state: item.state,	//订单状态
-									peoperNumber: item.peoperNumber, //乘车人数
-								};
-								that.orderArr.push(obj);
+								if((item.state=="examine"||item.state=="fail")&&item.parentId==null){
+									//显示父订单
+									obj = {
+										id:item.id,  //订单ID
+										title:item.line.name,//线路名称
+										//orderTime: item.createTime, //订单时间
+										runTime: item.orderTime, //出发时间
+										endAddress: item.line.endName, //目的地
+										startAddress: item.line.startName, //出发点
+										orderState: that.formatState(item.state), //订单状态
+										state: item.state,	//订单状态
+										peoperNumber: item.peoperNumber, //乘车人数
+									};
+									that.orderArr.push(obj);
+								}else if(item.state=="waiting"&&item.peoperNumber>0&&item.parentId==null){
+									//显示父订单
+									obj = {
+										id:item.id,  //订单ID
+										title:item.line.name,//线路名称
+										//orderTime: item.createTime, //订单时间
+										runTime: item.orderTime, //出发时间
+										endAddress: item.line.endName, //目的地
+										startAddress: item.line.startName, //出发点
+										orderState: '待派单', //订单状态
+										state: item.state,	//订单状态
+										peoperNumber: item.peoperNumber, //乘车人数
+									};
+									that.orderArr.push(obj);
+								}else if(item.parentId!=null){ 
+									//显示子订单
+									obj = {
+										id:item.id,  //订单ID
+										title:item.line.name,//线路名称
+										//orderTime: item.createTime, //订单时间
+										runTime: item.orderTime, //出发时间
+										endAddress: item.line.endName, //目的地
+										startAddress: item.line.startName, //出发点
+										orderState: that.formatState(item.state), //订单状态
+										state: item.state,	//订单状态
+										peoperNumber: item.peoperNumber, //乘车人数
+									};
+									that.orderArr.push(obj);
+								}
+								
+								
 							};
+							console.log(that.orderArr)
 							that.underwayArr = that.orderArr.filter(x => {
 								return x.orderState != '已完成'&&x.orderState != '已取消'&&x.orderState != '审核未通过';
 							});
@@ -261,7 +337,7 @@
 								return x.orderState == '已完成';
 							});
 							that.cancleArr = that.orderArr.filter(x => {
-								return x.orderState == '已取消'||x.orderState == '审核未通过';
+								return x.orderState == '已取消';
 							});
 						}else{
 							that.showToast('获取订单失败');
@@ -301,7 +377,7 @@
 						return '到达出发地';
 						break;
 					case 'passenger':
-						return '接到乘客';
+						return '已上车';
 						break;
 					case 'setout':
 						return '出发';
@@ -327,6 +403,68 @@
 				// 	return dateTime;
 				// }
 				return time;
+			},
+			//长按确认乘客上车
+			confirmgetonCar: function(item) { 
+				let that = this;
+				uni.showLoading({
+					mask:true
+				});
+				uni.request({
+					url:$taxi.Interface.confirmBoarding.value,
+					method:$taxi.Interface.confirmBoarding.method,
+					data:{
+						orderId:item.id
+					},
+					success:function(res){
+						uni.hideLoading();
+						let data = res.data.data;
+						if(res.data.code===200){
+							uni.startPullDownRefresh();//刷新订单列表
+							// that.setConfirmgetonCar();
+							// that.state = 'passenger';
+							// Map.openMap(parseFloat(that.endLat) ,parseFloat(that.endLon) , that.endAddress, 'gcj02');
+						} else {
+							that.showToast(res.data.msg);
+						}
+					},
+					fail:function(res){
+						uni.hideLoading();
+						that.showToast('网络连接失败');
+					}
+				})
+			},
+			//长按确认到达目的地
+			confirmGetToDestination: function() {
+				let that = this;
+				uni.showLoading({
+					mask:true
+				});
+				uni.request({
+					url:$taxi.Interface.terminus.value,
+					method:$taxi.Interface.terminus.method,
+					data:{
+						orderId:item.id
+					},
+					success:function(res){
+						uni.hideLoading();
+						if(res.data.code===200){
+							uni.startPullDownRefresh();//刷新订单列表
+							//取消由 setInterval 设置的定时器
+							// clearInterval(that.directionInterval);
+							// getApp().globalData.orderNumber = '';
+							// uni.redirectTo({
+							// 	url: '/pages/driver/driverOperation/orderComplete'
+							// })
+						} else {
+							that.showToast(res.data.msg);
+						}
+					},
+					fail:function(res){
+						uni.hideLoading();
+						that.showToast('网络连接失败');
+					}
+				})
 			},
 		}
 	}

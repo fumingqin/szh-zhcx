@@ -20,6 +20,12 @@ const Interface={
 		pages: [],
 	},
 }
+const GetImage={
+	url:'https://zntc.145u.net:9099/api/zhcx/GetImage',
+	name:'获取图片',
+	method:'POST',
+	pages: [],
+}
 
 
 
@@ -27,4 +33,5 @@ const Interface={
 // 接口声明区
 export default {
 	Interface,
+	GetImage
 }

@@ -65,7 +65,7 @@
 			</view>
 			<view class="boxClass borderTop" @click="setClick">
 				<image src="../../static/GRZX/tubiao_shezhi.png" class="iconClass1"></image>
-				<text class="fontStyle">设置</text>
+				<text class="fontStyle">设&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置</text>
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
 			</view>
 		</view>	
@@ -109,7 +109,7 @@
 					uni.navigateTo({
 						url:'/pages/driver/order/Order?current='+e,
 					})
-				}else if(that.userType=="志愿者"){
+				}else if(that.userType=="志愿者"||that.userType=="随车志愿者"){
 					uni.navigateTo({
 						url:'/pages/GRZX/oderList/volunteerOrderList?current='+e,
 					})
@@ -236,7 +236,7 @@
 		top: 10upx;
 	}
 	.fontClass{
-		width: 65%;
+		width: 74%;
 		text-align: center;
 		font-size: 20upx;
 		color: #FFFFFF;
