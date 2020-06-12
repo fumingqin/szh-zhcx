@@ -173,7 +173,7 @@
 						no:number,
 						password:password,
 						type:type,
-						licensePlate:'闽CT0007',
+						licensePlate:'闽CT0012',
 					},
 					method:that.$Grzx.Interface.login.method,
 					success(res) {
@@ -202,9 +202,7 @@
 									carId:data.car.id,
 								}
 								uni.setStorageSync('userInfo',driverList)
-								uni.setStorageSync('vehicleInfo',{
-									vehicleNumber:carNum
-								});
+								uni.setStorageSync('vehicleInfo',data.car);
 								getApp().globalData.carId = data.car.id;
 								getApp().globalData.constantly();
 								//setTimeout(function(){},100)

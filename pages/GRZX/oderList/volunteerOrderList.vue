@@ -256,6 +256,20 @@
 										peoperNumber: item.peoperNumber, //乘车人数
 									};
 									that.orderArr.push(obj);
+								}else if(item.state=="waiting"&&item.peoperNumber>0&&item.parentId==null){
+									//显示父订单
+									obj = {
+										id:item.id,  //订单ID
+										title:item.line.name,//线路名称
+										//orderTime: item.createTime, //订单时间
+										runTime: item.orderTime, //出发时间
+										endAddress: item.line.endName, //目的地
+										startAddress: item.line.startName, //出发点
+										orderState: '待派单', //订单状态
+										state: item.state,	//订单状态
+										peoperNumber: item.peoperNumber, //乘车人数
+									};
+									that.orderArr.push(obj);
 								}else if(item.parentId!=null){ 
 									//显示子订单
 									obj = {
