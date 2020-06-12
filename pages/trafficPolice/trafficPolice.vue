@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view style="position: relative;z-index: -1;">
-			<image src="../../static/trafficPolice/advertisement.png" style="width: 750rpx;height: 760rpx;"></image>
+			<image :src="trafficpoliceImg" style="width: 750rpx;height: 760rpx;"></image>
 		</view>
 		<view style="margin: 0 30rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 450rpx; margin-top: -140rpx;">
 			<view style="margin-left: 53upx;margin-right: 53upx;margin-top:76upx ;">
@@ -43,8 +43,12 @@
 				keyType: 0,
 				vehicleNumber: "",
 				keyTitle: '汽车键盘',
+				trafficpoliceImg:"",
 
 			}
+		},
+		onLoad(){
+			this.loadImg();
 		},
 		methods: {
 			/* async load() {
@@ -56,6 +60,23 @@
 					}
 				});
 			}, */
+			// ---------------------------加载图片----------------------------
+			loadImg(){
+				var that=this;
+				uni.request({
+					url:that.$volunteer.GetImage.url,
+					data:{
+						model:10,
+					},
+					method:'POST',
+					success(res) {
+						var image=res.data.data.filter(item => {
+							return item.type=='shizhonghui1';
+						})
+						that.trafficpoliceImg=image[0].imageUrl;
+					}
+				})
+			},
 			//本页面统一调用此方法
 			showToast: function(title, icon = 'none') {
 				uni.showToast({
