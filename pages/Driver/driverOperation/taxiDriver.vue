@@ -46,12 +46,6 @@
 					<button v-show="item.state === 'waiting'" @click="receipt(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
 						接单
 					</button>
-					<button v-show="item.state === 'waiting'" @click="reject(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
-						拒接
-					</button>
-					<!-- <button v-show="item.state === 'received'" @click="driverLeaves(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
-						发车
-					</button> -->
 				</view>
 			</view>
 			
@@ -129,36 +123,6 @@
 					url:'../../GRZX/user'
 				});
 			},
-			/* driverLeaves:function(item){
-				//发车
-				let that = this;
-				uni.showLoading({
-					mask: true
-				});
-				uni.request({
-					url:that.$taxi.Interface.driverLeaves.value,
-					method:that.$taxi.Interface.driverLeaves.method,
-					data:{
-						orderId:item.id
-					},
-					success:function(res){
-						uni.hideLoading();
-						if (res.data.code===200) {
-							that.showToast('发车成功');
-							setTimeout(function(){
-								uni.navigateTo({
-									url: '/pages/driver/driverOperation/confirmgetonCar?orderNumber=' + item.id,
-								});
-							},1500);
-						}
-					},
-					fail:function(res){
-						uni.hideLoading();
-						that.showToast('网络连接失败');
-					}
-				})
-			}, */
-					
 			receipt: function(item) {
 				//接单
 				let that = this;
@@ -184,32 +148,6 @@
 						that.showToast('网络连接失败');
 					}
 				})
-			},
-			reject:function(item){
-				//拒绝
-				let that = this;
-				uni.showLoading({
-					mask: true
-				});
-				uni.request({
-					url: that.$taxi.Interface.rejectOrder.value,
-					method: that.$taxi.Interface.rejectOrder.method,
-					data: {
-						orderId: item.id,
-					},
-					success: function(res) {
-						uni.hideLoading();
-						if (res.data.code===200) {
-							that.showToast('拒接成功');
-						} else {
-							that.showToast(res.data.msg);
-						}
-					},
-					fail: function(res) {
-						uni.hideLoading();
-						that.showToast('网络连接失败');
-					}
-				});
 			},
 			
 			toDetail:function(item){

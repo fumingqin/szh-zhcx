@@ -39,10 +39,10 @@
 									</view>
 									
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
-										<view>订单号：{{item.orderNumber}}</view>
+										<view>订单号：{{item.no}}</view>
 										<view>上车时间：{{item.orderTime}}</view>
-										<view>起点：{{item.startAddress}}</view>
-										<view>终点：{{item.endAddress}}</view>
+										<view>起点：{{item.startName}}</view>
+										<view>终点：{{item.endName}}</view>
 									</view>
 									
 									<view class="btnarea">
@@ -84,10 +84,10 @@
 									</view>
 									
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
-										<view>订单号：{{item.orderNumber}}</view>
+										<view>订单号：{{item.no}}</view>
 										<view>上车时间：{{item.orderTime}}</view>
-										<view>起点：{{item.startAddress}}</view>
-										<view>终点：{{item.endAddress}}</view>
+										<view>起点：{{item.startName}}</view>
+										<view>终点：{{item.endName}}</view>
 									</view>
 									
 									<view class="btnarea">
@@ -130,10 +130,10 @@
 
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
-										<view>订单号：{{item.orderNumber}}</view>
+										<view>订单号：{{item.no}}</view>
 										<view>上车时间：{{item.orderTime}}</view>
-										<view>起点：{{item.startAddress}}</view>
-										<view>终点：{{item.endAddress}}</view>
+										<view>起点：{{item.startName}}</view>
+										<view>终点：{{item.endName}}</view>
 									</view>
 									<view class="btnarea">
 										<view>
@@ -165,10 +165,10 @@
 
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
-										<view>订单号：{{item.orderNumber}}</view>
+										<view>订单号：{{item.no}}</view>
 										<view>上车时间：{{item.orderTime}}</view>
-										<view>起点：{{item.startAddress}}</view>
-										<view>终点：{{item.endAddress}}</view>
+										<view>起点：{{item.startName}}</view>
+										<view>终点：{{item.endName}}</view>
 									</view>
 									<view class="btnarea">
 										<view>

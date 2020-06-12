@@ -20,10 +20,10 @@
 								lat:res.latitude,
 							},
 							success:function(res){
-								console.log(res);
+								console.log(true);
 							},
 							fail:function(res){
-								console.log(res);
+								console.log(false);
 							}
 						});
 					},

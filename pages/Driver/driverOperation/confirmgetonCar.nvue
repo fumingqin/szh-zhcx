@@ -4,81 +4,99 @@
 		 :polyline="polyline" :markers="markers" :show-location="true">
 		</map>
 		<image @click="back" src="@/static/driver/back1.png" style="width: 120rpx;height: 120rpx;position: fixed;top: 50px;left: 1px;"></image>
-		<view v-if="state === 'setout'" style="position: fixed;bottom: 220rpx;">
-			<view style="flex-direction: row;justify-content: space-between;align-items: center;">
-				<view style="flex-direction: row;">
-					<image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="callPolice"></image>
-				</view>
-				<!-- <view style="border-radius: 9rpx;text-align: center;">
-					<view style="background-color: #FFFFFF;padding: 20rpx;border-radius: 10rpx;">
-						<text @click="cancleOrder()" style="font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);">取消订单</text>
+		
+		<view style="position: fixed;bottom: 110rpx;">
+			<view style="margin-left: 25rpx;width: 700rpx;">
+				<view style="flex-direction: row;justify-content: space-between;align-items: center;">
+					<view>
+						<image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;" @click="callPolice"></image>
 					</view>
-				</view> -->
+					<view>
+						<image v-if="state === 'passenger'" src="@/static/driver/navigate.png" style="width: 120rpx;height: 120rpx;" @click="toNavigation"></image>
+					</view>
+				</view>
 			</view>
 			<!-- 行程信息 -->
-			<view style="width: 700rpx;background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;padding-top: 36rpx;padding-bottom: 36rpx;">
-				<view style="margin-left: 38rpx;display: flex;flex-direction: row;">
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">预计里程:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">5公里</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx; margin-left: 40rpx;">预计时长:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">30分钟</text>
+			<view style="width: 700rpx;background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;padding: 35rpx;">
+				<view style="flex-direction: row;">
+					<view style="display: flex;flex-direction: row;width:310rpx;">
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">预计里程:</text>
+						<text style="margin-left: 10rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">5公里</text>
+					</view>
+					<view style="display: flex;flex-direction: row;width:310rpx;margin-left: 10rpx;">
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">预计时长:</text>
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">30分钟</text>
+					</view>
 				</view>
-				<view style="margin-top: 20rpx;margin-left: 36rpx;display: flex;flex-direction: row;">
-					<text style="width:110rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">上车点:</text>
-					<text style="width:400rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">茶叶大厦</text>
+				<view style="margin-top: 20rpx;">
+					<view style="flex-direction: row;">
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">起&emsp;&emsp;点:</text>
+						<text style="margin-left: 10rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">茶叶大厦</text>
+					</view>
+					<view style="flex-direction: row;margin-top: 20rpx;">
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">终&emsp;&emsp;点:</text>
+						<text style="margin-left: 10rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">丰泽广场</text>
+					</view>
 				</view>
 			</view>
 			<!-- 联系电话 -->
-			<view style="width: 700rpx;height: 105rpx; background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx; padding: 34rpx;display: flex;flex-direction: row;margin-top: 20rpx;">
+			<view style="width: 700rpx;background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx; padding: 34rpx;display: flex;flex-direction: row;margin-top: 20rpx;justify-content: space-between;align-items: center;">
 				<view>
-					<text style="width:140rpx;height:36rpx;font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);line-height:36rpx; margin-left: 10rpx;">乘客电话:</text>
+					<text style="font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);line-height:36rpx; margin-left: 10rpx;">乘客电话:</text>
+					<text style="margin-left: 10rpx;font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);line-height:36rpx;">{{passengersPhone}}</text>
 				</view>
-				<view>
-					<text style="width:200rpx;height:36rpx;font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);line-height:36rpx;">{{passengersPhone}}</text>
-				</view>
-				<image style="width: 60rpx;height: 60rpx; left: 220rpx; top: -12rpx;" src="@/static/driver/phone.png" @click="call"></image>
+				<image style="width: 60rpx;height: 60rpx;" src="@/static/driver/phone.png" @click="call"></image>
 			</view>
 			<view>
-				<button style="width: 700rpx;height: 105rpx;background-color: #FC6A6C;border-color:#FC6A6C;color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx; position: fixed; padding: 6rpx;bottom: 90rpx;"
+				<button v-if="state === 'setout'" style="width: 700rpx;margin-top: 30rpx;background-color: #FC6A6C;border-color:#FC6A6C;color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;"
+				 @longpress="confirmgeToOrigint">
+					<text style="color: #FFFFFF;">长按确认到达出发地</text>
+				</button>
+				<button v-if="state === 'departure'" style="width: 700rpx;margin-top: 30rpx;background-color: #FC6A6C;border-color:#FC6A6C;color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;"
 				 @longpress="confirmgetonCar">
 					<text style="color: #FFFFFF;">长按确认乘客已上车</text>
 				</button>
-			</view>
-		</view>
-		<view v-if="state === 'passenger'" style="position: fixed;bottom: 220rpx; ">
-			<view style="flex-direction: row;">
-				<image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="callPolice"></image>
-			</view>
-			<!-- 行程信息 -->
-			<view style="width: 700rpx;height: 164rpx; background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;">
-				<view style="margin-top: 36rpx;margin-left: 38rpx;display: flex;flex-direction: row;">
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">预计里程:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">5公里</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx; margin-left: 40rpx;">预计时长:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">30分钟</text>
-				</view>
-				<view style="margin-top: 20rpx;margin-left: 40rpx;display: flex;flex-direction: row;">
-					<text style="width:120rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">下车点:</text>
-					<text style="width:400rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">丰泽广场</text>
-				</view>
-			</view>
-			<view style="width: 700rpx; background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx; margin-top: 30rpx;padding-bottom: 30rpx;">
-				<view style="margin-top: 36rpx;margin-left: 38rpx;display: flex;flex-direction: row;">
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">剩余里程:</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">3公里</text>
-				</view>
-				<!-- <view style="margin-top: 20rpx;margin-left: 40rpx;display: flex;flex-direction: row;">
-					<text style="width:120rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">总费用:</text>
-					<text style="width:400rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{totalCost}}元</text>
-				</view> -->
-			</view>
-			<view>
-				<button style="width: 700rpx;height: 105rpx;background-color: #FC6A6C;border-color:#FC6A6C;margin-left: 25rpx; border-radius:20rpx; position: fixed; padding: 6rpx;bottom: 90rpx;"
+				<button v-if="state === 'passenger'" style="width: 700rpx;margin-top: 30rpx;background-color: #FC6A6C;border-color:#FC6A6C;color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;"
 				 @longpress="confirmGetToDestination">
 					<text style="color: #FFFFFF;">长按确认到达目的地</text>
 				</button>
 			</view>
 		</view>
+		
+		<!--进行中-->
+		<!-- <view  style="position: fixed;bottom: 110rpx; ">
+			<view style="flex-direction: row;">
+				<image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;margin-left: 10rpx;" @click="callPolice"></image>
+			</view>
+			<view style="width: 700rpx;background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;padding: 35rpx;">
+				<view style="flex-direction: row;">
+					<view style="display: flex;flex-direction: row;width:310rpx;">
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">预计里程:</text>
+						<text style="margin-left: 10rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">5公里</text>
+					</view>
+					<view style="display: flex;flex-direction: row;width:310rpx;margin-left: 10rpx;">
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">预计时长:</text>
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">30分钟</text>
+					</view>
+				</view>
+				<view style="margin-top: 20rpx;">
+					<view style="flex-direction: row;">
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">起&emsp;&emsp;点:</text>
+						<text style="margin-left: 10rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">茶叶大厦</text>
+					</view>
+					<view style="flex-direction: row;margin-top: 20rpx;">
+						<text style="font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">终&emsp;&emsp;点:</text>
+						<text style="margin-left: 10rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">丰泽广场</text>
+					</view>
+				</view>
+			</view>
+			<view>
+				<button style="width: 700rpx;margin-top: 30rpx;background-color: #FC6A6C;border-color:#FC6A6C;color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;"
+				 @longpress="confirmGetToDestination">
+					<text style="color: #FFFFFF;">长按确认到达目的地</text>
+				</button>
+			</view>
+		</view> -->
 
 		<uni-popup ref='callPolice' :animation='true' type='center' :maskClick='false'>
 			<!--一键报警-->
@@ -106,7 +124,6 @@
 
 <script>
 	import $taxi from '@/common/Czc.js';
-	import $home from '@/common/Home.js';
 	import Map from '@/common/my-openMap/openMap.js';
 	import uniPopup from "@/components/uni-popup/uni-popup.vue";
 	import uniIcons from "@/components/uni-icons/uni-icons.vue";
@@ -125,9 +142,8 @@
 				markers: [],
 				mapHeight: '',
 				viewHeight: '',
-				directionInterval: 0,
-				orderInterval: 0,
-				waitTimeInterval:0,
+				orderInterval: '',//订单定时器
+				directionInterval:'',
 				callPoliceArr: [
 					'堵车',
 					'事故',
@@ -138,7 +154,6 @@
 				pickerValue: 0,
 				alarmRemark: '',//报警备注
 				driverId: '',
-
 				orderNumber: '', //订单编号
 				state: '',
 				startLon: '',
@@ -147,9 +162,7 @@
 				endLon: '',
 				endLat: '',
 				endAddress: '',
-				orderType: '',
 				passengersPhone: '',
-				vehicleType: '',
 				appointmentTime: '', //预约时间
 				estimatePrice: '', //预计价格
 				estimateDistance: '', //预计里程
@@ -157,14 +170,10 @@
 				alreadyTime: '0分钟', //已驶时长
 				alreadyMileage: '', //已驶里程
 				waitTime: '0分钟', //等待时长
-				initialMin:'',
-				totalCost: '', //总价
-				
-				setoutTime:'',//出发去接旅客的时间
-				runTime:'',//开始执行的时间
-				
-				distance:'',//剩余里程
 				userInfo:null,
+				orderInfo:{
+					
+				},
 			}
 		},
 		onLoad(option) {
@@ -182,15 +191,14 @@
 					that.viewHeight = (res.windowHeight * 0.4) + 'px'
 				}
 			});
-			that.setOrderStatus();
+			that.getOrderInfo();
+			that.constantlyOrderInfo();
 			that.getMyLocation();
-			that.polyline = [];
-			that.getDirectionDriving();
+			that.constantlyDirection();
 		},
 		onUnload() {
 			let that = this;
 			clearInterval(that.orderInterval);
-			clearInterval(that.waitTimeInterval);
 			clearInterval(that.directionInterval);
 		},
 		methods: {
@@ -226,28 +234,9 @@
 						success: function(res) {
 							let data = res.data.data;
 							if (res.data.code===200) {
+								console.log(data.state);
 								that.state = data.state;
 							}
-							/* if (res.data.status) {
-								that.startLon = data.startLon;
-								that.startLat = data.startLat;
-								that.startAddress = data.startAddress;
-								that.endLon = data.endLon;
-								that.endLat = data.endLat;
-								that.endAddress = data.endAddress;
-								that.state = data.state;
-								that.orderType = data.orderType;
-								that.passengersPhone = data.passengersPhone;
-								that.vehicleType = data.vehicleType;
-								that.appointmentTime = data.appointmentTime;
-								that.estimatePrice = data.estimatePrice;
-								that.estimateDistance = data.estimateDistance;
-								that.estimateTime = data.estimateTime;
-								that.runTime = data.runTime.replace('T', ' ').replace(/-/g,'/');
-								that.setoutTime = data.setoutTime.replace('T', ' ').replace(/-/g,'/');
-							} else {
-								that.showToast(res.data.msg);
-							} */
 							resolve(res);
 						},
 						fail: function(res) {
@@ -258,78 +247,43 @@
 				});
 			},
 
-
 			//订单查询方法，第一次进入时调用。
-			setOrderStatus: function() {
+			getOrderInfo: function() {
 				let that = this;
 				uni.showLoading({
 					mask:true
 				});
 				that.getOrder().then(res => {
 					uni.hideLoading();
-					console.log(res.data.data);
-					var data = res.data.data;
+					let data = res.data.data;
 					if (res.data.code===200) {
-						that.markers = [];
-						//that.setMarker(1, that.startLon, that.startLat, '../../../static/driver/Start.png');
-						//that.setMarker(2, that.endLon, that.endLat, '../../../static/driver/End.png');
-						if (that.state == 0) {
-							//等待接单
-
-						} else if (that.state == 1) {
-							//司机已接单
-							that.realGetOrderDetail();
-						} else if (that.state == 2) {
-							//司机已出发 
-							Map.openMap(parseFloat(that.startLat) , parseFloat(that.startLon), that.startAddress, 'gcj02');
-							that.realGetOrderDetail();
-							//规划司机到出发地路程
-							that.mathWaitTime(new Date(that.setoutTime)); 
-						} else if (that.state == 3) {
-							//司机已到出发地
-							//预留
-						} else if (that.state == 4) {
-							//订单执行中（接到旅客）
-							that.setConfirmgetonCar();
-						} else if (that.state == 5) {
-							//待支付
-
-						} else if (that.state == 6) {
-							//支付完成
-
-						} else if (that.state == 7) {
-							//司机取消订单
-
-						} else if (that.state == 8) {
-							//乘客取消订单
-
-						} else if (that.state == 9) {
-							//支付失败
-							
-						}
+						
 					}
 				}).catch(rej =>{
 					uni.hideLoading(); 
-				}) ;
+				});
 			},
-			realGetOrderDetail: function() {
-				//循环查找订单数据
+			
+			constantlyOrderInfo:function(){
 				let that = this;
-				if( that.orderInterval == 0){
-					that.orderInterval = setInterval(function() {
-						that.getOrder().then(res =>{
-							if (that.state == 8) {
-								clearInterval(that.orderInterval);
-								that.showToast('用户已取消订单');
-								setTimeout(function(){
-									uni.redirectTo({
-										url:'./taxiDriver'
-									});
-								},1500);
-							}
-						});
-					}, 10000);
-				}
+				uni.showLoading({
+					mask:true
+				});
+				that.orderInterval = setInterval(function(){
+					that.getOrder().then(res =>{
+						uni.hideLoading();
+						if (res.data.code===200) {
+							
+						}
+					}).catch(rej => {
+						uni.hideLoading();
+					});
+				},5000);
+			},
+			
+			confirmgeToOrigint:function(){
+				let that = this;
+				that.state = 'departure';
 			},
 			
 			confirmgetonCar: function() { //长按确认乘客上车
@@ -347,9 +301,9 @@
 						uni.hideLoading();
 						let data = res.data.data;
 						if(res.data.code===200){
-							that.setConfirmgetonCar();
-							that.state = 'passenger';
-							Map.openMap(parseFloat(that.endLat) ,parseFloat(that.endLon) , that.endAddress, 'gcj02');
+							if(res.data.data === '订单修改状态成功'){
+								that.state = 'passenger';
+							}
 						} else {
 							that.showToast(res.data.msg);
 						}
@@ -360,15 +314,7 @@
 					}
 				})
 			},
-			
-			setConfirmgetonCar:function(){
-				//确认乘客上车操作
-				let that = this;
-				clearInterval(that.orderInterval);
-				that.orderInterval = 0;
-				//that.mathWaitTime(new Date(that.runTime));
-				
-			},
+		
 			confirmGetToDestination: function() {
 				//长按确认到达目的地
 				let that = this;
@@ -384,9 +330,6 @@
 					success:function(res){
 						uni.hideLoading();
 						if(res.data.code===200){
-							//取消由 setInterval 设置的定时器
-							clearInterval(that.directionInterval);
-							getApp().globalData.orderNumber = '';
 							uni.redirectTo({
 								url: '/pages/driver/driverOperation/orderComplete'
 							})
@@ -400,6 +343,7 @@
 					}
 				})
 			},
+		
 			call: function() {
 				//呼叫乘客
 				let that = this;
@@ -413,15 +357,18 @@
 				let that = this;
 				that.$refs.callPolice.open();
 			},
+		
 			cancle: function() {
 				let that = this;
 				that.$refs.callPolice.close();
 			},
+	
 			pickerChange: function(e) {
 				let that = this;
 				that.pickerValue = e.detail.value;
 				that.alarmReason = that.callPoliceArr[e.detail.value];
 			},
+			
 			sendCall: function() {
 				let that = this;
 				if (that.alarmReason === '请选择报警原因') {
@@ -494,7 +441,14 @@
 				};
 				that.markers.push(marker);
 			},
-
+			
+			constantlyDirection:function(){
+				let that = this;
+				that.directionInterval = setInterval(function(){
+					that.getDirectionDriving();
+				},10000);
+			},
+			
 			getDirectionDriving: function() {
 				//路径规划
 				var that = this;
@@ -507,6 +461,7 @@
 					success: function(res) {
 						let data = res.data.data;
 						if(res.data.code===200){
+							that.polyline = [];
 							for (let i of data) {
 								var obj = {
 									longitude: i.lng,
@@ -528,15 +483,18 @@
 					}
 				});
 			},
+			
 			formatEstimateDistance: function(estimateDistance) {
 				//公里数
 				return estimateDistance + '公里';
 			},
+		
 			formatEstimateTime: function(estimateTime) {
 				//格式化时间
 				let time = (estimateTime / 60) > 1 ? ((estimateTime / 60) + '小时') : (estimateTime + '分钟');
 				return time
 			},
+	
 			packAddress:function(value){
 				//组装地址
 				if(value== undefined){
@@ -551,21 +509,10 @@
 				var poiName = value.poiName;//POI
 				return country + province + city + district + street + streetNum + poiName;
 			},
-			mathWaitTime:function(startTime){
-				let that = this;
-			    var initialSec = new Date().getTime() - startTime.getTime(); 
-				that.initialMin = parseInt(initialSec / 1000 / 60) ;
-				that.waitTime = (parseInt(that.initialMin/60) + '小时') + (that.initialMin % 60 + '分钟'); 
-				that.alreadyTime = (parseInt(that.initialMin/60) + '小时') + (that.initialMin % 60 + '分钟');
-				clearInterval(that.waitTimeInterval);
-				that.waitTimeInterval = setInterval(function(){
-					that.initialMin = that.initialMin + 1;
-					that.waitTime = (parseInt(that.initialMin/60) + '小时') + (that.initialMin % 60 + '分钟');
-					that.alreadyTime = (parseInt(that.initialMin/60) + '小时') + (that.initialMin % 60 + '分钟')
-					//						that.waitTime = that.initialMin / 60 > 0 ? (parseInt(that.initialMin/60) + '小时') + (that.initialMin % 60 + '分钟') : that.initialMin + '分钟'
-				},60000);
-			}
-			//计算等待时间
+			
+			toNavigation:function(endLat,endLon,endAddress,type = 'gcj02'){
+				Map.openMap(parseFloat(endLat) ,parseFloat(endLon) , endAddress,type);
+			},
 		}
 	}
 </script>
