@@ -1,4 +1,4 @@
-const Url = 'http://36.148.9.1:10022'; //https请求
+const Url = 'https://xmjdt.cn:10022'; //https请求
 
 const Interface={
 	getlines:{
@@ -17,6 +17,12 @@ const Interface={
 		value:Url+'/api/volunteer/get-order-detail',
 		name:'根据订单id获取详情',
 		method:'GET',
+		pages: [],
+	},
+	uploadFile:{
+		value:Url+'/api/file/upload',
+		name:'上传签名文件',
+		method:'POST',
 		pages: [],
 	},
 }
