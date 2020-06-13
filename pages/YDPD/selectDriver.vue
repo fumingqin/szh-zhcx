@@ -118,7 +118,7 @@
 				
 				//列表的默认高度
 				imgHeight:0,
-				imgSrc:'../../static/YDPD/default.png',
+				// imgSrc:'../../static/YDPD/default.png',
 				canvasw:0,
 				canvash:0,
 				signImage: '',
@@ -272,6 +272,7 @@
 						success: function(res) {
 							//打印图片路径
 							console.log(res.tempFilePath)
+							console.log(res,'res')
 							//设置保存的图片
 							// that.signImage
 							pathToBase64(res.tempFilePath)
