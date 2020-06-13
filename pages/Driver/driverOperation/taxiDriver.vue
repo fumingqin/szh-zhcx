@@ -22,25 +22,29 @@
 				</view> -->
 				<view style="padding: 40rpx;display: flex;flex-direction: row;">
 					<text class="destinationArea" style="width:160rpx;">目的区域:</text>
-					<text class="destinationArea">丰泽区</text>
+					<text class="destinationArea">{{item.line.area}}</text>
 				</view>
-				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;">
+				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;margin-top: 0;">
 					<text class="fontClass" style="width:140rpx;height:40rpx;">出发时间:</text>
 					<text class="fontClass" style="height:40rpx;">{{item.orderTime}}</text>
 				</view>
+				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;margin-top: 0;">
+					<text class="fontClass" style="width:140rpx;height:40rpx;">线路名称:</text>
+					<text class="fontClass" style="height:40rpx;">{{item.line.name}}</text>
+				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:140rpx;height:40rpx;">预计里程:</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;">5公里</text>
+					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectDuration(item.line.expectMileage)}}</text>
 					<text class="fontClass" style="width:140rpx;height:40rpx;margin-left: 40rpx;">预计时长:</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;">30分钟</text>
+					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectDuration(item.line.expectDuration)}}</text>
 				</view>
 				<view style="margin: -10rpx 40rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:110rpx;height:40rpx;">上车点:</text>
-					<text class="fontClass" style="height:40rpx;">茶叶大厦</text>
+					<text class="fontClass" style="height:40rpx;">{{item.line.startName}}</text>
 				</view>
 				<view style="margin: 20rpx 40rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:110rpx;height:40rpx;">下车点:</text>
-					<text class="fontClass" style="height:40rpx;">丰泽广场</text>
+					<text class="fontClass" style="height:40rpx;">{{item.line.endName}}</text>
 				</view>
 				<view style="display: flex; margin-left: 4rpx;">
 					<button v-show="item.state === 'waiting'" @click="receipt(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
@@ -136,7 +140,7 @@
 					success: function(res) {
 						uni.hideLoading();
 						if (res.data.code===200) {
-							that.showToast('接单成功');
+							that.showToast('接单成功，请到订单列表查看');
 						} else {
 							that.showToast(res.data.msg);
 						}
@@ -190,31 +194,20 @@
 				})
 			},
 			
-			formatEstimateDistance: function(estimateDistance) {
-				return parseFloat(estimateDistance).toFixed(1) + '公里';
+			formatExpectDuration:function(expectDuration){
+				//时间
+				return parseInt(expectDuration) + '分钟'
 			},
 			
-			formatEstimateTime: function(estimateTime) {
-				let time = (estimateTime / 60) > 1 ? ((estimateTime / 60) + '小时') : (estimateTime + '分钟');
-				return time
-			},
-			
-			formatUserType: function(userType) {
-				if (userType == 0) {
-					return '普通用户';
-				} else if (userType == 1) {
-					return '普通会员';
-				} else if (userType == 2) {
-					return '超级会员';
-				} else if (userType == 3) {
-					return '其他用户';
-				} else if (userType == 9) {
-					return '体验用户';
+			formatExpectMileage:function(expectMileage){
+				//公里数
+				var mileage = parseFloat(expectMileage);
+				var long = mileage / 1000;
+				if(long > 1){
+					return long.toFixed(1) + '公里';
+				}else{
+					return mileage + '米';
 				}
-			},
-			
-			formatTime: function(time) {
-				return time.replace('T', ' ');
 			},
 			
 			toOrderList:function(){

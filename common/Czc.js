@@ -13,6 +13,12 @@ const Interface = {
 		method:'GET',
 		pages:[]
 	},
+	origin:{
+		value:Url + '/api/driver/origin',
+		name:'到达出发地',
+		method:'GET',
+		pages:[]
+	},
 	confirmBoarding:{
 		value:Url + '/api/driver/confirm_boarding',
 		name:'确认乘客上车',
