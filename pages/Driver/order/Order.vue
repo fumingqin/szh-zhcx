@@ -327,6 +327,9 @@
 						uni.hideLoading();
 						if (res.data.code===200) {
 							that.showToast('到达成功');
+							setTimeout(function(){
+								that.getTaxiOrder();
+							},1500);
 						}
 					},
 					fail:function(res){

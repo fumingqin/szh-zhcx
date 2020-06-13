@@ -2,7 +2,7 @@
 // 示例
 
 //接口域名
-const Url = 'http://36.148.9.1:10022';//许接口地址
+const Url = 'https://xmjdt.cn:10022';//许接口地址
 const Url1 = 'https://szh.ipin8.com:3507';//叶接口地址
 //接口对象
 const Interface = {
@@ -72,7 +72,7 @@ const Interface = {
 		name:'获取起点到终点轨迹点',
 		method:'GET',
 		pages:[]
-	},
+	}, 
 	reportAddress:{
 		value:Url1 + '/api/szh/report_address',
 		name:'司机端持续上报经纬度',
