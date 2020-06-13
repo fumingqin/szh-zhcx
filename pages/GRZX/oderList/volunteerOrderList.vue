@@ -18,7 +18,7 @@
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">已取消</view>
 				</view>
 			</view>
-			<scroll-view style="height: 1100rpx;" scroll-y=true refresher-enabled=true>
+			<scroll-view style="height: 1100rpx;" scroll-y=true refresher-enabled=false>
 
 				<!--全部-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
@@ -42,14 +42,14 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
-											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
+											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
-										<view v-if="item.orderState == '接到乘客'">
-											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
+										<view v-if="item.orderState == '已上车'">
+											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
 										</view>
 									</view>
 									<!-- <view class="btnarea">
@@ -90,14 +90,14 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
-											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
+											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
-										<view v-if="item.orderState == '接到乘客'">
-											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
+										<view v-if="item.orderState == '已上车'">
+											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
 										</view>
 									</view>
 								</view>
@@ -131,14 +131,14 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
-											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
+											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
-										<view v-if="item.orderState == '接到乘客'">
-											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
+										<view v-if="item.orderState == '已上车'">
+											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
 										</view>
 									</view>
 								</view>
@@ -169,14 +169,14 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
-											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
+											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
-										<view v-if="item.orderState == '接到乘客'">
-											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
+										<view v-if="item.orderState == '已上车'">
+											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
 										</view>
 									</view>
 								</view>
@@ -352,7 +352,7 @@
 				});
 			},
 		
-			// 出租车格式化
+			// 订单状态格式化
 			formatState: function(state) {
 				switch(state){
 					case 'arrive':
@@ -367,14 +367,14 @@
 					case 'received':
 						return '已接单';
 						break;
-					case 'departure':
-						return '到达出发地';
+					case 'setout':
+						return '司机出发';
 						break;
 					case 'passenger':
 						return '已上车';
 						break;
-					case 'setout':
-						return '出发';
+					case 'departure':
+						return '到达出发地';
 						break;
 					case 'refuse':
 						return '待接单';
@@ -429,7 +429,7 @@
 				})
 			},
 			//长按确认到达目的地
-			confirmGetToDestination: function() {
+			confirmGetToDestination: function(item) {
 				let that = this;
 				uni.showLoading({
 					mask:true

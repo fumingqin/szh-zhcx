@@ -6,9 +6,9 @@
 			<text style="font-size: 28upx;">{{currentSize}}</text>
 			<text class="cell-more jdticon icon-you"></text>
 		</view>
-		<view class="list-cell log-out-btn" @click="toLogout">
+		<!-- <view class="list-cell log-out-btn" @click="toLogout">
 			<text class="cell-tit">退出登录</text>
-		</view>
+		</view> -->
 	</view>
 </template>
 
