@@ -282,11 +282,13 @@
 			},
 			
 			confirmgeToOrigint:function(){
+				//长按确认到达上车点
 				let that = this;
 				that.state = 'departure';
 			},
 			
-			confirmgetonCar: function() { //长按确认乘客上车
+			confirmgetonCar: function() { 
+				//长按确认乘客上车
 				let that = this;
 				uni.showLoading({
 					mask:true
@@ -312,7 +314,7 @@
 						uni.hideLoading();
 						that.showToast('网络连接失败');
 					}
-				})
+				});
 			},
 		
 			confirmGetToDestination: function() {
@@ -341,7 +343,7 @@
 						uni.hideLoading();
 						that.showToast('网络连接失败');
 					}
-				})
+				});
 			},
 		
 			call: function() {
@@ -394,7 +396,7 @@
 							orderNumber: that.orderNumber,
 							lon: resolve.longitude,
 							lat: resolve.latitude,
-							address: that.packAddress(resolve.address), 
+							address: '', 
 							alarmReason: that.alarmReason,
 							driverNumber: that.driverId,
 							alarmRemark: that.alarmRemark //报警备注
@@ -415,7 +417,7 @@
 						fail: function(res) {
 							that.showToast('网络连接中断');
 						}
-					})
+					});
 				});
 			},
 
@@ -495,21 +497,6 @@
 				return time
 			},
 	
-			packAddress:function(value){
-				//组装地址
-				if(value== undefined){
-					return '';
-				}
-				var country = value.country;//国家
-				var province = value.province;//省份
-				var city = value.city;//城市
-				var district = value.district;//区
-				var street = value.street;//街道
-				var streetNum = value.streetNum;//门牌
-				var poiName = value.poiName;//POI
-				return country + province + city + district + street + streetNum + poiName;
-			},
-			
 			toNavigation:function(endLat,endLon,endAddress,type = 'gcj02'){
 				Map.openMap(parseFloat(endLat) ,parseFloat(endLon) , endAddress,type);
 			},

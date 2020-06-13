@@ -55,6 +55,9 @@
 					success: (e)=>{
 						if(e.confirm){
 							uni.removeStorageSync('userInfo');
+							uni.removeStorageSync('vehicleInfo');
+							getApp().globalData.driverID = '';
+							getApp().globalData.licensePlate = '';
 							getApp().globalData.closeUpload();
 							setTimeout(()=>{
 								uni.reLaunch({

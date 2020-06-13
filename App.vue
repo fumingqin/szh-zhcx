@@ -5,6 +5,8 @@
 		globalData: {
 			globalInterval: 0,
 			carId:0,
+			driverID:'',//司机ID
+			licensePlate:'',//车牌号
 			uploadMyLocation: function() {
 				let that = this;
 				
@@ -15,7 +17,9 @@
 							url: $taxi.Interface.reportAddress.value, 
 							method:$taxi.Interface.reportAddress.method,
 							data: {
-								carId:that.carId,
+								//carId:that.carId,
+								driverID:that.driverID,
+								license_plate:that.licensePlate,
 								lon:res.longitude,
 								lat:res.latitude,
 							},

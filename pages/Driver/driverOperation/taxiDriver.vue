@@ -86,8 +86,6 @@
 			
 			if (that.userInfo == '') {
 				that.showToast('请先登录');
-			} else if (that.vehicleInfo == '') {
-				that.showToast('请先上班');
 			} else {
 				uni.showLoading({
 					mask: true

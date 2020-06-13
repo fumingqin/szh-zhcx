@@ -3,7 +3,7 @@
 
 //接口域名
 const Url = 'http://36.148.9.1:10022';//许接口地址
-const Url1 = '36.250.234.10:3506';//叶接口地址
+const Url1 = 'https://szh.ipin8.com:3507';//叶接口地址
 //接口对象
 const Interface = {
 	//世中会司机端----------------------------------
@@ -55,12 +55,12 @@ const Interface = {
 		method:'GET',
 		pages:[]
 	},
-	reportAddress:{
+	/* reportAddress:{
 		value:Url + '/api/driver/report-address',
 		name:'司机端持续上报经纬度',
 		method:'POST',
 		pages:[]
-	},
+	}, */
 	terminus:{
 		value:Url + '/api/driver/terminus',
 		name:'到达目的地',
@@ -71,6 +71,12 @@ const Interface = {
 		value:Url + '/api/driver/track',
 		name:'获取起点到终点轨迹点',
 		method:'GET',
+		pages:[]
+	},
+	reportAddress:{
+		value:Url1 + '/api/szh/report_address',
+		name:'司机端持续上报经纬度',
+		method:'POST',
 		pages:[]
 	},
 }
