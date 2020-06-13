@@ -173,7 +173,7 @@
 						no:number,
 						password:password,
 						type:type,
-					    licensePlate:'闽CT0012',
+					    //licensePlate:'闽CT0012',
 					},
 					method:that.$Grzx.Interface.login.method,
 					success(res) {

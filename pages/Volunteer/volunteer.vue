@@ -379,37 +379,53 @@
 									console.log(that.signImage)
 									// that.submitClick(that.signImage);
 								})
-							uni.request({
-								url: that.$volunteer.Interface.placeorder.value,
-								method: that.$volunteer.Interface.placeorder.method,
-								data: {
-									startName: that.startSiteName,
-									endName: that.endSiteName,
-									seatCount: that.people,
-									startDate: that.date + ':00',
-									remark: that.remark,
-									volunteerId: that.userInfo.volunteerId,
-								},
-								success: function(res) {
-									console.log(res);
-									if (res.data.code == 200) {
-										that.showToast('提交成功,请等待后台审核！');
-										setTimeout(function() {
-											// uni.navigateBack({});
-											uni.navigateTo({
-												// url:'./CallAndDrive?orderNumber='+res.data.data.id
-												url: '../GRZX/oderList/volunteerOrderList'
-											})
-										}, 1500)
-									} else {
-										that.showToast('提交失败');
+								uni.request({
+									url: that.$volunteer.Interface.uploadFile.value,
+									method: that.$volunteer.Interface.uploadFile.method,
+									data: {
+										file:that.signImage
+									},
+									success(res) {
+										that.getOrder();
+									},
+									fail(res) {
+										uni.showToast({
+											title: "网络连接失败",
+											icon: "none"
+										})
 									}
-								},
-								fail: function(res) {
-									console.log(res);
-									that.showToast('网络连接失败');
-								}
-							})
+								})
+							// uni.request({
+							// 	url: that.$volunteer.Interface.placeorder.value,
+							// 	method: that.$volunteer.Interface.placeorder.method,
+							// 	data: {
+							// 		startName: that.startSiteName,
+							// 		endName: that.endSiteName,
+							// 		seatCount: that.people,
+							// 		startDate: that.date + ':00',
+							// 		remark: that.remark,
+							// 		volunteerId: that.userInfo.volunteerId,
+							// 	},
+							// 	success: function(res) {
+							// 		console.log(res);
+							// 		if (res.data.code == 200) {
+							// 			that.showToast('提交成功,请等待后台审核！');
+							// 			setTimeout(function() {
+							// 				// uni.navigateBack({});
+							// 				uni.navigateTo({
+							// 					// url:'./CallAndDrive?orderNumber='+res.data.data.id
+							// 					url: '../GRZX/oderList/volunteerOrderList'
+							// 				})
+							// 			}, 1500)
+							// 		} else {
+							// 			that.showToast('提交失败');
+							// 		}
+							// 	},
+							// 	fail: function(res) {
+							// 		console.log(res);
+							// 		that.showToast('网络连接失败');
+							// 	}
+							// })
 						}
 					})
 				} else {
@@ -418,6 +434,39 @@
 						icon: 'none',
 					})
 				}
+			},
+			getOrder(){
+				uni.request({
+					url: that.$volunteer.Interface.placeorder.value,
+					method: that.$volunteer.Interface.placeorder.method,
+					data: {
+						startName: that.startSiteName,
+						endName: that.endSiteName,
+						seatCount: that.people,
+						startDate: that.date + ':00',
+						remark: that.remark,
+						volunteerId: that.userInfo.volunteerId,
+					},
+					success: function(res) {
+						console.log(res);
+						if (res.data.code == 200) {
+							that.showToast('提交成功,请等待后台审核！');
+							setTimeout(function() {
+								// uni.navigateBack({});
+								uni.navigateTo({
+									// url:'./CallAndDrive?orderNumber='+res.data.data.id
+									url: '../GRZX/oderList/volunteerOrderList'
+								})
+							}, 1500)
+						} else {
+							that.showToast('提交失败');
+						}
+					},
+					fail: function(res) {
+						console.log(res);
+						that.showToast('网络连接失败');
+					}
+				})
 			},
 			//-----------开启弹窗------------
 			openPopup: function(value) {
