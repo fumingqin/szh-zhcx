@@ -11,13 +11,13 @@
 			</view>
 			<view style="width: 698rpx;padding-bottom: 30rpx; background-color: #FFFFFF;margin-left: 28rpx; border-radius:20rpx; margin-top: 16rpx;">
 				<view>
-					<text style="height:40rpx;font-size:36rpx;font-family:Source Han Sans SC;font-weight:500;color:#333333;line-height:36rpx; margin-top: 32rpx; margin-left: 36rpx;">订单信息</text>
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:500;color:#333333;line-height:36rpx; margin-top: 32rpx; margin-left: 36rpx;">订单信息</text>
 				</view>
 				<view style="margin-top: 20rpx;margin-left: 38rpx;display: flex;flex-direction: row;">
-					<text style="width:120rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">总里程：</text>
-					<text style="width:168rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{estimateDistance}}公里</text>
-					<text style="width:120rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx; margin-left: 40rpx;">总时长：</text>
-					<text style="width:140rpx;height:40rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{waitTime}}分钟</text>
+					<text style="width:120rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">总里程：</text>
+					<text style="width:168rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{formatExpectMileage(orderInfo.expectMileage)}}</text>
+					<text style="width:120rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx; margin-left: 40rpx;">总时长：</text>
+					<text style="width:140rpx;font-size:30rpx;font-family:Source Han Sans SC;color:#666666;line-height:36rpx;">{{formatExpectDuration(orderInfo.expectDuration)}}</text>
 				</view>
 			</view>
 		</view>
@@ -43,13 +43,19 @@
 				mapHeight: '',
 				viewHeight: '',
 				userInfo:'',
-				waitTime:'',
-				startLon:'',
-				startLat:'',
-				endLon:'',
-				endLat:'',
+				
 				state:'',
-				estimateDistance:'',
+				orderInfo:{
+					tel:'',//用户电话
+					startLng:'',
+					startLat:'',
+					endLng:'',
+					endLat:'',
+					startName:'',//起点
+					endName:'',//终点
+					expectDuration:'',//预计时长
+					expectMileage:''//预计里程
+				},
 			}
 		},
 		onLoad(option) {
@@ -88,10 +94,20 @@
 						orderId: that.orderNumber,
 					},
 					success:function(res){
+						let data = res.data.data;
 						if(res.data.code===200){
-							that.state = res.data.data.state;
-						}else {
-							
+							that.state = data.state;
+							that.orderInfo.tel = data.volunteer.tel;
+							that.orderInfo.startLng = data.line.startLng;
+							that.orderInfo.startLat = data.line.startLat;
+							that.orderInfo.endLng = data.line.endLng;
+							that.orderInfo.endLat = data.line.endLat;
+							that.orderInfo.startName = data.line.startName;
+							that.orderInfo.endName = data.line.endName;
+							that.orderInfo.expectDuration = data.line.expectDuration;
+							that.orderInfo.expectMileage = data.line.expectMileage;
+							that.setMarker(1,data.line.startLng,data.line.startLat,'../../../static/driver/Start.png');
+							that.setMarker(2,data.line.endLng,data.line.endLat,'../../../static/driver/End.png');
 						}
 					},
 					fail:function(res){
@@ -100,6 +116,7 @@
 					},
 				})
 			},
+			
 			getDirectionDriving: function() {
 				//路径规划
 				var that = this;
@@ -133,15 +150,12 @@
 					}
 				});
 			},
+			
 			back: function() {
 				var that = this;
 				uni.navigateBack({});
 			},
-			mathTime:function(startTime , endTime){
-				let start = startTime.getTime();
-				let end = endTime.getTime();
-				return  parseInt((end - start) / 1000 / 60);
-			},
+			
 			taxiFormatState: function(state) {
 				if (state === 'arrive') {
 					return '已完成';
@@ -187,11 +201,26 @@
 				}
 			},
 			
+			formatExpectDuration:function(expectDuration){
+				return parseInt(expectDuration) + '分钟'
+			},
+			
+			formatExpectMileage:function(expectMileage){
+				var mileage = parseFloat(expectMileage);
+				var long = mileage / 1000;
+				if(long > 1){
+					return long.toFixed(1) + '公里';
+				}else{
+					return mileage + '米';
+				}
+			},
+			
 			setMarker: function(id, lon, lat, iconPath) {
+				var that = this;
+				that.markers = that.markers.filter(x => x.id !== id);
 				var width = 20;
 				var height = 20;
 				//描绘点的方法
-				var that = this;
 				var marker = new Object();
 				//画终点经纬度
 				marker = {

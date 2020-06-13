@@ -33,23 +33,23 @@
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">世中会车辆</view>
+											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 									</view>
 									
-									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
+									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
 										<view>上车时间：{{item.orderTime}}</view>
-										<view>起点：{{item.startName}}</view>
-										<view>终点：{{item.endName}}</view>
+										<view>起点：{{item.line.startName}}</view>
+										<view>终点：{{item.line.endName}}</view>
 									</view>
 									
 									<view class="btnarea">
-										<view v-show="item.state === 'received' || item.state === 'setout'">
+										<view v-show="item.state === 'received' || item.state === 'setout' || item.state === 'departure'">
 											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
 										</view>
-										<view v-show="item.state === 'passenger' || item.state === 'setout' || item.state === 'arrive'">
+										<view v-show="item.state === 'passenger' || item.state === 'setout' || item.state === 'arrive' || item.state === 'departure'">
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
 										<view v-show="item.state === 'received'">
@@ -83,18 +83,18 @@
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 									</view>
 									
-									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
+									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
 										<view>上车时间：{{item.orderTime}}</view>
-										<view>起点：{{item.startName}}</view>
-										<view>终点：{{item.endName}}</view>
+										<view>起点：{{item.line.startName}}</view>
+										<view>终点：{{item.line.endName}}</view>
 									</view>
 									
 									<view class="btnarea">
 										<view v-show="item.state === 'received' || item.state === 'setout'">
 											<button @click="toCallPassenger(item)" style="width: auto;">联系乘客</button>
 										</view>
-										<view v-show="item.state === 'passenger' || item.state === 'setout' || item.state === 'arrive'">
+										<view v-show="item.state === 'passenger' || item.state === 'setout' || item.state === 'arrive' || item.state === 'departure'">
 											<button @click="toDetail(item)" style="width: auto;">详情</button>
 										</view>
 										<view v-show="item.state === 'received'">
@@ -129,11 +129,11 @@
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 
 									</view>
-									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
+									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
 										<view>上车时间：{{item.orderTime}}</view>
-										<view>起点：{{item.startName}}</view>
-										<view>终点：{{item.endName}}</view>
+										<view>起点：{{item.line.startName}}</view>
+										<view>终点：{{item.line.endName}}</view>
 									</view>
 									<view class="btnarea">
 										<view>
@@ -164,11 +164,11 @@
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 
 									</view>
-									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
+									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
 										<view>上车时间：{{item.orderTime}}</view>
-										<view>起点：{{item.startName}}</view>
-										<view>终点：{{item.endName}}</view>
+										<view>起点：{{item.line.startName}}</view>
+										<view>终点：{{item.line.endName}}</view>
 									</view>
 									<view class="btnarea">
 										<view>
@@ -302,12 +302,12 @@
 			//联系乘客
 			toCallPassenger: function(item) {
 				let that = this;
-				if (item.passengersPhone == null) {
+				if (item.volunteer.tel === null) {
 					that.showToast('获取手机号出错');
 					return;
 				}
 				uni.makePhoneCall({
-					phoneNumber: item.passengersPhone
+					phoneNumber: item.volunteer.tel
 				});
 			},
 			toArrive: function(item) {
@@ -404,32 +404,6 @@
 				}
 			},
 			
-			
-			// 出租车格式化
-			taxiFormatState: function(state) {
-				if (state == 6) {
-					return '已完成';
-				} else if (state == 0 || state == 1 || state == 2 || state == 3 || state == 4 || state == 5 || state == 9) {
-					return '进行中';
-				} else if (state == 8) {
-					return '已取消';
-				} else {
-					return '';
-				}
-			},
-			taxiFormatUserType: function(userType) {
-				if (userType == 0) {
-					return '普通用户';
-				} else if (userType == 1) {
-					return '普通会员';
-				} else if (userType == 2) {
-					return '超级会员';
-				} else if (userType == 3) {
-					return '其他用户';
-				} else if (userType == 9) {
-					return '体验会员';
-				}
-			},
 			taxiFormatTime: function(time) {
 				var dateTime = time.replace('T', ' ');
 				if (dateTime.indexOf('1900') > -1) {
