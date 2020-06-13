@@ -96,7 +96,7 @@
 			}
 		},
 		onShow() {
-
+			getApp().globalData.constantly();
 		},
 		onUnload() {
 			let that = this;

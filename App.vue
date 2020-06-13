@@ -18,8 +18,8 @@
 							method:$taxi.Interface.reportAddress.method,
 							data: {
 								//carId:that.carId,
-								driverID:that.driverID,
-								license_plate:that.licensePlate,
+								driverID:'1',
+								license_plate:'闽C11111蓝',
 								lon:res.longitude,
 								lat:res.latitude,
 							},
@@ -31,19 +31,14 @@
 							}
 						});
 					},
-					fail:function(res){
-						
-					},
 				});
-				
-				
 			},
 			constantly: function() {
 				let that = this;
 				if (that.globalInterval == 0) {
 					that.globalInterval = setInterval(function() {
 					    that.uploadMyLocation();
-					}, 10000);
+					}, 20000);
 				}
 			},
 			closeUpload:function(){
