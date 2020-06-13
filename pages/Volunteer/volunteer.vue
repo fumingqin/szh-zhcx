@@ -126,6 +126,7 @@
 				// vehicleInfo:null,
 				seat: 0,
 				volunteerImg:'',
+				signImage:'',
 			}
 		},
 		onLoad() {
@@ -436,6 +437,7 @@
 				}
 			},
 			getOrder(){
+				var that = this;
 				uni.request({
 					url: that.$volunteer.Interface.placeorder.value,
 					method: that.$volunteer.Interface.placeorder.method,

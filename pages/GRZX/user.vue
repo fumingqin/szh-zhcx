@@ -63,6 +63,11 @@
 				<button open-type="contact" class="contactClass">在线客服</button>
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
 			</view>
+			<view class="boxClass borderTop" @click="exitClick">
+				<image src="../../static/GRZX/tubiao_tuichu.png" class="iconClass3"></image>
+				<text class="fontStyle">退出登录</text>
+				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
+			</view>
 			<view class="boxClass borderTop" @click="setClick">
 				<image src="../../static/GRZX/tubiao_shezhi.png" class="iconClass1"></image>
 				<text class="fontStyle">设&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置</text>
@@ -132,9 +137,30 @@
 					phoneNumber: '18065328329', //仅为示例
 				});
 			},
+			// ---------------------------设置--------------------------
 			setClick(){
 				uni.navigateTo({
 					url:'/pages/GRZX/set',
+				})
+			},
+			// ---------------------------退出登录--------------------------
+			exitClick(){
+				uni.showModal({
+					content: '确定要退出登录么',
+					success: (e)=>{
+						if(e.confirm){
+							uni.removeStorageSync('userInfo');
+							uni.removeStorageSync('vehicleInfo');
+							getApp().globalData.driverID = '';
+							getApp().globalData.licensePlate = '';
+							getApp().globalData.closeUpload();
+							setTimeout(()=>{
+								uni.reLaunch({
+									url:'/pages/GRZX/userLogin'
+								})
+							}, 200)
+						}
+					}
 				})
 			},
 			//----------------------判断是否为base64格式-------------------
@@ -341,14 +367,20 @@
 	.iconClass1{  //设置
 		width: 50upx;
 		height: 51upx;
-		margin-top: 30upx;
+		margin-top: 28upx;
 		margin-left: 9upx;
 	}
 	.iconClass2{  //在线客服图标
 		width: 47upx;
 		height: 43upx;
-		margin-top: 34upx;
+		margin-top: 33upx;
 		margin-left: 9upx;
+	}
+	.iconClass3{  //退出登录
+		width: 41upx;
+		height: 41upx;
+		margin-top: 32upx;
+		margin-left: 14upx;
 	}
 	.btnClass{
 		width: 11upx;
