@@ -45,8 +45,14 @@
 										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
+										<view v-if="item.orderState == '到达出发地'">
+											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
+										</view>
+										<view v-if="item.orderState == '接到乘客'">
+											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
+										</view>
 									</view>
-									<view class="btnarea">
+									<!-- <view class="btnarea">
 										<view v-if="item.orderState == '到达出发地'">
 											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
 										</view>
@@ -55,7 +61,7 @@
 										<view v-if="item.orderState == '接到乘客'">
 											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
 										</view>
-									</view>
+									</view> -->
 								</view>
 							</view>
 						</view>
@@ -87,13 +93,9 @@
 										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
-									</view>
-									<view class="btnarea">
 										<view v-if="item.orderState == '到达出发地'">
 											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
 										</view>
-									</view>
-									<view class="btnarea">
 										<view v-if="item.orderState == '接到乘客'">
 											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
 										</view>
@@ -132,13 +134,9 @@
 										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
-									</view>
-									<view class="btnarea">
 										<view v-if="item.orderState == '到达出发地'">
 											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
 										</view>
-									</view>
-									<view class="btnarea">
 										<view v-if="item.orderState == '接到乘客'">
 											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
 										</view>
@@ -174,13 +172,9 @@
 										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '接到乘客'||item.orderState == '出发'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
-									</view>
-									<view class="btnarea">
 										<view v-if="item.orderState == '到达出发地'">
 											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
 										</view>
-									</view>
-									<view class="btnarea">
 										<view v-if="item.orderState == '接到乘客'">
 											<button @click="confirmGetToDestination(item)" style="width: auto;" type="default">确认到达</button>
 										</view>
