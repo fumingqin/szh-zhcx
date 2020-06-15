@@ -10,7 +10,7 @@
 		</view>
 
 		<view style="margin:0 30rpx;">
-			<view style="position: fixed;left: 30rpx;right: 30rpx;z-index: 9999;background-color: #F6F8FE;" :style="{top:menuButtonHeight}">
+			<view style="height: 40px;position: fixed;left: 30rpx;right: 30rpx;z-index: 9999;background-color: #F6F8FE;" :style="{top:menuButtonHeight}">
 				<view class="tab">
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==0?'tabactive':''" @click="tabclick(0)">全部</view>
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==1?'tabactive':''" @click="tabclick(1)">进行中</view>
@@ -18,8 +18,7 @@
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">被取消</view>
 				</view>
 			</view>
-			<scroll-view style="height: 1100rpx;" :refresher-triggered='refresherTriggered' scroll-y=true refresher-enabled=true @refresherrefresh='refresherRefresh'>
-
+			<scroll-view :style="{height:scrowHeight+'px'}" :refresher-triggered='refresherTriggered' scroll-y=true refresher-enabled=true @refresherrefresh='refresherRefresh'>
 				<!--全部-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
 					<view v-for="(item,index) in orderArr" :key="index">
@@ -205,6 +204,7 @@
 				menuButtonHeight: '',
 				menuButtonTop: '',
 				refresherTriggered :false,
+				scrowHeight:'',
 			}
 		},
 		onLoad() {
@@ -212,6 +212,7 @@
 			let menuButtonInfo = uni.getMenuButtonBoundingClientRect();
 			that.menuButtonHeight = menuButtonInfo.height;
 			that.menuButtonTop = menuButtonInfo.top;
+			that.loadscrowHeight();
 		},
 		onShow() {
 			var that = this;
@@ -237,17 +238,22 @@
 			}
 		},
 		methods: {
+			loadscrowHeight:function(){
+				var that=this;
+				uni.getSystemInfo({
+				　　success: function(res) { // res - 各种参数
+						that.scrowHeight=res.windowHeight-that.menuButtonHeight - 50 - 50;//选项卡50，底部50
+				    }
+				});
+			},
 			refresherRefresh:function(){
 				let that = this;
 				that.refresherTriggered = true;
 				that.getTaxiOrder();
-				console.log(111);
 			},
-			
 			back: function() {
 				uni.navigateBack({});
 			},
-
 			showToast: function(title, icon = 'none') {
 				uni.showToast({
 					title: title,
