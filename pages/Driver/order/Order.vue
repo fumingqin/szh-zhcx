@@ -18,7 +18,7 @@
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">被取消</view>
 				</view>
 			</view>
-			<scroll-view style="height: 1100rpx;" scroll-y=true refresher-enabled=true>
+			<scroll-view style="height: 1100rpx;" :refresher-triggered='refresherTriggered' scroll-y=true refresher-enabled=true @refresherrefresh='refresherRefresh'>
 
 				<!--全部-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
@@ -203,7 +203,8 @@
 				cancleArr: [], //已取消
 				userInfo: '',
 				menuButtonHeight: '',
-				menuButtonTop: ''
+				menuButtonTop: '',
+				refresherTriggered :false,
 			}
 		},
 		onLoad() {
@@ -219,7 +220,8 @@
 				that.showToast('请先登录');
 			} else {
 				uni.showLoading({
-					mask: true
+					mask: true,
+					title:'加载中'
 				});
 				that.getTaxiOrder();
 			}
@@ -228,12 +230,20 @@
 			var that = this;
 			if (that.userInfo != '') {
 				uni.showLoading({
-					mask: true
+					mask: true,
+					title:'加载中'
 				});
 				that.getTaxiOrder();
 			}
 		},
 		methods: {
+			refresherRefresh:function(){
+				let that = this;
+				that.refresherTriggered = true;
+				that.getTaxiOrder();
+				console.log(111);
+			},
+			
 			back: function() {
 				uni.navigateBack({});
 			},
@@ -261,7 +271,6 @@
 					},
 					success: function(res) {
 						uni.hideLoading();
-						console.log(res);
 						let data = res.data.data;
 						if (res.data.code===200) {
 							that.orderArr = [];
@@ -276,10 +285,10 @@
 							that.cancleArr = that.orderArr.filter(x => {
 								return x.state === '';
 							}); 
+							that.refresherTriggered = false;
 						}
 					},
 					fail: function(res) {
-						//console.log(res);
 						uni.hideLoading();
 						that.showToast('网络连接失败');
 					}
@@ -314,7 +323,8 @@
 				//到达
 				let that = this;
 				uni.showLoading({
-					mask: true
+					mask: true,
+					title:'加载中'
 				});
 				uni.request({
 					url:that.$taxi.Interface.terminus.value,
@@ -323,7 +333,6 @@
 						orderId:item.id
 					},
 					success:function(res){
-						console.log(res);
 						uni.hideLoading();
 						if (res.data.code===200) {
 							that.showToast('到达成功');
@@ -343,7 +352,8 @@
 				//发车
 				let that = this;
 				uni.showLoading({
-					mask: true
+					mask: true,
+					title:'加载中'
 				});
 				uni.request({
 					url:that.$taxi.Interface.driverLeaves.value,
@@ -352,7 +362,6 @@
 						orderId:item.id
 					},
 					success:function(res){
-						console.log(res);
 						uni.hideLoading();
 						if (res.data.code===200) {
 							that.showToast('发车成功');
@@ -404,14 +413,6 @@
 				}
 			},
 			
-			taxiFormatTime: function(time) {
-				var dateTime = time.replace('T', ' ');
-				if (dateTime.indexOf('1900') > -1) {
-					return '';
-				} else {
-					return dateTime;
-				}
-			}
 		}
 	}
 </script>
