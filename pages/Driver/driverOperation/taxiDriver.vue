@@ -92,7 +92,8 @@
 				that.showToast('请先登录');
 			} else {
 				uni.showLoading({
-					mask: true
+					mask: true,
+					title:'加载中'
 				});
 				//在getOrder里面会关闭
 				that.getOrder(that.userInfo.driverId);
@@ -129,7 +130,8 @@
 				//接单
 				let that = this;
 				uni.showLoading({
-					mask: true
+					mask: true,
+					title:'加载中'
 				});
 				uni.request({
 					url: that.$taxi.Interface.receivingOrder.value,
