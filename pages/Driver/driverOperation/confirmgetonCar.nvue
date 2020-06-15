@@ -114,7 +114,7 @@
 					<!-- <picker @change='pickerChange' mode="selector" :value="pickerValue" :range='callPoliceArr' style="align-items: center;text-align: center;">
 						<text class="popupTitleFont"  style="text-align: center;">{{alarmReason}}</text>
 					</picker> -->
-					<textarea maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 200rpx;" name='alarmRemark' v-model="alarmRemark" placeholder="请填写报警原因"></textarea>
+					<textarea maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 200rpx;width: 550rpx;margin: 0 auto;" name='alarmRemark' v-model="alarmRemark" placeholder="请填写报警原因"></textarea>
 					<button @click="sendCall" class="popupButtonOk">
 						<text class="popupButtonOkFont">确定</text>
 					</button>
