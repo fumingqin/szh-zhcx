@@ -242,7 +242,7 @@
 				var that=this;
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
-						that.scrowHeight=res.windowHeight-that.menuButtonHeight - 50 - 50;//选项卡50，底部50
+						that.scrowHeight=res.windowHeight-that.menuButtonHeight - 50 - 50 - that.menuButtonTop;//选项卡50，底部50
 				    }
 				});
 			},
