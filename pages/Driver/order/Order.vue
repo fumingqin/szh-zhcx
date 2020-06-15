@@ -77,7 +77,7 @@
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">世中会车辆</view>
+											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 									</view>
@@ -123,7 +123,7 @@
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">世中会车辆</view>
+											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 
@@ -158,7 +158,7 @@
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">世中会车辆</view>
+											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 
