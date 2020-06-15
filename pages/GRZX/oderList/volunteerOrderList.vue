@@ -42,7 +42,7 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
@@ -90,7 +90,7 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
@@ -131,7 +131,7 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
@@ -169,7 +169,7 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
