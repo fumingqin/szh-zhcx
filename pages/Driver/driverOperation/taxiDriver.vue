@@ -203,13 +203,14 @@
 			
 			formatExpectMileage:function(expectMileage){
 				//公里数
-				var mileage = parseFloat(expectMileage);
-				var long = mileage / 1000;
-				if(long > 1){
-					return long.toFixed(1) + '公里';
-				}else{
-					return mileage + '米';
-				}
+				// var mileage = parseFloat(expectMileage);
+				// var long = mileage / 1000;
+				// if(long > 1){
+				// 	return long.toFixed(1) + '公里';
+				// }else{
+				// 	return mileage + '米';
+				// }
+				return expectMileage + '公里';
 			},
 			
 			toOrderList:function(){
