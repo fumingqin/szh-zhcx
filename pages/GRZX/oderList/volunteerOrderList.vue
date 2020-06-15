@@ -40,6 +40,7 @@
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view v-if="item.orderState == '审核未通过'" style="margin-top: 10rpx;">未通过原因：{{item.reason}}</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -211,6 +212,7 @@
 				menuButtonTop: '',
 				scrowHeight:'', //scroll-view的高度法
 				triggered:false,
+				reason:'',
 			}
 		},
 		onLoad(options) {
@@ -306,6 +308,7 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state,	//订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										failReason:item.reason,//审核未通过原因
 									};
 									that.orderArr.push(obj);
 								}else if(item.state=="waiting"&&item.peoperNumber>0&&item.parentId==null){
