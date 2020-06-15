@@ -289,7 +289,7 @@
 								return x.state === 'arrive';
 							});
 							that.cancleArr = that.orderArr.filter(x => {
-								return x.state === '';
+								return x.state === 'cancle';
 							}); 
 							that.refresherTriggered = false;
 						}
