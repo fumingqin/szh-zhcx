@@ -175,6 +175,7 @@
 					//清除监听，不清除会消耗资源
 					uni.$off('startstaionChange');
 				});
+				that.endSiteName="请选择终点";
 				uni.navigateTo({
 					//跳转到下个页面的时候加个字段，判断当前点击的是上车点
 					url: '/pages/Volunteer/homeSattionPick?&station=' + 'qidian' + '&pointType=start',
@@ -304,7 +305,7 @@
 			//-----------------------------------手机签名------------------------------------------------
 			//-------- 画布的触摸移动开始手势响应----------
 			start: function(e) {
-				console.log(e)
+				// console.log(e)
 				// console.log("触摸开始" + event.changedTouches[0].x)
 				// console.log("触摸开始" + event.changedTouches[0].y)
 				//获取触摸开始的 x,y
@@ -328,7 +329,7 @@
 			},
 			// 画布的触摸移动结束手势响应
 			end: function(e) {
-				console.log("触摸结束" + e)
+				// console.log("触摸结束" + e)
 				//清空轨迹数组
 				for (let i = 0; i < touchs.length; i++) {
 					touchs.pop()
@@ -336,14 +337,14 @@
 			},
 			// 画布的触摸取消响应
 			cancel: function(e) {
-				console.log("触摸取消" + e)
+				// console.log("触摸取消" + e)
 			},
 			// 画布的长按手势响应
 			tap: function(e) {
-				console.log("长按手势" + e)
+				// console.log("长按手势" + e)
 			},
 			error: function(e) {
-				console.log("画布触摸错误" + e)
+				// console.log("画布触摸错误" + e)
 			},
 			//绘制
 			draw: function(touchs) {
@@ -377,56 +378,8 @@
 							pathToBase64(res.tempFilePath)
 								.then(base64 => {
 									that.signImage = base64;
-									console.log(that.signImage)
-									// that.submitClick(that.signImage);
+									that.submitClick(that.signImage);
 								})
-								uni.request({
-									url: that.$volunteer.Interface.uploadFile.value,
-									method: that.$volunteer.Interface.uploadFile.method,
-									data: {
-										file:that.signImage
-									},
-									success(res) {
-										that.getOrder();
-									},
-									fail(res) {
-										uni.showToast({
-											title: "网络连接失败",
-											icon: "none"
-										})
-									}
-								})
-							// uni.request({
-							// 	url: that.$volunteer.Interface.placeorder.value,
-							// 	method: that.$volunteer.Interface.placeorder.method,
-							// 	data: {
-							// 		startName: that.startSiteName,
-							// 		endName: that.endSiteName,
-							// 		seatCount: that.people,
-							// 		startDate: that.date + ':00',
-							// 		remark: that.remark,
-							// 		volunteerId: that.userInfo.volunteerId,
-							// 	},
-							// 	success: function(res) {
-							// 		console.log(res);
-							// 		if (res.data.code == 200) {
-							// 			that.showToast('提交成功,请等待后台审核！');
-							// 			setTimeout(function() {
-							// 				// uni.navigateBack({});
-							// 				uni.navigateTo({
-							// 					// url:'./CallAndDrive?orderNumber='+res.data.data.id
-							// 					url: '../GRZX/oderList/volunteerOrderList'
-							// 				})
-							// 			}, 1500)
-							// 		} else {
-							// 			that.showToast('提交失败');
-							// 		}
-							// 	},
-							// 	fail: function(res) {
-							// 		console.log(res);
-							// 		that.showToast('网络连接失败');
-							// 	}
-							// })
 						}
 					})
 				} else {
@@ -436,7 +389,28 @@
 					})
 				}
 			},
-			getOrder(){
+			submitClick(e){
+				var that=this;
+				console.log(e,"that.signImage")
+				uni.request({
+					url: that.$volunteer.Interface.uploadFile.value,
+					method: that.$volunteer.Interface.uploadFile.method,
+					data: {
+						imageForm:e
+					},
+					success(res) {
+						console.log(res)
+						that.getOrder(res.data.data);
+					},
+					fail(res) {
+						uni.showToast({
+							title: "网络连接失败",
+							icon: "none"
+						})
+					}
+				})
+			},
+			getOrder(e){
 				var that = this;
 				uni.request({
 					url: that.$volunteer.Interface.placeorder.value,
@@ -448,11 +422,13 @@
 						startDate: that.date + ':00',
 						remark: that.remark,
 						volunteerId: that.userInfo.volunteerId,
+						signaturePhoto:e,
 					},
 					success: function(res) {
 						console.log(res);
 						if (res.data.code == 200) {
 							that.showToast('提交成功,请等待后台审核！');
+							that.clearData();
 							setTimeout(function() {
 								// uni.navigateBack({});
 								uni.navigateTo({
@@ -498,27 +474,15 @@
 				    }
 				});
 			},
-			// chooseStartSite:function(){
-			// 	let that = this;
-			// 	uni.chooseLocation({
-			// 		success:function(res){
-			// 			that.startSiteName = res.name
-			// 			that.startLon = res.longitude
-			// 			that.startLat = res.latitude
-			// 		},
-			// 	});
-			// },
-			// chooseEndSite:function(){
-			// 	let that = this;
-			// 	uni.chooseLocation({
-			// 		success:function(res){
-			// 			that.endSiteName = res.name
-			// 			that.endLon = res.longitude
-			// 			that.endLat = res.latitude
-			// 		},
-			// 	});
-			// },
-
+			clearData(){
+				var that=this;
+				that.startSiteName = '请选择起点';
+				that.endSiteName="请选择终点";
+				that.people=0;
+				that.remark="";
+				that.clearClick();
+				that.closePopup('centerPopup');
+			},
 		}
 	}
 </script>

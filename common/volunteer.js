@@ -20,7 +20,7 @@ const Interface={
 		pages: [],
 	},
 	uploadFile:{
-		value:Url+'/api/file/upload',
+		value:Url+'/api/file/upload-base64',
 		name:'上传签名文件',
 		method:'POST',
 		pages: [],

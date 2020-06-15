@@ -104,21 +104,25 @@
 						console.log(res)
 						uni.hideLoading();
 						let that = this;
+						var array=[];
 						if (res.data.length != 0) {
 							if(that.pointType === 'start'){
 								for (var j = 0; j < res.data.data.data.length;j++) {
 									var countysArray = {
 										countys : res.data.data.data[j].startName
 									}
-									that.mainArray.push(countysArray);
+									array.push(countysArray);
 								}
+								console.log(array,'array')
+								that.mainArray=that.arrayDistinct(array);
 							}else if (that.pointType === 'end'){
 								for (var j = 0; j < res.data.data.data.length;j++) {
 									var countysArray = {
 										countys : res.data.data.data[j].endName
 									}
-									that.mainArray.push(countysArray);
+									array.push(countysArray);
 								}
+								that.mainArray=that.arrayDistinct(array);
 							}
 								
 						}
@@ -232,7 +236,19 @@
 			swiperChange(e){
 				let index=e.detail.current;
 				this.leftIndex=Number(index);
-			}
+			},
+			//-------------------------数组去重-------------------------
+			arrayDistinct: function(array) {
+			    let siteNameArr = [];
+				for (let item of array) {
+				 siteNameArr.push(item.countys);
+				}
+				let distinctArr = array.filter((x, index) => {
+				 return siteNameArr.indexOf(x.countys) == index
+				});
+				return distinctArr
+			},
+			
 		}
 	}
 </script>
