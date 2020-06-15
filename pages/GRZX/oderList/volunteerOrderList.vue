@@ -18,7 +18,7 @@
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">已取消</view>
 				</view>
 			</view>
-			<scroll-view style="height: 1100rpx;" scroll-y=true refresher-enabled=false>
+			<scroll-view v-bind:style="{height:scrowHeight+'px'}" scroll-y=true refresher-enabled=true @refresherrefresh="refreshClick">
 
 				<!--全部-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
@@ -208,11 +208,13 @@
 				cancleArr: [], //已取消
 				userInfo: '',
 				menuButtonHeight: '',
-				menuButtonTop: ''
+				menuButtonTop: '',
+				scrowHeight:'', //scroll-view的高度
 			}
 		},
 		onLoad(options) {
 			let that = this;
+			that.loadscrowHeight();
 			let menuButtonInfo = uni.getMenuButtonBoundingClientRect();
 			that.menuButtonHeight = menuButtonInfo.height;
 			that.menuButtonTop = menuButtonInfo.top;
@@ -241,6 +243,18 @@
 			}
 		},
 		methods: {
+			//加载scroll-view的高度
+			loadscrowHeight:function(){
+				var that=this;
+				uni.getSystemInfo({
+				　　success: function(res) { // res - 各种参数
+						that.scrowHeight=res.windowHeight-100;
+						console.log(res.windowHeight)
+						console.log(that.scrowHeight)
+				    }
+				});
+			},
+			
 			back: function() {
 				uni.navigateBack({});
 			},
@@ -459,6 +473,13 @@
 						that.showToast('网络连接失败');
 					}
 				})
+			},
+			//scroll-view下拉刷新
+			refreshClick:function(){
+				uni.showLoading({
+					title:'加载订单中...',
+				});
+				this.getVolunteerOrder();
 			},
 		}
 	}
