@@ -34,7 +34,7 @@
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:140rpx;height:40rpx;">预计里程:</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectDuration(item.line.expectMileage)}}</text>
+					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectMileage(item.line.expectMileage)}}</text>
 					<text class="fontClass" style="width:140rpx;height:40rpx;margin-left: 40rpx;">预计时长:</text>
 					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectDuration(item.line.expectDuration)}}</text>
 				</view>
