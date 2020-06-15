@@ -18,7 +18,7 @@
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">已取消</view>
 				</view>
 			</view>
-			<scroll-view v-bind:style="{height:scrowHeight+'px'}" scroll-y=true refresher-enabled=true @refresherrefresh="refreshClick">
+			<scroll-view v-bind:style="{height:scrowHeight+'px'}" scroll-y=true refresher-enabled=true @refresherrefresh="refreshClick" :refresher-triggered="triggered">
 
 				<!--全部-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
@@ -209,7 +209,8 @@
 				userInfo: '',
 				menuButtonHeight: '',
 				menuButtonTop: '',
-				scrowHeight:'', //scroll-view的高度
+				scrowHeight:'', //scroll-view的高度法
+				triggered:false,
 			}
 		},
 		onLoad(options) {
@@ -287,6 +288,8 @@
 					},
 					success(res){
 						uni.hideLoading();
+						that.triggered = false;//触发onRestore，并关闭刷新图标
+						that._freshing = false;
 						console.log(res)
 						if(res.data.code==200){
 							var obj=new Object();
@@ -476,10 +479,13 @@
 			},
 			//scroll-view下拉刷新
 			refreshClick:function(){
-				uni.showLoading({
-					title:'加载订单中...',
-				});
-				this.getVolunteerOrder();
+                if (!this.triggered){//界面下拉触发，triggered可能不是true，要设为true
+					this.triggered = true; 
+					uni.showLoading({
+						title:'加载订单中...',
+					});
+					this.getVolunteerOrder();
+				}              
 			},
 		}
 	}
