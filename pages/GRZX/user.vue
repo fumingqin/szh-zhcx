@@ -1,6 +1,7 @@
 <template>
 	<view class="content">
 		<image src="../../static/GRZX/return.png" class="returnClass" @click="returnClick"></image>
+		<view class="returnStyle" @click="returnClick">返回</view>
 		<view class="backImg">
 			<image src="../../static/GRZX/backImg.png" class="imgClass"></image>
 			<view class="userInfoClass" @click="personClick">
@@ -424,5 +425,13 @@
 		top: 90upx;
 		left: 4.13%;
 		position: absolute;
+	}
+	.returnStyle{
+		width: 10%;
+		height: 35upx;
+		top: 86upx;
+		left: 9.13%;
+		position: absolute;
+		color: #FFFFFF;
 	}
 </style>

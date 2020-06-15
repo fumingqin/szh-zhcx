@@ -396,7 +396,7 @@
 					url: that.$volunteer.Interface.uploadFile.value,
 					method: that.$volunteer.Interface.uploadFile.method,
 					data: {
-						imageForm:e
+						image:e
 					},
 					success(res) {
 						console.log(res)
