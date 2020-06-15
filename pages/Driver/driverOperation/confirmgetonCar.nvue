@@ -8,9 +8,9 @@
 		<view style="position: fixed;bottom: 110rpx;">
 			<view style="margin-left: 25rpx;width: 700rpx;">
 				<view style="flex-direction: row;justify-content: space-between;align-items: center;">
-					<view>
+					<view style="height: 120rpx;">
 						<!--一键报警-->
-						<image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;" @click="callPolice"></image>
+						<!-- <image src="@/static/driver/police.png" style="width: 120rpx;height: 120rpx;" @click="callPolice"></image> -->
 					</view>
 					<view>
 						<!--导航-->
@@ -254,7 +254,8 @@
 			getOrderInfo: function() {
 				let that = this;
 				uni.showLoading({
-					mask:true
+					mask:true,
+					title:'加载中'
 				});
 				that.getOrder().then(res => {
 					uni.hideLoading();
@@ -271,9 +272,6 @@
 			constantlyOrderInfo:function(){
 				//定时器获取订单信息
 				let that = this;
-				uni.showLoading({
-					mask:true
-				});
 				that.orderInterval = setInterval(function(){
 					that.getOrder().then(res =>{
 						uni.hideLoading();
@@ -294,7 +292,8 @@
 				//长按确认到达上车点
 				let that = this;
 				uni.showLoading({
-					mask:true
+					mask:true,
+					title:'加载中'
 				});
 				uni.request({
 					url:$taxi.Interface.origin.value,
@@ -322,7 +321,8 @@
 				//长按确认乘客上车
 				let that = this;
 				uni.showLoading({
-					mask:true
+					mask:true,
+					title:'加载中'
 				});
 				uni.request({
 					url:$taxi.Interface.confirmBoarding.value,
@@ -350,7 +350,8 @@
 				//长按确认到达目的地
 				let that = this;
 				uni.showLoading({
-					mask:true
+					mask:true,
+					title:'加载中'
 				});
 				uni.request({
 					url:$taxi.Interface.terminus.value,

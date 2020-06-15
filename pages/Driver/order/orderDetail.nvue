@@ -106,6 +106,9 @@
 							that.orderInfo.endName = data.line.endName;
 							that.orderInfo.expectDuration = data.line.expectDuration;
 							that.orderInfo.expectMileage = data.line.expectMileage;
+							
+							that.longitude = data.line.startLng;
+							that.latitude = data.line.startLat;
 							that.setMarker(1,data.line.startLng,data.line.startLat,'../../../static/driver/Start.png');
 							that.setMarker(2,data.line.endLng,data.line.endLat,'../../../static/driver/End.png');
 						}
