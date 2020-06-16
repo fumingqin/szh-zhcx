@@ -309,7 +309,7 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state,	//订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
-										failReason:item.reason,//审核未通过原因
+										reason:item.failReason,//审核未通过原因
 									};
 									that.orderArr.push(obj);
 								}else if(item.state=="waiting"&&item.peoperNumber>0&&item.parentId==null){
