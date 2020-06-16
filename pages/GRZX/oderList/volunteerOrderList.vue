@@ -217,12 +217,11 @@
 		},
 		onLoad(options) {
 			let that = this;
-			that.loadscrowHeight();
 			let menuButtonInfo = uni.getMenuButtonBoundingClientRect();
 			that.menuButtonHeight = menuButtonInfo.height;
 			that.menuButtonTop = menuButtonInfo.top;
+			that.loadscrowHeight();
 			that.current=options.current;
-			console.log(that.current)
 		},
 		onShow() {
 			var that = this;
@@ -251,9 +250,11 @@
 				var that=this;
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
-						that.scrowHeight=res.windowHeight-100-that.menuButtonHeight -that.menuButtonTop;
-						console.log(res.windowHeight)
-						console.log(that.scrowHeight)
+						that.scrowHeight=res.windowHeight-50-that.menuButtonHeight -that.menuButtonTop;
+						// console.log(res.windowHeight)
+						// console.log(that.scrowHeight)
+						// console.log(that.menuButtonHeight)
+						// console.log(that.menuButtonTop)
 				    }
 				});
 			},
@@ -292,7 +293,7 @@
 						uni.hideLoading();
 						that.triggered = false;//触发onRestore，并关闭刷新图标
 						that._freshing = false;
-						console.log(res)
+						//console.log(res)
 						if(res.data.code==200){
 							var obj=new Object();
 							for (let item of res.data.data) {
@@ -433,14 +434,7 @@
 					success:function(res){
 						uni.hideLoading();
 						let data = res.data.data;
-						if(res.data.code===200){
-							uni.startPullDownRefresh();//刷新订单列表
-							// that.setConfirmgetonCar();
-							// that.state = 'passenger';
-							// Map.openMap(parseFloat(that.endLat) ,parseFloat(that.endLon) , that.endAddress, 'gcj02');
-						} else {
-							that.showToast(res.data.msg);
-						}
+						uni.startPullDownRefresh();//刷新订单列表
 					},
 					fail:function(res){
 						uni.hideLoading();
@@ -462,17 +456,7 @@
 					},
 					success:function(res){
 						uni.hideLoading();
-						if(res.data.code===200){
-							uni.startPullDownRefresh();//刷新订单列表
-							//取消由 setInterval 设置的定时器
-							// clearInterval(that.directionInterval);
-							// getApp().globalData.orderNumber = '';
-							// uni.redirectTo({
-							// 	url: '/pages/driver/driverOperation/orderComplete'
-							// })
-						} else {
-							that.showToast(res.data.msg);
-						}
+						uni.startPullDownRefresh();//刷新订单列表
 					},
 					fail:function(res){
 						uni.hideLoading();

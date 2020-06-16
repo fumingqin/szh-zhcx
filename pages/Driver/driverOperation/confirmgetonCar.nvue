@@ -333,7 +333,7 @@
 					success:function(res){
 						uni.hideLoading();
 						let data = res.data.data;
-						if(res.data.code===200){
+						if(res.data.code===200 || res.data.msg === '订单状态错误，更改失败'){
 							that.state = 'passenger';
 						} else {
 							that.showToast(res.data.msg);
@@ -361,7 +361,7 @@
 					},
 					success:function(res){
 						uni.hideLoading();
-						if(res.data.code===200){
+						if(res.data.code===200 || res.data.msg === '订单状态错误，更改失败'){
 							uni.redirectTo({
 								url: '/pages/driver/driverOperation/orderComplete'
 							});
