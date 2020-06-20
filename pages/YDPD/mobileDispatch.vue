@@ -1,8 +1,8 @@
 <template>
 	<view class="content">
-		<text class="titleClass">派单员</text>
+		
 		<!-- <image src="../../static/btnGrzx.png" class="btnGrzx" @click="navTouser"></image> -->
-		<view class="boxClass">
+		<!-- <view class="boxClass">
 			<view class="box1">
 				<text class="fontStyle">平台接单量</text>
 				<text class="fontClass">{{receiveOrderNum}}</text>
@@ -15,24 +15,39 @@
 				<text class="fontStyle">司机完成量</text>
 				<text class="fontClass">{{finishedOrderNum}}</text>
 			</view>
-		</view>
+		</view> -->
 		
-		<scroll-view class="scrollClass" v-bind:style="{height:imgHeight+'px'}" scroll-y="true">
+		<!-- <scroll-view class="scrollClass" v-bind:style="{height:imgHeight+'px'}" scroll-y="true">
+		</scroll-view> -->
+		
+		<!-- 列表 -->
+		<view :style="{'margin-top':Height+'px'}" class="scrollClass">
 			<view class="orderListClass" v-for="(item, index) in OrderList" :key="index">
-				<view class="style1 styleClass">乘车人数：{{item.passengerNum}}</view>
-				<view class="style2 styleClass">上车时间：{{item.getOntime}}</view>
-				<view class="style3 styleClass">
+				<view class="style1 styleClass">
+					<view>乘车人数：{{item.passengerNum}}</view>
+					<view style="margin-left: 50px;">订单状态：{{item.orderType}}</view>
+				</view>
+				<view class="style2 styleClass">出发时间：{{item.getOntime}}</view>
+				<!-- <view class="style3 styleClass">
 					<view>预计里程：{{item.estimatedMileage}}</view>
 					<view style="margin-left: 40px;">预计时长：{{item.estimatedDuration}}</view>
-				</view>
+				</view> -->
 				<view class="style4 styleClass">起点：{{item.startAddress}}</view>
 				<view class="style5 styleClass">终点：{{item.endAddress}}</view>
 				<view class="style6">
-					<view class="btnClass1" @click="dispatchOrder(item)">派单</view>
-					<view class="btnClass2" @click="rejectOrder(item)">拒接</view>
+					<view v-if="item.orderType=='待派单'" class="btnClass1" @click="dispatchOrder(item)">派单</view>
+					<view v-if="item.orderType=='待审核'" class="btnClass1" @click="checkOrder(item)">审核</view>
 				</view>
 			</view>
-		</scroll-view>
+		</view>
+		
+		<!-- 顶部 -->
+		<view class="topClass" :style="{height:Height+'px'}">
+			<text class="titleClass" :style="{top:menuButtonTop+'px'}">派单员</text>
+			<view class="iconClass" :style="{top:menuButtonTop+'px'}">
+				<uni-icons @click="toPersonal" type="contact" size="32"></uni-icons>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -47,6 +62,7 @@
 				//订单列表
 				OrderList:[{
 					id:0,
+					orderType:'待审核',
 					passengerNum:"45人",
 					getOntime:"2020-05-27  18:30",
 					estimatedMileage:"44km",
@@ -55,6 +71,7 @@
 					endAddress:"晋江机场",
 				},{
 					id:1,
+					orderType:'待派单',
 					passengerNum:"488人",
 					getOntime:"2020-05-28  18:30",
 					estimatedMileage:"520km",
@@ -64,6 +81,7 @@
 				},
 				{
 					id:2,
+					orderType:'审核未通过',
 					passengerNum:"488人",
 					getOntime:"2020-05-28  18:30",
 					estimatedMileage:"520km",
@@ -73,6 +91,7 @@
 				},
 				{
 					id:3,
+					orderType:'待审核',
 					passengerNum:"488人",
 					getOntime:"2020-05-28  18:30",
 					estimatedMileage:"520km",
@@ -82,6 +101,7 @@
 				},
 				{
 					id:4,
+					orderType:'待审核',
 					passengerNum:"488人",
 					getOntime:"2020-05-28  18:30",
 					estimatedMileage:"520km",
@@ -91,10 +111,39 @@
 				}],
 				//手机屏幕的高度
 				imgHeight:0,
+				//顶部高度
+				Height:'',
+				menuButtonHeight:'',
+				menuButtonTop:'',
+				userInfo:[],
 			}
 		},
 		onLoad() {
 			this.load();
+			let menuButtonInfo  = uni.getMenuButtonBoundingClientRect();
+			this.menuButtonHeight = menuButtonInfo.height;
+			this.menuButtonTop = menuButtonInfo.top;
+			this.Height=this.menuButtonHeight+this.menuButtonTop+10;
+			// console.log(this.Height)
+		},
+		onShow() {
+			var that = this;
+			that.userInfo = uni.getStorageSync('userInfo') || '';
+			if (that.userInfo == '') {
+				that.$Grzx.showToast('请先登录');
+			} else {
+				// uni.showLoading({
+				// 	title:'加载订单中...',
+				// });
+			}
+		},
+		onPullDownRefresh() {
+			var that = this;
+			if (that.userInfo != '') {
+				// uni.showLoading({
+				// 	title:'加载订单中...',
+				// });
+			}
 		},
 		methods:{
 			//----------------加载scroll-wiew的高度----------------
@@ -107,19 +156,22 @@
 				    }
 				});
 			},
-			//----------------派单----------------
+			//----------------------派单------------------------
 			dispatchOrder(e){
 				console.log(e)
 				uni.navigateTo({
 					url:'/pages/YDPD/selectDriver'
 				})
 			},
-			//----------------拒接----------------
-			rejectOrder(e){
-				console.log(e)
+			//---------------------审核-------------------------
+			checkOrder(e){
+				uni.navigateTo({
+					url:'/pages/YDPD/checkOrder?OrderDetail='+e,
+				})
+				// console.log(e)
 			},
-			//----------------跳转个人中心----------------
-			navTouser(){
+			//--------------------跳转个人中心-------------------
+			toPersonal(){
 				uni.navigateTo({
 					url:'/pages/GRZX/user'
 				})
@@ -137,12 +189,23 @@
 		display: flex;
 		flex-direction: column;
 	}
+	.topClass{
+		width: 100%;
+		background-color: #F5F9FC;
+		position: fixed;
+		top: 0upx;
+	}
 	.titleClass{
 		width: 100%;
-		margin-top: 90upx;
+		top: 90upx;
+		position: fixed;
 		text-align: center;
 		color: #333333;
 		font-size: 38upx;
+	}
+	.iconClass{
+		position: fixed;
+		left: 5%;
 	}
 	.boxClass{
 		width: 100%;
@@ -193,10 +256,10 @@
 		margin-top: 18upx;
 		margin-bottom: 20upx;
 	}
-	.scrollClass{ //订单列表
+	.scrollClass{ //派单列表
 		background-color:#F5F9FC;
 		width: 93.06%;
-		margin-top: 30upx;
+		margin-bottom: 20upx;
 		margin-left: 3.47%;
 		// border: 1upx solid red;
 	}
@@ -209,8 +272,10 @@
 		margin-bottom: 20upx;
 		box-shadow:0px 6px 20px 0px rgba(231,231,231,0.53);
 	}
-	.style1{  //乘车人数
+	.style1{  //乘车人数和订单状态
 		margin-top: 46upx;
+		display: flex;
+		flex-direction: row;
 	}
 	.style2{  //上车时间
 		margin-top: 30upx;
@@ -243,7 +308,7 @@
 		padding:30upx 105upx;
 		background-color: #4C91FC;
 		border-radius: 20upx;
-		margin-left: 40upx;
+		margin-left: 30%;
 		background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));
 		box-shadow:0px 7px 38px 8px rgba(70,103,252,0.15);
 	}

@@ -48,6 +48,21 @@
 					<text class="myFont">已完成</text>
 				</view>
 			</view>
+			
+			<view class="myBox" v-if="userType=='派单员'">
+				<view class="collection" @click="orderClick(1)">
+					<image src="../../static/GRZX/tubiao_pay1.png" class="imgStyle1" mode="aspectFill"></image>
+					<text class="myFont">待审核</text>
+				</view>
+				<view class="order" @click="orderClick(2)">
+					<image src="../../static/GRZX/tubiao_pay2.png" class="imgStyle2" mode="aspectFill"></image>
+					<text class="myFont">待派单</text>
+				</view>
+				<view class="history" @click="orderClick(3)">
+					<image src="../../static/GRZX/tubiao_pay3.png" class="imgStyle3" mode="aspectFill"></image>
+					<text class="myFont">已处理</text>
+				</view>
+			</view>
 		</view>
 		
 		<image :src="advert" class="advertClass"></image>
@@ -86,7 +101,7 @@
 				nickname:'',
 				portrait:'',
 				advert:'/static/GRZX/advert.png',
-				userType:'',
+				userType:'派单员',
 			}
 		},
 		onLoad(){
@@ -118,6 +133,10 @@
 				}else if(that.userType=="志愿者"||that.userType=="随车志愿者"){
 					uni.navigateTo({
 						url:'/pages/GRZX/oderList/volunteerOrderList?current='+e,
+					})
+				}else if(that.userType=="派单员"){
+					uni.navigateTo({
+						url:'/pages/GRZX/oderList/dispatchOrderList?current='+e,
 					})
 				}
 			},

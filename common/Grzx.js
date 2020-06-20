@@ -30,8 +30,18 @@ const Route={
 	
 }
 
+//弹窗提示
+function showToast(title,icon){
+	var sign=icon==undefined?'none':icon;
+	uni.showToast({
+		title:title,
+		icon:sign,
+	})
+}
+
 // 接口声明区
 export default {
 	Interface,
-	Route
+	Route,
+	showToast
 }
