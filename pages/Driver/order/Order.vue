@@ -77,7 +77,7 @@
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">世中会车辆</view>
+											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 									</view>
@@ -123,7 +123,7 @@
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">世中会车辆</view>
+											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 
@@ -158,7 +158,7 @@
 									<view style="display: flex;justify-content: space-between;align-items: center;">
 										<view style="display: flex;align-items: center;">
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
-											<view class="ordertitle">世中会车辆</view>
+											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
 										<view class="orderstatus">{{formatState(item.state)}}</view>
 
@@ -242,8 +242,8 @@
 				var that=this;
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
-						that.scrowHeight=res.windowHeight-that.menuButtonHeight - 50 - 50 - that.menuButtonTop;//选项卡50，底部50
-				    }
+						that.scrowHeight=res.windowHeight-that.menuButtonHeight - 50 - that.menuButtonTop;//选项卡50，底部50
+					}
 				});
 			},
 			refresherRefresh:function(){
@@ -345,6 +345,8 @@
 							setTimeout(function(){
 								that.getTaxiOrder();
 							},1500);
+						}else{
+							that.getTaxiOrder();
 						}
 					},
 					fail:function(res){

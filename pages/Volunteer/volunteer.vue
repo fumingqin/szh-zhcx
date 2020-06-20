@@ -50,10 +50,10 @@
 
 				<view>
 					<view style="padding-top: 20rpx ;">
-						<text class="titleFont">备注</text>
+						<text class="titleFont">乘车原因</text>
 					</view>
 					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
-						<input :value="remark" class="contentFont" />
+						<input v-model="remark" class="contentFont" placeholder="请输入乘车原因" />
 						<!-- <text>人</text> -->
 					</view>
 				</view>
@@ -294,6 +294,9 @@
 					return false;
 				} else if (that.people < 0) {
 					that.showToast('人数输入有误');
+					return false;
+				}else if (that.remark ==='') {
+					that.showToast('请说明乘车原因');
 					return false;
 				}
 				return true;

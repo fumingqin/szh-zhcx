@@ -8,7 +8,7 @@ const Url1 = 'https://szh.ipin8.com:3507';//叶接口地址
 const Interface = {
 	//世中会司机端----------------------------------
 	callPolice :{
-		value:Url + '/api/driver/call-police',
+		value:Url + '/api/volunteer/call-police',
 		name:'司机端一键报警',
 		method:'GET',
 		pages:[]

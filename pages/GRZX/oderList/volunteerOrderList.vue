@@ -40,9 +40,10 @@
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view v-if="item.orderState == '审核未通过'" style="margin-top: 10rpx;">未通过原因：{{item.reason}}</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
@@ -90,7 +91,7 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
@@ -131,7 +132,7 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
@@ -169,7 +170,7 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '到达出发地'">
@@ -211,16 +212,16 @@
 				menuButtonTop: '',
 				scrowHeight:'', //scroll-view的高度法
 				triggered:false,
+				reason:'',
 			}
 		},
 		onLoad(options) {
 			let that = this;
-			that.loadscrowHeight();
 			let menuButtonInfo = uni.getMenuButtonBoundingClientRect();
 			that.menuButtonHeight = menuButtonInfo.height;
 			that.menuButtonTop = menuButtonInfo.top;
+			that.loadscrowHeight();
 			that.current=options.current;
-			console.log(that.current)
 		},
 		onShow() {
 			var that = this;
@@ -249,9 +250,11 @@
 				var that=this;
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
-						that.scrowHeight=res.windowHeight-100-that.menuButtonHeight -that.menuButtonTop;
-						console.log(res.windowHeight)
-						console.log(that.scrowHeight)
+						that.scrowHeight=res.windowHeight-50-that.menuButtonHeight -that.menuButtonTop;
+						// console.log(res.windowHeight)
+						// console.log(that.scrowHeight)
+						// console.log(that.menuButtonHeight)
+						// console.log(that.menuButtonTop)
 				    }
 				});
 			},
@@ -290,7 +293,7 @@
 						uni.hideLoading();
 						that.triggered = false;//触发onRestore，并关闭刷新图标
 						that._freshing = false;
-						console.log(res)
+						//console.log(res)
 						if(res.data.code==200){
 							var obj=new Object();
 							for (let item of res.data.data) {
@@ -306,6 +309,7 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state,	//订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										reason:item.failReason,//审核未通过原因
 									};
 									that.orderArr.push(obj);
 								}else if(item.state=="waiting"&&item.peoperNumber>0&&item.parentId==null){
@@ -430,14 +434,7 @@
 					success:function(res){
 						uni.hideLoading();
 						let data = res.data.data;
-						if(res.data.code===200){
-							uni.startPullDownRefresh();//刷新订单列表
-							// that.setConfirmgetonCar();
-							// that.state = 'passenger';
-							// Map.openMap(parseFloat(that.endLat) ,parseFloat(that.endLon) , that.endAddress, 'gcj02');
-						} else {
-							that.showToast(res.data.msg);
-						}
+						uni.startPullDownRefresh();//刷新订单列表
 					},
 					fail:function(res){
 						uni.hideLoading();
@@ -459,17 +456,7 @@
 					},
 					success:function(res){
 						uni.hideLoading();
-						if(res.data.code===200){
-							uni.startPullDownRefresh();//刷新订单列表
-							//取消由 setInterval 设置的定时器
-							// clearInterval(that.directionInterval);
-							// getApp().globalData.orderNumber = '';
-							// uni.redirectTo({
-							// 	url: '/pages/driver/driverOperation/orderComplete'
-							// })
-						} else {
-							that.showToast(res.data.msg);
-						}
+						uni.startPullDownRefresh();//刷新订单列表
 					},
 					fail:function(res){
 						uni.hideLoading();

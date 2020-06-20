@@ -34,7 +34,7 @@
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:140rpx;height:40rpx;">预计里程:</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectDuration(item.line.expectMileage)}}</text>
+					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectMileage(item.line.expectMileage)}}</text>
 					<text class="fontClass" style="width:140rpx;height:40rpx;margin-left: 40rpx;">预计时长:</text>
 					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectDuration(item.line.expectDuration)}}</text>
 				</view>
@@ -203,13 +203,14 @@
 			
 			formatExpectMileage:function(expectMileage){
 				//公里数
-				var mileage = parseFloat(expectMileage);
-				var long = mileage / 1000;
-				if(long > 1){
-					return long.toFixed(1) + '公里';
-				}else{
-					return mileage + '米';
-				}
+				// var mileage = parseFloat(expectMileage);
+				// var long = mileage / 1000;
+				// if(long > 1){
+				// 	return long.toFixed(1) + '公里';
+				// }else{
+				// 	return mileage + '米';
+				// }
+				return expectMileage + '公里';
 			},
 			
 			toOrderList:function(){

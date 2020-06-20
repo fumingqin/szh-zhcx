@@ -57,7 +57,7 @@
 				polyline: [],
 				markers: [],
 				mapHeight: '',
-				viewHeight: '',
+				viewHeight: '170px',
 				orderNumber: '',
 				driverName: '',
 				driverPhone: '',
@@ -80,7 +80,7 @@
 				//设置地图高度为可使用的高度
 				success: function(res) {
 					that.mapHeight = res.windowHeight + 'px';
-					that.viewHeight = (res.windowHeight * 0.4) + 'px'
+					// that.viewHeight = (res.windowHeight * 0.4) + 'px'
 				}
 			});
 		},
