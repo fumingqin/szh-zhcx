@@ -53,6 +53,15 @@
 			"style": {
 				"navigationBarTitleText": "选择司机",
 				"navigationBarBackgroundColor": "#F5F9FC",
+				"backgroundColor": "#F5F9FC",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/YDPD/checkOrder", //审核订单
+			"style": {
+				"navigationBarTitleText": "订单审核",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"backgroundColor": "#F5F9FC"
 			}
 		},
@@ -79,6 +88,13 @@
 			"path": "pages/GRZX/oderList/OrderDetail", //志愿者订单详情
 			"style": {
 				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/GRZX/oderList/dispatchOrderList", //派单员订单列表
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
