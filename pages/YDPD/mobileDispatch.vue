@@ -32,6 +32,7 @@
 					<view>预计里程：{{item.estimatedMileage}}</view>
 					<view style="margin-left: 40px;">预计时长：{{item.estimatedDuration}}</view>
 				</view> -->
+				<!-- <view class="style2 styleClass">订单类型：{{item.orderType}}</view> -->
 				<view class="style4 styleClass">起点：{{item.startAddress}}</view>
 				<view class="style5 styleClass">终点：{{item.endAddress}}</view>
 				<view class="style6">
@@ -60,7 +61,72 @@
 				receiveOrderNum:100,
 				finishedOrderNum:300,
 				//订单列表
-				OrderList:[{
+				OrderList:[],
+				//手机屏幕的高度
+				imgHeight:0,
+				//顶部高度
+				Height:'',
+				menuButtonHeight:'',
+				menuButtonTop:'',
+				userInfo:[],
+				
+				timeId:'',//定时器ID
+			}
+		},
+		onLoad() {
+			this.load();
+			let menuButtonInfo  = uni.getMenuButtonBoundingClientRect();
+			this.menuButtonHeight = menuButtonInfo.height;
+			this.menuButtonTop = menuButtonInfo.top;
+			this.Height=this.menuButtonHeight+this.menuButtonTop+10;
+		},
+		onShow() {
+			var that = this;
+			that.clearTimeout();  //清除定时器
+			that.getOrderList();
+			that.userInfo = uni.getStorageSync('userInfo') || '';
+			if (that.userInfo !== '') {
+				that.$Grzx.showToast('请先登录');
+			} else {
+				// uni.showLoading({
+				// 	title:'加载订单中...',
+				//	mask: true,
+				// });
+				// that.getOrderList();
+				// that.timeId=setInterval(function(){
+				// 	that.getOrderList();
+				// },10000);
+			}
+		},
+		onPullDownRefresh() {
+			var that = this;
+			that.clearTimeout();  //清除定时器
+			if (that.userInfo != '') {
+				// uni.showLoading({
+				// 	title:'加载订单中...',
+				//  mask: true,
+				// });
+				// that.getOrderList();
+				// that.timeId=setInterval(function(){
+				// 	that.getOrderList();
+				// },10000);
+			}
+		},
+		methods:{
+			//----------------加载scroll-wiew的高度----------------
+			load(){
+				var that=this;
+				uni.getSystemInfo({
+				　　success: function(res) { // res - 各种参数
+						that.imgHeight=res.windowHeight-220;
+						console.log(that.imgHeight)
+				    }
+				});
+			},
+			//----------------------获取订单列表------------------------
+			getOrderList:function(){
+				var that=this;
+				that.OrderList=[{
 					id:0,
 					orderType:'待审核',
 					passengerNum:"45人",
@@ -108,74 +174,36 @@
 					estimatedDuration:"2小时15分",
 					startAddress:"茶叶大厦路口",
 					endAddress:"晋江机场",
-				}],
-				//手机屏幕的高度
-				imgHeight:0,
-				//顶部高度
-				Height:'',
-				menuButtonHeight:'',
-				menuButtonTop:'',
-				userInfo:[],
-			}
-		},
-		onLoad() {
-			this.load();
-			let menuButtonInfo  = uni.getMenuButtonBoundingClientRect();
-			this.menuButtonHeight = menuButtonInfo.height;
-			this.menuButtonTop = menuButtonInfo.top;
-			this.Height=this.menuButtonHeight+this.menuButtonTop+10;
-			// console.log(this.Height)
-		},
-		onShow() {
-			var that = this;
-			that.userInfo = uni.getStorageSync('userInfo') || '';
-			if (that.userInfo == '') {
-				that.$Grzx.showToast('请先登录');
-			} else {
-				// uni.showLoading({
-				// 	title:'加载订单中...',
-				// });
-			}
-		},
-		onPullDownRefresh() {
-			var that = this;
-			if (that.userInfo != '') {
-				// uni.showLoading({
-				// 	title:'加载订单中...',
-				// });
-			}
-		},
-		methods:{
-			//----------------加载scroll-wiew的高度----------------
-			load(){
-				var that=this;
-				uni.getSystemInfo({
-				　　success: function(res) { // res - 各种参数
-						that.imgHeight=res.windowHeight-220;
-						console.log(that.imgHeight)
-				    }
-				});
+				}]
+				console.log(that.OrderList)
+				if (that.OrderList.length==0) {
+					that.$Grzx.showToast('暂无可派的订单','none',9000)
+				}
 			},
 			//----------------------派单------------------------
-			dispatchOrder(e){
+			dispatchOrder:function(e){
 				console.log(e)
 				uni.navigateTo({
 					url:'/pages/YDPD/selectDriver'
 				})
 			},
 			//---------------------审核-------------------------
-			checkOrder(e){
+			checkOrder:function(e){
 				uni.navigateTo({
 					url:'/pages/YDPD/checkOrder?OrderDetail='+e,
 				})
 				// console.log(e)
 			},
 			//--------------------跳转个人中心-------------------
-			toPersonal(){
+			toPersonal:function(){
 				uni.navigateTo({
 					url:'/pages/GRZX/user'
 				})
-			}
+			},
+			//--------------------清除定时器-------------------
+			clearTimeout:function(){
+				clearTimeout(this.timeId);
+			},
 		}
 	}
 </script>

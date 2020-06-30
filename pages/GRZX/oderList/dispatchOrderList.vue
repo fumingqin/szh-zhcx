@@ -161,7 +161,6 @@
 
 <script>
 	import uniTransition from '@/components/uni-transition/uni-transition.vue';
-	import $taxi from '@/common/Czc.js';
 	export default {
 		components: {
 			uniTransition
@@ -214,7 +213,7 @@
 			}
 		},
 		methods: {
-			//加载scroll-view的高度
+			//----------------加载scroll-view的高度--------------------
 			loadscrowHeight:function(){
 				var that=this;
 				uni.getSystemInfo({
@@ -225,7 +224,7 @@
 				    }
 				});
 			},
-			
+			//----------------返回--------------------
 			back: function() {
 				uni.navigateBack({});
 			},
@@ -242,7 +241,7 @@
 			show: function(el) {
 				el.IsShow = !el.IsShow
 			},
-			//获取订单列表
+			//--------------------------获取订单列表-------------------------
 			getOrderList: function() {
 				let that = this;
 				that.orderArr=[];
@@ -334,7 +333,7 @@
 				})
 			},
 		
-			//详情
+			//-----------------------详情----------------------------
 			toDetail: function(item) {
 				console.log(item.id)
 				uni.navigateTo({
@@ -342,7 +341,7 @@
 				});
 			},
 		
-			// 订单状态格式化
+			//----------------- 订单状态格式化------------------------
 			formatState: function(state) {
 				switch(state){
 					case 'arrive':
@@ -379,7 +378,7 @@
 						return '已取消';
 				}
 			},
-			// 时间格式化
+			// -------------------时间格式化--------------------------
 			formatTime: function(time) {
 				// var dateTime = time.replace('T', ' ');
 				// if (dateTime.indexOf('1900') > -1) {
@@ -389,15 +388,15 @@
 				// }
 				return time;
 			},
-			//前往审核订单
+			//----------------------前往审核订单-----------------------
 			checkOrder: function(item) { 
 				
 			},
-			//前往派单
+			//----------------------前往派单--------------------------
 			dispatchOrder: function(item) {
 				
 			},
-			//scroll-view下拉刷新
+			//--------------scroll-view下拉刷新-----------------------
 			refreshClick:function(){
                 if (!this.triggered){//界面下拉触发，triggered可能不是true，要设为true
 					this.triggered = true; 
