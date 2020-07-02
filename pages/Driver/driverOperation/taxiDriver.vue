@@ -11,7 +11,11 @@
 				<uni-icons @click="toOrderList" type="list" size="24"></uni-icons>
 			</view>
 		</view>
-
+		<view style="display: flex;flex-direction: row;justify-content: space-between;width: 94%;margin: 0 auto 20rpx auto;">
+			<button @click="passengerBroadcast" class="broadcastButton">上车播报</button>
+			<button @click="arriveBroadcast" class="broadcastButton">下车播报</button>
+		</view>
+		
 		<!-- 接单信息-出租车 -->
 		<scroll-view style="height: 1100rpx;" scroll-y=true>
 			
@@ -47,7 +51,7 @@
 					<text class="fontClass" style="height:40rpx;">{{item.line.endName}}</text>
 				</view>
 				<view style="display: flex; margin-left: 4rpx;">
-					<button v-show="item.state === 'waiting'" @click="receipt(item)" style="width:278rpx;height:90rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
+					<button v-show="item.state === 'waiting'" @click="receipt(item)" style="width:278rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
 						接单
 					</button>
 				</view>
@@ -61,7 +65,7 @@
 	import uniIcons from "@/components/uni-icons/uni-icons.vue";
 	import Map from '@/common/my-openMap/openMap.js';
 	import utils from '@/components/Driver/shoyu-date/utils.filter.js';
-	//import Voice from '../../js_sdk/QuShe-baiduYY/QS-baiduyy/QS-baiduyy.js';
+	import Voice from '@/components/Driver/QS-baiduyy/QS-baiduyy.js';
 	export default {
 		components: {
 			uniIcons,
@@ -217,7 +221,17 @@
 				uni.navigateTo({
 					url:'../order/Order'
 				});
-			}
+			},
+			
+			passengerBroadcast:function(){
+				Voice('请系好安全带，注意出行安全。');
+				Voice('Please fasten your seat belt and pay attention to travel safety.');
+			},
+			
+			arriveBroadcast:function(){
+				Voice('目的地已到达，请携带好您的随身物品。');
+				Voice('The destination has arrived. Please take your belongings with you.');
+			},
 		}
 	}
 </script>
@@ -294,5 +308,20 @@
 		height: var(--status-bar-height);
 		width: 100%;
 		box-sizing: content-box;
+	}
+	
+	.broadcastButton{
+		background-color: #FFFFFF;
+		border-radius:20rpx;
+		color: #333333;
+		font-family:Source Han Sans SC;
+		font-size: 38rpx;
+		font-weight: 500;
+		box-shadow:0px 6px 20px 0px #E7E7E7;
+		width: 280rpx;
+		margin: 0;
+	}
+	.broadcastButton::after{
+		border: none;
 	}
 </style>
