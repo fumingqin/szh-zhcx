@@ -121,9 +121,13 @@
 		onLoad() {
 			this.load();
 		},
+		onShow() {
+			//--------------读取缓存(获取登录信息)-------------
+			this.getStorage();
+		},
 		methods: {
 			//--------------加载数据-------------
-			load(){
+			load: function(){
 				var that=this;
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
@@ -131,8 +135,31 @@
 				       }
 				});
 			},
+			//--------------读取缓存-------------
+			getStorage:function(){
+				var that=this;
+				uni.getStorage({
+					key:'userInfo',
+					success:function(res){
+						var message=that.checkDate(res.data.expireTime); //显示是否过期
+						console.log(message)
+						if(message=="未过期"){
+							uni.showLoading({
+								title:'自动登录中...'
+							})
+							that.login(res.data.phoneNumber,res.data.password,res.data.type,res.data.expireTime);
+						}else if(message=="已过期"){
+							that.$Grzx.showToast('登录已过期，请重新登录');
+							console.log("登录已过期");
+						}
+					},
+					fail:function(){
+						console.log("未获取到登录信息");
+					},
+				})
+			},
 			//--------------只能输入数字-------------
-			judgeNum(val){  
+			judgeNum: function(val){  
 				var regPos = /^\d+(\.\d+)?$/; //非负浮点数
 				    var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
 				    if(regPos.test(val) || regNeg.test(val)) {
@@ -141,12 +168,12 @@
 				        return false;
 				    }
 			},
-			inputChange(e){
+			inputChange: function(e){
 				const key = e.currentTarget.dataset.key;
 				this[key] = e.detail.value;
 			},
 			//--------------校验车牌号-------------
-			checkCarNum(e){
+			checkCarNum: function(e){
 				console.log(e)
 				if(!this.isLicensePlate(e.detail.value)){
 					uni.showToast({
@@ -156,7 +183,7 @@
 				}
 			},
 			//--------------密码登录-------------
-			pwdClick(){
+			pwdClick: function(){
 				var that=this;
 				if(that.number==""){
 					uni.showToast({
@@ -169,11 +196,15 @@
 						icon:'none',
 					})
 				}else{
-					that.login(that.number,that.password,that.userType);
+					var time=that.getSpecifiedTime(30);		//获得登录过期时间(30天)
+					uni.showLoading({
+						title:'登录中...'
+					})
+					that.login(that.number,that.password,that.userType,time);
 				}
 			},
 			//--------------登录-------------
-			login(number,password,userType){
+			login: function(number,password,userType,expireTime){
 				var type='';
 				if(userType=="司机"){
 					type='driver';
@@ -181,10 +212,6 @@
 					type='volunteer';
 				}
 				var that=this;
-				uni.showLoading({
-					title:'登录中...'
-				})
-				console.log(that.$Grzx.Interface.login.value)
 				uni.request({
 					// url:'http://yvan.utools.club/api/account/login',
 					url:that.$Grzx.Interface.login.value,
@@ -194,7 +221,6 @@
 						no:number,
 						password:password,
 						type:type,
-					    //licensePlate:'闽CT0012',
 					},
 					method:that.$Grzx.Interface.login.method,
 					success(res) {
@@ -209,18 +235,20 @@
 							// --------司机登录--------
 							if(type=="driver"){
 								var driverList={
-									address:data.address,
-									company:data.company,
-									driverType:data.driverType,
-									portrait:data.headPic,
-									driverId:data.id,
-									userName:data.name,
-									driverNo:data.no,
-									phoneNumber:data.tel,
-									state:data.state,
-									gender:data.sex,
-									type:'司机',
-									carId:data.car.id,
+									address:data.address,	//地址
+									company:data.company,	//公司
+									driverType:data.driverType,	//司机类型
+									portrait:data.headPic,	//头像
+									driverId:data.id,	//id
+									userName:data.name,	//姓名
+									driverNo:data.no,	//编号
+									phoneNumber:data.tel,	//手机号码
+									state:data.state,	//状态
+									gender:data.sex,	//性别
+									type:'司机',		//用户类型
+									carId:data.car.id,	//车辆id
+									password:password,	//密码
+									expireTime:expireTime,	//登录过期时间
 								}
 								uni.setStorageSync('userInfo',driverList)
 								uni.setStorageSync('vehicleInfo',data.car);
@@ -240,7 +268,9 @@
 									volunteerId:data.id,
 									userName:data.name,
 									phoneNumber:data.tel,
-									type:data.type,
+									type:'志愿者',
+									password:password,
+									expireTime:expireTime,
 								}
 								uni.setStorageSync('userInfo',volunteerList)
 								uni.redirectTo({
@@ -256,8 +286,52 @@
 					}
 				})
 			},
+			//--------------获取指定的时间-------------
+			getSpecifiedTime:function(e){
+				var num  = parseInt(e,10); //30天过期
+				var date=new Date();
+				var currentDate=JSON.stringify(date).substring(1,11);
+				var arry  = currentDate.split("-");
+				var year = parseInt(arry[0],10);
+				var month = parseInt(arry[1],10);
+				var day = parseInt(arry[2],10); 
+				//月份的方法：getMonth()从 Date 对象返回月份 (0 ~ 11)。
+				var structDate = new Date(year , month - 1, day);
+				//setDate增减天数
+				structDate.setDate(structDate.getDate()+num); 
+				 //如果月份长度少于2，则前加 0 补位   
+				 if((structDate.getMonth() + 1).toString().length == 1) {  
+					month = 0 + "" + (structDate.getMonth() + 1).toString();  
+				 } else {    
+					 month = (structDate.getMonth() + 1).toString();  
+				 }   
+				 //如果天数长度少于2，则前加 0 补位   
+				 if (structDate.getDate().toString().length == 1) {   
+					day = 0 + "" + structDate.getDate().toString();   
+				 } else {    
+					 day = structDate.getDate().toString();   
+				 }    
+				 var newDate = structDate.getFullYear() + "-" + month + "-" + day;
+				 return newDate;
+			},
+			//--------------检查是否过期-------------
+			checkDate:function(date1){
+				var date2=this.getSpecifiedTime(0); 
+				console.log(date1,"登录过期时间")
+				console.log(date2,"当前时间")
+				var arry1  = date1.split("-");
+				var arry2  = date2.split("-");
+				var time1=parseInt(arry1[0]+arry1[1]+arry1[2],10);
+				var time2=parseInt(arry2[0]+arry2[1]+arry2[2],10);
+				console.log(time1-time2)
+				if(time1>=time2){
+					return "未过期";
+				}else{
+					return "已过期";
+				}
+			},
 			//--------------下拉选择-------------
-			selectClick(e){
+			selectClick: function(e){
 				console.log(e.newVal)
 				this.userType=e.newVal;
 			},
@@ -266,6 +340,7 @@
 				return /^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/
 					.test(str);
 			},
+			
 		}
 	}
 </script>

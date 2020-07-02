@@ -73,44 +73,7 @@
 				// 司机列表
 				List:[],
 				index:-1,
-				DriverList:[
-					{
-						driverName:'张师傅',
-						carType:'大型高一',
-						distance:'1.5km',
-						state:'空闲中',
-						phone:'15260769755',
-						passengerNum:86,
-						carNum:'闽C76182',
-					},
-					{
-						driverName:'张师傅',
-						carType:'大型高一',
-						distance:'1.7km',
-						state:'空闲中',
-						phone:'15260769755',
-						passengerNum:50,
-						carNum:'闽C76183',
-					},
-					{
-						driverName:'张师傅',
-						carType:'大型高一',
-						distance:'1.8km',
-						state:'空闲中',
-						phone:'15260769755',
-						passengerNum:40,
-						carNum:'闽C76184',
-					},
-					{
-						driverName:'张师傅',
-						carType:'大型高一',
-						distance:'1.9km',
-						state:'空闲中',
-						phone:'15260769755',
-						passengerNum:20,
-						carNum:'闽C76185',
-					}
-				],
+				driverList:[], //司机列表
 				
 				//列表的默认高度
 				imgHeight:0,
@@ -147,7 +110,7 @@
 		components: { xflSelect },  //注册为子组件
 		methods:{
 			//--------------计算scroll-view的高度--------------
-			load(){
+			load:function(){
 				var that=this;
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
@@ -159,19 +122,62 @@
 				});
 			},
 			//--------------选择车型--------------
-			selectType(e){
+			selectType:function(e){
 				
 			},
 			//--------------选择起点--------------
-			selectAddress(e){
+			selectAddress:function(e){
 				
 			},
 			//--------------车辆座位--------------
-			selectSeat(e){
+			selectSeat:function(e){
 				
 			},
+			//--------------获取司机列表--------------
+			getDriverList:function(){
+				var that=this;
+				that.driverList=[]; //加载司机列表时，先清空司机列表
+				that.driverList=[
+					{
+						driverName:'张师傅',
+						carType:'大型高一',
+						distance:'1.5km',
+						state:'空闲中',
+						phone:'15260769755',
+						passengerNum:86,
+						carNum:'闽C76182',
+					},
+					{
+						driverName:'张师傅',
+						carType:'大型高一',
+						distance:'1.7km',
+						state:'空闲中',
+						phone:'15260769755',
+						passengerNum:50,
+						carNum:'闽C76183',
+					},
+					{
+						driverName:'张师傅',
+						carType:'大型高一',
+						distance:'1.8km',
+						state:'空闲中',
+						phone:'15260769755',
+						passengerNum:40,
+						carNum:'闽C76184',
+					},
+					{
+						driverName:'张师傅',
+						carType:'大型高一',
+						distance:'1.9km',
+						state:'空闲中',
+						phone:'15260769755',
+						passengerNum:20,
+						carNum:'闽C76185',
+					}
+				];
+			},
 			//--------------选择司机--------------
-			selectDriver(e){
+			selectDriver:function(e){
 				if (this.List.indexOf(e) == -1) {
 					// this.List=[];
 					console.log(e)//打印下标
@@ -183,7 +189,7 @@
 				}
 			},
 			//--------------确认派单--------------
-			successClick(){
+			successClick:function(){
 				var that=this;
 				if(this.index==-1){
 					uni.showToast({
