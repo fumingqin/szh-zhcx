@@ -204,7 +204,7 @@
 								uni.setStorageSync('userInfo',driverList)
 								uni.setStorageSync('vehicleInfo',data.car);
 								getApp().globalData.driverID = data.id;
-								getApp().globalData.licensePlate = data.car.license_plate + data.car.license_color;
+								getApp().globalData.licensePlate = data.car.licensePlate + data.car.licenseColor;
 								getApp().globalData.constantly();
 								//setTimeout(function(){},100)
 									uni.redirectTo({
