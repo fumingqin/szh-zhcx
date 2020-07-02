@@ -45,7 +45,7 @@
 			<view style="width: 700rpx;background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx; padding: 35rpx;display: flex;flex-direction: row;margin-top: 20rpx;justify-content: space-between;align-items: center;">
 				<view style="flex-direction: row;">
 					<text style="font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);line-height:36rpx;">乘客电话:</text>
-					<text style="margin-left: 10rpx;font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);line-height:36rpx;">{{orderInfo.tel}}</text>
+					<text style="margin-left: 10rpx;font-size:30rpx;font-family:Source Han Sans SC;font-weight:300;color:rgba(51,51,51,1);line-height:36rpx;">{{formatTel(orderInfo.tel)}}</text>
 				</view>
 				<image style="width: 60rpx;height: 60rpx;" src="@/static/driver/phone.png" @click="call(orderInfo.tel)"></image>
 			</view>
@@ -96,6 +96,7 @@
 	import Map from '@/common/my-openMap/openMap.js';
 	import uniPopup from "@/components/uni-popup/uni-popup.vue";
 	import uniIcons from "@/components/uni-icons/uni-icons.vue";
+	import Voice from '@/components/Driver/QS-baiduyy/QS-baiduyy.js';
 	export default {
 		components: {
 			uniIcons,
@@ -144,6 +145,7 @@
 				},
 				focus:false,
 				isShowNavigate:false,
+				isShowArrive:false,
 			}
 		},
 		onLoad(option) {
@@ -243,6 +245,7 @@
 						if(res.data.data.state === 'passenger'){
 							if(!that.isShowNavigate){
 								that.toNavigation();
+								//that.passengerBroadcast();
 								that.isShowNavigate = true;
 							}
 						} 
@@ -264,12 +267,25 @@
 							if(res.data.data.state === 'passenger'){
 								if(!that.isShowNavigate){
 									that.toNavigation();
+									that.passengerBroadcast();
 									that.isShowNavigate = true;
 								}
 							} else if (res.data.data.state === 'arrive'){
 								uni.redirectTo({
 									url: '/pages/driver/driverOperation/orderComplete'
 								});
+								if(!that.isShowArrive){
+									that.arriveBroadcast();
+									that.isShowArrive = true;
+								}
+								clearInterval(that.orderInterval);
+							} else if (res.data.data.state === 'cancle'){
+								that.showToast('用户已取消');
+								setTimeout(function(){
+									uni.redirectTo({
+										url: '/pages/driver/driverOperation/taxiDriver'
+									});
+								},1500);
 							}
 						}
 					}).catch(rej => {
@@ -327,6 +343,7 @@
 							that.state = 'passenger';
 							if(!that.isShowNavigate){
 								that.toNavigation();
+								that.passengerBroadcast();
 								that.isShowNavigate = true;
 							}
 						} else {
@@ -359,6 +376,11 @@
 							uni.redirectTo({
 								url: '/pages/driver/driverOperation/orderComplete'
 							});
+							if(!that.isShowArrive){
+								that.arriveBroadcast();
+								that.isShowArrive = true;
+							}
+							clearInterval(that.orderInterval);
 						} else {
 							that.showToast(res.data.msg);
 						}
@@ -518,6 +540,22 @@
 				let endName = that.orderInfo.endName;
 				let type = 'gcj02';
 				Map.openMap(parseFloat(endLat) ,parseFloat(endLng) , endName,type);
+			},
+			
+			//语音播报
+			passengerBroadcast:function(){
+				Voice('请系好安全带，注意出行安全。');
+				Voice('Please fasten your seat belt and pay attention to travel safety.');
+			},
+			
+			arriveBroadcast:function(){
+				Voice('目的地已到达，请携带好您的随身物品。');
+				Voice('The destination has arrived. Please take your belongings with you.');
+			},
+			
+			formatTel:function(tel){
+				//substring()，第一个数字包括，第二个数字不包括
+				return tel.substring(0,3) + '****' + tel.substring(7,tel.length);
 			},
 		}
 	}

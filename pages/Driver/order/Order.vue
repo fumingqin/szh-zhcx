@@ -34,7 +34,7 @@
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
 											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
-										<view class="orderstatus">{{formatState(item.state)}}</view>
+										<view class="orderstatus statusWidth">{{formatState(item.state)}}</view>
 									</view>
 									
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
@@ -79,7 +79,7 @@
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
 											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
-										<view class="orderstatus">{{formatState(item.state)}}</view>
+										<view class="orderstatus statusWidth">{{formatState(item.state)}}</view>
 									</view>
 									
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
@@ -125,7 +125,7 @@
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
 											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
-										<view class="orderstatus">{{formatState(item.state)}}</view>
+										<view class="orderstatus statusWidth">{{formatState(item.state)}}</view>
 
 									</view>
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
@@ -160,7 +160,7 @@
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
 											<view class="ordertitle">{{item.line.name}}</view>
 										</view>
-										<view class="orderstatus">{{formatState(item.state)}}</view>
+										<view class="orderstatus statusWidth">{{formatState(item.state)}}</view>
 
 									</view>
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
@@ -186,7 +186,8 @@
 </template>
 
 <script>
-	import uniTransition from '@/components/uni-transition/uni-transition.vue'
+	import uniTransition from '@/components/uni-transition/uni-transition.vue';
+	import Voice from '@/components/Driver/QS-baiduyy/QS-baiduyy.js';
 	export default {
 		components: {
 			uniTransition
@@ -207,12 +208,13 @@
 				scrowHeight:'',
 			}
 		},
-		onLoad() {
+		onLoad(option) {
 			let that = this;
 			let menuButtonInfo = uni.getMenuButtonBoundingClientRect();
 			that.menuButtonHeight = menuButtonInfo.height;
 			that.menuButtonTop = menuButtonInfo.top;
 			that.loadscrowHeight();
+			that.current = option.current;
 		},
 		onShow() {
 			var that = this;
@@ -342,6 +344,8 @@
 						uni.hideLoading();
 						if (res.data.code===200) {
 							that.showToast('到达成功');
+							Voice('目的地已到达，请携带好您的随身物品。');
+							Voice('The destination has arrived. Please take your belongings with you.');
 							setTimeout(function(){
 								that.getTaxiOrder();
 							},1500);
@@ -476,6 +480,12 @@
 		font-weight: 300;
 		color: rgba(51, 51, 51, 1);
 		line-height: 50rpx;
+		
+	}
+	
+	.statusWidth{
+		width: 100rpx;
+		margin-left: 10rpx;
 	}
 
 	.btnarea {

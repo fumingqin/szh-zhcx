@@ -18,8 +18,8 @@
 							method:$taxi.Interface.reportAddress.method,
 							data: {
 								//carId:that.carId,
-								driverID:'1',
-								license_plate:'闽C11111蓝',
+								driverID:that.driverID,
+								license_plate:that.licensePlate,
 								lon:res.longitude,
 								lat:res.latitude,
 							},
