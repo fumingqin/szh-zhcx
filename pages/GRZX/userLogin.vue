@@ -70,6 +70,27 @@
 			<text class="fontStyle top" @click="pwdClick">登录</text>
 		</view>
 		
+		<!-- 派单员登录 -->
+		<view class="inputContent height" v-if="userType=='派单员'">
+			<view class="inputItem1">
+				<image src="../../static/GRZX/usertype.png" class="iconClass3"></image>
+				<view class="selectClass">
+					<xfl-select  :list="list" :clearable="false" :showItemNum="4"  :listShow="false" :isCanInput="false" @change="selectClick"  
+					:style_Container="'height: 50px;font-size: 16px;'" :placeholder = "'请选择用户类型'" :initValue="userType" :selectHideType="'hideAll'">
+			        </xfl-select>
+				</view>
+			</view>
+			<view class="inputItem phoneNum">
+				<image src="../../static/GRZX/phone.png" class="iconClass1"></image>
+				<input type="number" placeholder="请输入派单员编号或手机号"  class="inputClass" name="number" data-key="number" @input="inputChange" :value="number" />
+			</view>
+			<view class="inputItem Captcha">
+				<image src="../../static/GRZX/pwd.png" class="iconClass2"></image>
+				<input type="password" placeholder="请输入密码" class="inputClass" name="password" data-key="password" :value="password" @input="inputChange" />
+			</view>
+			<text class="fontStyle top" @click="pwdClick">登录</text>
+		</view>
+		
 		<!-- logo -->
 		<image src="../../static/GRZX/logo.png" class="logoClass"></image>
 	</view>
@@ -253,7 +274,6 @@
 	//该界面的全局样式
 	.content {
 		width: 100%;
-		// height: 1000upx;
 		position: relative;
 	}
 	.returnClass{  //返回按钮

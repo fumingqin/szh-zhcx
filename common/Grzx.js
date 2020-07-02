@@ -31,11 +31,14 @@ const Route={
 }
 
 //弹窗提示
-function showToast(title,icon){
+function showToast(title,icon,t){
 	var sign=icon==undefined?'none':icon;
+	var time=t==undefined?'1500':t;
+	console.log(time,'time')
 	uni.showToast({
 		title:title,
 		icon:sign,
+		duration:time,
 	})
 }
 

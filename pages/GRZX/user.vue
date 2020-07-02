@@ -64,8 +64,13 @@
 				</view>
 			</view>
 		</view>
-		
-		<image :src="advert" class="advertClass"></image>
+	
+		<view v-if="userType!='交警'">
+			<image :src="advert" class="advertClass1"></image>
+		</view>
+		<view v-if="userType=='交警'">
+			<image :src="advert" class="advertClass2"></image>
+		</view>
 	
 		<view class="serviceBox">
 			<text class="moreClass">更多服务</text>
@@ -348,17 +353,21 @@
 		margin-top: 22upx;
 		text-align: center;
 	}
-	.advertClass{		//广告
+	.advertClass1{		//广告
 		width: 91.47%;
 		height: 160upx;
 		margin-top: 42upx;
 		margin-left: 4.27%;
 	}
+	.advertClass2{		//广告
+		width: 91.47%;
+		height: 160upx;
+		margin-top: -125upx;
+		margin-left: 4.27%;
+	}
 	.serviceBox{		//更多服务
 		width:91.47%;
 		padding-bottom: 10upx;
-		//height: 510upx;
-		//height: 390upx;
 		background-color: #FFFFFF;
 		border-radius: 12upx;
 		margin-top: 10upx;
@@ -425,7 +434,6 @@
 		width: 91%;
 		height: 100upx;
 		line-height: 100upx;
-		// border: 1upx solid red;
 		position: absolute;
 		left: 8%;
 		top:0upx;
