@@ -179,6 +179,8 @@
 				menuButtonTop: '',
 				scrowHeight:'', //scroll-view的高度法
 				triggered:false,
+				
+				timeId:0, //定时器id
 			}
 		},
 		onLoad(options) {
@@ -190,17 +192,22 @@
 			that.current=options.current;
 			console.log(that.current)
 		},
+		onUnload() {
+			if(this.timeId!=0){
+				this.clearInterval(this.timeId);//清除定时器
+			}
+		},
 		onShow() {
 			var that = this;
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			if (that.userInfo == '') {
 				that.showToast('请先登录');
-				that.getOrderList();
 			} else {
 				uni.showLoading({
 					title:'加载订单中...',
 				});
-				that.getOrderList();
+				that.getOrderList(); //第一次加载订单
+				that.startTimeout(); //开启定时器
 			}
 		},
 		onPullDownRefresh() {
@@ -219,9 +226,7 @@
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
 						that.scrowHeight=res.windowHeight-100-that.menuButtonHeight -that.menuButtonTop;
-						console.log(res.windowHeight)
-						console.log(that.scrowHeight)
-				    }
+					}
 				});
 			},
 			//----------------返回--------------------
@@ -380,12 +385,6 @@
 			},
 			// -------------------时间格式化--------------------------
 			formatTime: function(time) {
-				// var dateTime = time.replace('T', ' ');
-				// if (dateTime.indexOf('1900') > -1) {
-				// 	return '';
-				// } else {
-				// 	return dateTime;
-				// }
 				return time;
 			},
 			//----------------------前往审核订单-----------------------
@@ -405,6 +404,15 @@
 					});
 					this.getOrderList();
 				}              
+			},
+			//---------------------开启定时器---------------------------
+			startTimeout:function(){
+				var that=this;
+				if(that.timeId==0){
+					that.timeId=setInterval(function(){
+						that.getOrderList();
+					},10000);
+				}
 			},
 		}
 	}
