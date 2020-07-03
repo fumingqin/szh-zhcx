@@ -22,6 +22,10 @@
 				<text class="fontClass">性&nbsp;别：</text>
 				<text class="fontStyle">{{gender}}</text>
 			</view>
+			<view class="itemClass" v-if="userType=='司机'">
+				<text class="fontClass">车牌号：</text>
+				<text class="fontStyle">{{licensePlate}}</text>
+			</view>
 			<view class="itemClass" v-if="userType=='司机'"> 
 				<text class="fontClass">地&nbsp;址：</text>
 				<text class="fontStyle">{{address}}</text>
@@ -29,7 +33,7 @@
 			<view class="itemClass" v-if="userType=='司机'">
 				<text class="fontClass">公&nbsp;司：</text>
 				<text class="fontStyle">{{company}}</text>
-			</view>
+			</view>		
 			<view class="itemClass" v-if="userType=='司机'">
 				<text class="fontClass">驾驶证类型：</text>
 				<text class="fontStyle">{{licenseType}}</text>
@@ -55,6 +59,7 @@
 				address:'',  //司机地址
 				company:'',  //司机公司
 				licenseType:'',  //驾驶证类型
+				licensePlate:'',  //车牌号
 			};
 		},
 		onLoad:function(){
@@ -72,6 +77,7 @@
 						that.phoneNumber=res.data.phoneNumber;
 						if(res.data.type=="司机"){
 							that.gender=res.data.gender;
+							that.licensePlate=res.data.licensePlate;
 							that.address=res.data.address;
 							that.company=res.data.company;
 							that.licenseType=res.data.driverType;
@@ -108,8 +114,7 @@
 		.tx{
 			width: 200upx;
 			height: 200upx; 
-			padding: 80upx 0upx;
-			padding-left: 36%;
+			margin: 80upx 36%;
 			border-radius: 50%;
 		}
 		.boxClass{

@@ -249,6 +249,7 @@
 									carId:data.car.id,	//车辆id
 									password:password,	//密码
 									expireTime:expireTime,	//登录过期时间
+									licensePlate:data.car.licensePlate+data.car.licenseColor, //车牌号加颜色
 								}
 								uni.setStorageSync('userInfo',driverList)
 								uni.setStorageSync('vehicleInfo',data.car);

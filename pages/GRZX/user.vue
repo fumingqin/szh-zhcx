@@ -7,9 +7,10 @@
 			<view class="userInfoClass" @click="personClick">
 				<image class="portraitClass" :src="portrait || '/static/GRZX/missing-face.png'"></image>
 				<text class="usernameClass">{{nickname || '请输入您的昵称'}}</text>
+				
 			</view>
-			
-			<view class="typeBox">
+			<view v-if="userType=='司机'" class="licenseClass">{{licensePlate}}</view>
+			<view v-if="userType!='司机'" class="typeBox">
 				<image src="../../static/GRZX/huangguan.png" class="imgTubiao"></image>
 				<text class="fontClass">{{userType}}</text>
 			</view>
@@ -107,6 +108,8 @@
 				portrait:'',
 				advert:'/static/GRZX/advert.png',
 				userType:'派单员',
+				
+				licensePlate:'',//车牌号加颜色
 			}
 		},
 		onLoad(){
@@ -125,6 +128,9 @@
 						that.nickname=res.data.userName;
 						that.portrait=res.data.portrait;
 						that.userType=res.data.type;
+						if(that.userType=="司机"){
+							that.licensePlate=res.data.licensePlate;
+						}
 					}
 				})
 			},
@@ -174,8 +180,9 @@
 					content: '确定要退出登录么',
 					success: (e)=>{
 						if(e.confirm){
-							uni.removeStorageSync('userInfo');
-							uni.removeStorageSync('vehicleInfo');
+							uni.removeStorageSync('userInfo'); 		//清除用户信息缓存
+							uni.removeStorageSync('vehicleInfo'); 	//清除车辆信息缓存
+							uni.removeStorageSync('passengers'); 	//清除乘客信息缓存
 							getApp().globalData.driverID = '';
 							getApp().globalData.licensePlate = '';
 							getApp().globalData.closeUpload();
@@ -246,7 +253,7 @@
 		font-size: 42upx;
 		color: #FFFFFF;
 		margin-top: 20upx;
-		margin-left: 3%;
+		margin-left: 5%;
 		width: 350upx;
 		display: block;
 		text-overflow: ellipsis;
@@ -270,13 +277,19 @@
 		left:82%;
 		top:0upx;
 	}
-	.typeBox{  //普通用户
+	.licenseClass{
+		position: absolute;
+		top: 245upx;
+		left: 25%;
+		color: #FFFFFF;
+	}
+	.typeBox{  
 		width: 142upx;
 		height: 42upx;
 		background-color: #3280B8;
 		position: absolute;
 		top: 245upx;
-		left: 23%;
+		left: 25%;
 		border-radius: 8upx;
 	}
 	.imgTubiao{
@@ -461,4 +474,5 @@
 		position: absolute;
 		color: #FFFFFF;
 	}
+
 </style>
