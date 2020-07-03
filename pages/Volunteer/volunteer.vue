@@ -609,5 +609,13 @@
 		font-size: 36upx;
 		border-bottom-right-radius: 20upx;
 	}
+	/* 隐藏滚动条 */
+	    ::-webkit-scrollbar {  
+	        display: none;  
+	        width: 0 !important;  
+	        height: 0 !important;  
+	        -webkit-appearance: none;  
+	        background: transparent;  
+	    }
 	
 </style>
