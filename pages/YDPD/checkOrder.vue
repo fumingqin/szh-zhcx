@@ -7,7 +7,7 @@
 		</view>
 		
 		<uni-popup ref='centerPopup' :animation='true' type='center' :maskClick='false'>
-			<!--一键报警-->
+			<!--审核不通过的原因-->
 			<view class="popupBlock" style="margin: 0 auto;">
 				<view class="popupTitle">
 					<view style="width: 72rpx;"></view>

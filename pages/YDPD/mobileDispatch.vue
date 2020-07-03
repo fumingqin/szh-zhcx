@@ -32,7 +32,7 @@
 					<view>预计里程：{{item.estimatedMileage}}</view>
 					<view style="margin-left: 40px;">预计时长：{{item.estimatedDuration}}</view>
 				</view> -->
-				<!-- <view class="style2 styleClass">订单类型：{{item.orderType}}</view> -->
+				<view class="style2 styleClass">订单类型：{{item.orderMold}}</view>
 				<view class="style4 styleClass">起点：{{item.startAddress}}</view>
 				<view class="style5 styleClass">终点：{{item.endAddress}}</view>
 				<view class="style6">
@@ -70,7 +70,7 @@
 				menuButtonTop:'',
 				userInfo:[],
 				
-				timeId:'',//定时器ID
+				timeId:0,//定时器ID
 			}
 		},
 		onLoad() {
@@ -79,42 +79,20 @@
 			this.menuButtonHeight = menuButtonInfo.height;
 			this.menuButtonTop = menuButtonInfo.top;
 			this.Height=this.menuButtonHeight+this.menuButtonTop+10;
+			
+			this.getOrderList(); //第一次加载订单
+			this.startTimeout(); //开启定时器
+		},
+		onUnload() {
+			if(this.timeId!=0){
+				this.clearInterval(this.timeId);//清除定时器
+			}
 		},
 		onShow() {
-			var that = this;
-			that.clearTimeout();  //清除定时器
-			that.getOrderList();
-			that.userInfo = uni.getStorageSync('userInfo') || '';
-			if (that.userInfo !== '') {
-				that.$Grzx.showToast('请先登录');
-			} else {
-				// uni.showLoading({
-				// 	title:'加载订单中...',
-				//	mask: true,
-				// });
-				// that.getOrderList();
-				// that.timeId=setInterval(function(){
-				// 	that.getOrderList();
-				// },10000);
-			}
-		},
-		onPullDownRefresh() {
-			var that = this;
-			that.clearTimeout();  //清除定时器
-			if (that.userInfo != '') {
-				// uni.showLoading({
-				// 	title:'加载订单中...',
-				//  mask: true,
-				// });
-				// that.getOrderList();
-				// that.timeId=setInterval(function(){
-				// 	that.getOrderList();
-				// },10000);
-			}
 		},
 		methods:{
 			//----------------加载scroll-wiew的高度----------------
-			load(){
+			load:function(){
 				var that=this;
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
@@ -126,6 +104,7 @@
 			//----------------------获取订单列表------------------------
 			getOrderList:function(){
 				var that=this;
+				that.OrderList=[]; //加载订单时，先清空订单列表
 				that.OrderList=[{
 					id:0,
 					orderType:'待审核',
@@ -135,6 +114,7 @@
 					estimatedDuration:"2小时",
 					startAddress:"茶叶大厦",
 					endAddress:"晋江机场",
+					orderMold:"单趟",
 				},{
 					id:1,
 					orderType:'待派单',
@@ -144,6 +124,7 @@
 					estimatedDuration:"2小时15分",
 					startAddress:"茶叶大厦路口",
 					endAddress:"晋江机场",
+					orderMold:"往返",
 				},
 				{
 					id:2,
@@ -154,6 +135,7 @@
 					estimatedDuration:"2小时15分",
 					startAddress:"茶叶大厦路口",
 					endAddress:"晋江机场",
+					orderMold:"往返",
 				},
 				{
 					id:3,
@@ -164,6 +146,7 @@
 					estimatedDuration:"2小时15分",
 					startAddress:"茶叶大厦路口",
 					endAddress:"晋江机场",
+					orderMold:"往返",
 				},
 				{
 					id:4,
@@ -174,6 +157,7 @@
 					estimatedDuration:"2小时15分",
 					startAddress:"茶叶大厦路口",
 					endAddress:"晋江机场",
+					orderMold:"往返",
 				}]
 				console.log(that.OrderList)
 				if (that.OrderList.length==0) {
@@ -192,7 +176,6 @@
 				uni.navigateTo({
 					url:'/pages/YDPD/checkOrder?OrderDetail='+e,
 				})
-				// console.log(e)
 			},
 			//--------------------跳转个人中心-------------------
 			toPersonal:function(){
@@ -200,9 +183,14 @@
 					url:'/pages/GRZX/user'
 				})
 			},
-			//--------------------清除定时器-------------------
-			clearTimeout:function(){
-				clearTimeout(this.timeId);
+			//--------------------开启定时器-------------------
+			startTimeout:function(){
+				var that=this;
+				if(that.timeId==0){
+					that.timeId=setInterval(function(){
+						that.getOrderList();
+					},10000);
+				}
 			},
 		}
 	}

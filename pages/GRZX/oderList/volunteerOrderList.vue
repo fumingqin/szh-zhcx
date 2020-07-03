@@ -32,7 +32,7 @@
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
 											<view class="ordertitle">{{item.title}}</view>
 										</view>
-										<view class="orderstatus">{{item.orderState}}</view>
+										<view class="orderstatus stateClass">{{item.orderState}}</view>
 									</view>
 									<view style="padding-left: 60rpx;padding-top: 10rpx;" class="orderstatus">
 										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
@@ -40,13 +40,13 @@
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
-										<view v-if="item.orderState == '审核未通过'" style="margin-top: 10rpx;">未通过原因：{{item.reason}}</view>
+										<view v-if="item.orderState == '未通过'" style="margin-top: 10rpx;">未通过原因：{{item.reason}}</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
-										<view v-if="item.orderState == '到达出发地'">
+										<view v-if="item.orderState == '待上车'">
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '已上车'">
@@ -54,7 +54,7 @@
 										</view>
 									</view>
 									<!-- <view class="btnarea">
-										<view v-if="item.orderState == '到达出发地'">
+										<view v-if="item.orderState == '待上车'">
 											<button @click="confirmgetonCar(item)" style="width: auto;" type="default">确认上车</button>
 										</view>
 									</view>
@@ -81,7 +81,7 @@
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
 											<view class="ordertitle">{{item.title}}</view>
 										</view>
-										<view class="orderstatus">{{item.orderState}}</view>
+										<view class="orderstatus stateClass">{{item.orderState}}</view>
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
@@ -91,10 +91,10 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
-										<view v-if="item.orderState == '到达出发地'">
+										<view v-if="item.orderState == '待上车'">
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '已上车'">
@@ -122,7 +122,7 @@
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
 											<view class="ordertitle">{{item.title}}</view>
 										</view>
-										<view class="orderstatus">{{item.orderState}}</view>
+										<view class="orderstatus stateClass">{{item.orderState}}</view>
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
@@ -132,10 +132,10 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
-										<view v-if="item.orderState == '到达出发地'">
+										<view v-if="item.orderState == '待上车'">
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '已上车'">
@@ -160,7 +160,7 @@
 											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
 											<view class="ordertitle">{{item.title}}</view>
 										</view>
-										<view class="orderstatus">{{item.orderState}}</view>
+										<view class="orderstatus stateClass">{{item.orderState}}</view>
 									</view>
 									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
 										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
@@ -170,10 +170,10 @@
 										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
 									</view>
 									<view class="btnarea">
-										<view v-if="item.orderState == '已接单'||item.orderState == '到达出发地'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
+										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
-										<view v-if="item.orderState == '到达出发地'">
+										<view v-if="item.orderState == '待上车'">
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '已上车'">
@@ -213,6 +213,8 @@
 				scrowHeight:'', //scroll-view的高度法
 				triggered:false,
 				reason:'',
+				
+				timeId:0, //定时器的id
 			}
 		},
 		onLoad(options) {
@@ -222,6 +224,11 @@
 			that.menuButtonTop = menuButtonInfo.top;
 			that.loadscrowHeight();
 			that.current=options.current;
+		},
+		onUnload() {
+			if(this.timeId!=0){
+				clearInterval(this.timeId); //清除定时器
+			}
 		},
 		onShow() {
 			var that = this;
@@ -233,8 +240,13 @@
 					title:'加载订单中...',
 				});
 				that.getVolunteerOrder();
+				//开启定时器
+				that.timeId=setInterval(function(){
+					that.getVolunteerOrder();
+				},5000);
 			}
 		},
+		// --------------------------下拉刷新----------------------------
 		onPullDownRefresh() {
 			var that = this;
 			if (that.userInfo != '') {
@@ -245,36 +257,34 @@
 			}
 		},
 		methods: {
-			//加载scroll-view的高度
+			//--------------------加载scroll-view的高度--------------------------
 			loadscrowHeight:function(){
 				var that=this;
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
 						that.scrowHeight=res.windowHeight-50-that.menuButtonHeight -that.menuButtonTop;
-						// console.log(res.windowHeight)
-						// console.log(that.scrowHeight)
-						// console.log(that.menuButtonHeight)
-						// console.log(that.menuButtonTop)
 				    }
 				});
 			},
-			
+			//---------------------------返回上一页--------------------------
 			back: function() {
-				uni.navigateBack({});
+				uni.navigateBack();
 			},
-		
+			//--------------------showToast--------------------------
 			showToast: function(title, icon = 'none') {
 				uni.showToast({
 					title: title,
 					icon: icon
 				});
 			},
+			//--------------------切换tab--------------------------
 			tabclick: function(e) {
 				this.current = e;
 			},
 			show: function(el) {
 				el.IsShow = !el.IsShow
 			},
+			//--------------------获取订单--------------------------
 			getVolunteerOrder: function() {
 				let that = this;
 				that.orderArr=[];
@@ -309,7 +319,7 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state,	//订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
-										reason:item.failReason,//审核未通过原因
+										reason:item.failReason,//未通过原因
 									};
 									that.orderArr.push(obj);
 								}else if(item.state=="waiting"&&item.peoperNumber>0&&item.parentId==null){
@@ -341,12 +351,10 @@
 									};
 									that.orderArr.push(obj);
 								}
-								
-								
 							};
 							console.log(that.orderArr)
 							that.underwayArr = that.orderArr.filter(x => {
-								return x.orderState != '已完成'&&x.orderState != '已取消'&&x.orderState != '审核未通过';
+								return x.orderState != '已完成'&&x.orderState != '已取消'&&x.orderState != '未通过';
 							});
 							that.finishedArr = that.orderArr.filter(x => {
 								return x.orderState == '已完成';
@@ -365,15 +373,17 @@
 				})
 			},
 		
-			//详情
+			//--------------------详情按钮--------------------------
 			toDetail: function(item) {
-				console.log(item.id)
+				if(this.timeId!=0){
+					clearInterval(this.timeId); //清除定时器
+				}
 				uni.navigateTo({
 					url:'./OrderDetail?orderNumber=' + item.id,
 				});
 			},
 		
-			// 订单状态格式化
+			//--------------------订单状态格式化--------------------------
 			formatState: function(state) {
 				switch(state){
 					case 'arrive':
@@ -395,7 +405,7 @@
 						return '已上车';
 						break;
 					case 'departure':
-						return '到达出发地';
+						return '待上车';
 						break;
 					case 'refuse':
 						return '待接单';
@@ -404,12 +414,13 @@
 						return '故障';
 						break;
 					case 'fail':
-						return '审核未通过';
+						return '未通过';
 						break;
 					default:
 						return '已取消';
 				}
 			},
+			//--------------------时间格式化------------------------------
 			formatTime: function(time) {
 				// var dateTime = time.replace('T', ' ');
 				// if (dateTime.indexOf('1900') > -1) {
@@ -419,7 +430,7 @@
 				// }
 				return time;
 			},
-			//长按确认乘客上车
+			//-------------------确认乘客上车------------------------------
 			confirmgetonCar: function(item) { 
 				let that = this;
 				uni.showLoading({
@@ -442,7 +453,7 @@
 					}
 				})
 			},
-			//长按确认到达目的地
+			//-------------------确认到达目的地-----------------------------
 			confirmGetToDestination: function(item) {
 				let that = this;
 				uni.showLoading({
@@ -464,7 +475,7 @@
 					}
 				})
 			},
-			//scroll-view下拉刷新
+			//---------------------------scroll-view下拉刷新---------------------
 			refreshClick:function(){
                 if (!this.triggered){//界面下拉触发，triggered可能不是true，要设为true
 					this.triggered = true; 
@@ -581,5 +592,11 @@
 		height: var(--status-bar-height);
 		width: 100%;
 		box-sizing: content-box;
+	}
+	
+	.stateClass{
+		width: 140rpx;
+		margin-left: 10rpx;
+		text-align: center;
 	}
 </style>
