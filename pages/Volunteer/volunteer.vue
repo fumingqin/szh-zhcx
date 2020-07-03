@@ -8,73 +8,92 @@
 		</view>
 		<view style="margin-top: -80rpx;z-index: 1;position: relative;">
 			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 880rpx;">
-				 <scroll-view style="height: 750rpx;" :scroll-y='true'>
-				<view>
+				<scroll-view style="height: 750rpx;" :scroll-y='true'>
 					<view>
-						<text class="titleFont">起点</text>
-					</view>
-					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-						<text @click="startStationTap" v-model="startSiteName" class="contentFont">{{startSiteName}}</text>
-					</view>
-				</view>
-
-				<view>
-					<view style="padding-top: 20rpx ;">
-						<text class="titleFont">终点</text>
-					</view>
-					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-						<text @click="endStationTap" v-model="endSiteName" class="contentFont">{{endSiteName}}</text>
-					</view>
-				</view>
-
-				<view>
-					<view style="padding-top: 20rpx ;">
-						<text class="titleFont">人数</text>
-					</view>
-					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
-						<input class="contentFont" v-model="people" type="number" />
-						<text>人</text>
-					</view>
-				</view>
-
-				<view>
-					<view style="padding-top: 20rpx ;">
-						<text class="titleFont">上车时间</text>
-					</view>
-					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-						<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}}</text>
-					</view>
-					<mx-date-picker :show="showPicker" :showSeconds="false" :type="type" :value="value" :show-tips="true" :begin-text="'入住'"
-					 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
-				</view>
-
-				<view>
-					<view style="padding-top: 20rpx ;">
-						<text class="titleFont">乘车原因</text>
-					</view>
-					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
-						<input v-model="remark" class="contentFont" placeholder="请输入乘车原因" />
-						<!-- <text>人</text> -->
-					</view>
-				</view>
-				
-				<view>
-					<view style="padding-top: 20rpx ;">
-						<text class="titleFont">乘车人信息</text>
-					</view>
-					<view style="display: flex;">
-					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
-						<input v-model="passengerMessage" :disabled="true" class="contentFont" />
-						<view style="margin-left: 106rpx;" @click="toAddMessage">
-							<uni-icons type="plus" size="34"></uni-icons>
+						<view>
+							<text class="titleFont">起点</text>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+							<text @click="startStationTap" v-model="startSiteName" class="contentFont">{{startSiteName}}</text>
 						</view>
 					</view>
-					<!-- <view style="position: fixed;top: 56rpx;left: 20rpx; z-index: 99999;" @click="toPersonal">
+
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">终点</text>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+							<text @click="endStationTap" v-model="endSiteName" class="contentFont">{{endSiteName}}</text>
+						</view>
+					</view>
+
+					<view style="padding-top: 40rpx ;">
+						<radio-group  name="orderType">
+							<label v-for="(item, index) in orderMode" :key="index" @click="radioClick(index)" > 
+								<radio style="transform: scale(0.7)" :value="orderType" :checked="index===orderType" />{{item.orderType}}
+							</label>  
+						</radio-group>
+					</view>
+
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">人数</text>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
+							<input class="contentFont" v-model="people" type="number" />
+							<text>人</text>
+						</view>
+					</view>
+
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">上车时间</text>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+							<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}}</text>
+						</view>
+						<mx-date-picker :show="showPicker" :showSeconds="false" :type="type" :value="value" :show-tips="true" :begin-text="'入住'"
+						 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
+					</view>
+					
+					<view v-if="orderType==1">
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">返程时间</text>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+							<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}}</text>
+						</view>
+						<mx-date-picker :show="showPicker" :showSeconds="false" :type="type" :value="value" :show-tips="true" :begin-text="'入住'"
+						 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
+					</view>
+
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">乘车原因</text>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
+							<input v-model="remark" class="contentFont" placeholder="请输入乘车原因" />
+							<!-- <text>人</text> -->
+						</view>
+					</view>
+
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">乘车人信息</text>
+						</view>
+						<view style="display: flex;">
+							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
+								<input v-model="passengerMessage" :disabled="true" class="contentFont" />
+								<view style="margin-left: 106rpx;" @click="toAddMessage">
+									<uni-icons type="plus" size="34"></uni-icons>
+								</view>
+							</view>
+							<!-- <view style="position: fixed;top: 56rpx;left: 20rpx; z-index: 99999;" @click="toPersonal">
 						<uni-icons type="plus" size="34"></uni-icons>
 					</view> -->
+						</view>
 					</view>
-				</view>
-				<!-- <view>
+					<!-- <view>
 							<view style="padding-top: 20rpx ;">
 								<text class="titleFont">剩余座位</text>
 							</view>
@@ -124,6 +143,10 @@
 		},
 		data() {
 			return {
+				orderMode :[
+					{orderType:'单程'},
+					{orderType:'往返'}
+				],
 				datestring: '',
 				date: '',
 				Week: '',
@@ -131,7 +154,8 @@
 				type: '',
 				showPicker: false,
 				remark: '',
-				passengerMessage:'',
+				passengerMessage: '',
+				orderType:0,
 				startSiteName: '请选择起点',
 				startLon: '',
 				startLat: '',
@@ -144,8 +168,8 @@
 				userInfo: '',
 				// vehicleInfo:null,
 				seat: 0,
-				volunteerImg:'',
-				signImage:'',
+				volunteerImg: '',
+				signImage: '',
 			}
 		},
 		onLoad() {
@@ -167,24 +191,24 @@
 			that.loadImg();
 		},
 		onShow() {
-			var that=this;
+			var that = this;
 			that.passengerMessage = uni.getStorageSync('passengers') || '';
 		},
 		methods: {
 			// ---------------------------加载图片----------------------------
-			loadImg(){
-				var that=this;
+			loadImg() {
+				var that = this;
 				uni.request({
-					url:that.$volunteer.GetImage.url,
-					data:{
-						model:10,
+					url: that.$volunteer.GetImage.url,
+					data: {
+						model: 10,
 					},
-					method:'POST',
+					method: 'POST',
 					success(res) {
-						var image=res.data.data.filter(item => {
-							return item.type=='shizhonghui2';
+						var image = res.data.data.filter(item => {
+							return item.type == 'shizhonghui2';
 						})
-						that.volunteerImg=image[0].imageUrl;
+						that.volunteerImg = image[0].imageUrl;
 					}
 				})
 			},
@@ -198,7 +222,7 @@
 					//清除监听，不清除会消耗资源
 					uni.$off('startstaionChange');
 				});
-				that.endSiteName="请选择终点";
+				that.endSiteName = "请选择终点";
 				uni.navigateTo({
 					//跳转到下个页面的时候加个字段，判断当前点击的是上车点
 					url: '/pages/Volunteer/homeSattionPick?&station=' + 'qidian' + '&pointType=start',
@@ -322,10 +346,10 @@
 				} else if (that.people < 0) {
 					that.showToast('人数输入有误');
 					return false;
-				}else if (that.remark ==='') {
+				} else if (that.remark === '') {
 					that.showToast('请说明乘车原因');
 					return false;
-				}else if (that.passengerMessage ==='') {
+				} else if (that.passengerMessage === '') {
 					that.showToast('请录入乘车人信息');
 					return false;
 				}
@@ -424,14 +448,14 @@
 				}
 			},
 			//签名图片接口
-			submitClick(e){
-				var that=this;
-				console.log(e,"that.signImage")
+			submitClick(e) {
+				var that = this;
+				console.log(e, "that.signImage")
 				uni.request({
 					url: that.$volunteer.Interface.uploadFile.value,
 					method: that.$volunteer.Interface.uploadFile.method,
 					data: {
-						image:e
+						image: e
 					},
 					success(res) {
 						console.log(res)
@@ -446,7 +470,7 @@
 				})
 			},
 			//下单
-			getOrder(e){
+			getOrder(e) {
 				var that = this;
 				uni.request({
 					url: that.$volunteer.Interface.placeorder.value,
@@ -458,13 +482,13 @@
 						startDate: that.date + ':00',
 						remark: that.remark,
 						volunteerId: that.userInfo.volunteerId,
-						signaturePhoto:e,
+						signaturePhoto: e,
 					},
 					success: function(res) {
 						console.log(res);
 						if (res.data.code == 200) {
 							that.showToast('提交成功,请等待后台审核！');
-							that.clearData();//清除数据
+							that.clearData(); //清除数据
 							setTimeout(function() {
 								// uni.navigateBack({});
 								uni.navigateTo({
@@ -499,26 +523,30 @@
 				});
 			},
 			//--------------计算scroll-view的高度--------------
-			load(){
-				var that=this;
+			load() {
+				var that = this;
 				uni.getSystemInfo({
-				　　success: function(res) { // res - 各种参数
-						that.imgHeight=res.windowHeight-175; //scroll-view的高度
+					success: function(res) { // res - 各种参数
+						that.imgHeight = res.windowHeight - 175; //scroll-view的高度
 						that.canvasw = res.windowWidth;
 						that.canvash = (that.canvasw) * 9 / 16;
 						console.log(that.imgHeight)
-				    }
+					}
 				});
 			},
-			clearData(){
-				var that=this;
+			clearData() {
+				var that = this;
 				that.startSiteName = '请选择起点';
-				that.endSiteName="请选择终点";
-				that.people=0;
-				that.remark="";
+				that.endSiteName = "请选择终点";
+				that.people = 0;
+				that.remark = "";
 				that.clearClick();
 				that.closePopup('centerPopup');
 				uni.removeStorageSync('passengers');
+			},
+			//------------------选择订单类型-----------
+			radioClick:function(e){
+				this.orderType= e;
 			},
 		}
 	}
@@ -542,39 +570,44 @@
 		font-weight: 400;
 		color: #2C2D2D;
 	}
+
 	//--------------弹窗-------------
-	 //画布的样式
-	.firstCanvas {  
+	//画布的样式
+	.firstCanvas {
 		background-color: #ddd;
 		height: 570upx;
 		width: 640upx;
 		border-top-left-radius: 20upx;
 		border-top-right-radius: 20upx;
 	}
+
 	//画布距离顶部的高度
-	.centerClass{
+	.centerClass {
 		height: 800upx;
 	}
+
 	//重置按钮
-	.clearClass{
+	.clearClass {
 		width: 50%;
 		text-align: center;
 		background-color: #ffaa00;
 		color: #FFFFFF;
 		height: 100upx;
-		line-height:100upx;
+		line-height: 100upx;
 		font-size: 36upx;
 		border-bottom-left-radius: 20upx;
 	}
+
 	//保存按钮
-	.saveClass{
+	.saveClass {
 		width: 50%;
 		text-align: center;
 		background-color: #00aaff;
 		color: #FFFFFF;
 		height: 100upx;
-		line-height:100upx;
+		line-height: 100upx;
 		font-size: 36upx;
 		border-bottom-right-radius: 20upx;
 	}
+	
 </style>
