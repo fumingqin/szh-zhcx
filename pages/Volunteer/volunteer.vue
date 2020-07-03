@@ -151,6 +151,7 @@
 		onLoad() {
 			let that = this;
 			that.userInfo = uni.getStorageSync('userInfo') || '';
+			uni.removeStorageSync('passengers');
 			that.getTodayDate();
 			that.load();
 			//获得Canvas的上下文
