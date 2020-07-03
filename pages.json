@@ -135,7 +135,13 @@
 			}
 		}
 		//-------------司机端结束----------------    
-		],
+		    ,{
+            "path" : "pages/Volunteer/passengerList",
+            "style" : {
+				"navigationBarTitleText": "乘车人列表"
+			}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#F8F8F8",
