@@ -43,9 +43,17 @@
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	export default {
 		components: {
-		        uniSwipeAction,
-		        uniSwipeActionItem,
-				uniPopup, 
+			uniSwipeAction,
+			uniSwipeActionItem,
+			uniPopup, 
+		},
+		onLoad() {
+			let that = this;
+			var passengers = uni.getStorageSync('passengers') || '';
+			if(passengers != ''){
+				var arr = passengers.split(',');
+				that.passengers = arr;
+			}
 		},
 		data() {
 			return {
@@ -117,12 +125,17 @@
 				that.showLoading();
 				uni.scanCode({
 					success:function(res){
-						that.passengers.push(res.result);
+						uni.hideLoading();
+						if(that.passengers.indexOf(res.result) > -1){
+							uni.showToast({
+								title:'编号已存在',
+								icon:'none'
+							});
+						}else{
+							that.passengers.push(res.result);
+						}
 					},
 					fail:function(){
-						uni.hideLoading();
-					},
-					complete:function(){
 						uni.hideLoading();
 					},
 				})
@@ -130,11 +143,18 @@
 			finish:function(){
 				let that = this;
 				if(that.passengers.length > 0){
-					uni.setStorageSync('passengers',that.passengers);
+					
+					var str = '';
+					for (let item of that.passengers) {
+						str += item + ',';
+					}
+					str = str.substring(0,str.length-1);
+					uni.setStorageSync('passengers',str);
 					uni.navigateBack();
 				}else{
 					uni.showToast({
-						title:'请至少录入一个'
+						title:'请至少录入一个',
+						icon:'none'
 					});
 				}
 				
@@ -157,9 +177,23 @@
 			//弹出层确定按钮
 			popupConfirm:function(){
 				let that = this;
+				if(that.passengers.indexOf(that.popupValue) > -1){
+					uni.showToast({
+						title:'编号已存在',
+						icon:'none'
+					});
+					return;
+				}
+				if(that.popupValue === ''){
+					uni.showToast({
+						title:'请输入编号',
+						icon:'none'
+					});
+					return
+				}
 				if(that.index === -1){
 					that.passengers.push(that.popupValue);
-				}else if(that.index > -1){
+				} else if (that.index > -1){
 					that.passengers[that.index] = that.popupValue;
 					console.log(that.passengers);
 					that.$forceUpdate();
