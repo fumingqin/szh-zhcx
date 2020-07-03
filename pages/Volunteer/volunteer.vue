@@ -64,7 +64,7 @@
 					</view>
 					<view style="display: flex;">
 					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
-						<input v-model="passengerMessage" class="contentFont" />
+						<input v-model="passengerMessage" :disabled="true" class="contentFont" />
 						<view style="margin-left: 106rpx;" @click="toAddMessage">
 							<uni-icons type="plus" size="34"></uni-icons>
 						</view>
