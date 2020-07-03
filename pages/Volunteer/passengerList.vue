@@ -125,12 +125,17 @@
 				that.showLoading();
 				uni.scanCode({
 					success:function(res){
-						that.passengers.push(res.result);
+						uni.hideLoading();
+						if(that.passengers.indexOf(res.result) > -1){
+							uni.showToast({
+								title:'编号已存在',
+								icon:'none'
+							});
+						}else{
+							that.passengers.push(res.result);
+						}
 					},
 					fail:function(){
-						uni.hideLoading();
-					},
-					complete:function(){
 						uni.hideLoading();
 					},
 				})
@@ -145,11 +150,11 @@
 					}
 					str = str.substring(0,str.length-1);
 					uni.setStorageSync('passengers',str);
-					console.log(str);
 					uni.navigateBack();
 				}else{
 					uni.showToast({
-						title:'请至少录入一个'
+						title:'请至少录入一个',
+						icon:'none'
 					});
 				}
 				
@@ -172,6 +177,15 @@
 			//弹出层确定按钮
 			popupConfirm:function(){
 				let that = this;
+				
+				if(that.passengers.indexOf(that.popupValue) > -1){
+					uni.showToast({
+						title:'编号已存在',
+						icon:'none'
+					});
+					return;
+				}
+				
 				if(that.index === -1){
 					that.passengers.push(that.popupValue);
 				}else if(that.index > -1){
