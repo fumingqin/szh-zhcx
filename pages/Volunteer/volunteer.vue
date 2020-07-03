@@ -151,7 +151,6 @@
 		onLoad() {
 			let that = this;
 			that.userInfo = uni.getStorageSync('userInfo') || '';
-			// that.vehicleInfo = uni.getStorageSync('vehicleInfo') || '';
 			that.getTodayDate();
 			that.load();
 			//获得Canvas的上下文
@@ -165,6 +164,10 @@
 			//设置两条线连接处更加圆润
 			content.setLineJoin('round')
 			that.loadImg();
+		},
+		onShow() {
+			var that=this;
+			that.passengerMessage = uni.getStorageSync('passengers') || '';
 		},
 		methods: {
 			// ---------------------------加载图片----------------------------
@@ -419,6 +422,7 @@
 					})
 				}
 			},
+			//签名图片接口
 			submitClick(e){
 				var that=this;
 				console.log(e,"that.signImage")
@@ -440,6 +444,7 @@
 					}
 				})
 			},
+			//下单
 			getOrder(e){
 				var that = this;
 				uni.request({
@@ -458,7 +463,7 @@
 						console.log(res);
 						if (res.data.code == 200) {
 							that.showToast('提交成功,请等待后台审核！');
-							that.clearData();
+							that.clearData();//清除数据
 							setTimeout(function() {
 								// uni.navigateBack({});
 								uni.navigateTo({
@@ -512,6 +517,7 @@
 				that.remark="";
 				that.clearClick();
 				that.closePopup('centerPopup');
+				uni.removeStorageSync('passengers');
 			},
 		}
 	}
