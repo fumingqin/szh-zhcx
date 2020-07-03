@@ -8,7 +8,7 @@
 		</view>
 		<view style="margin-top: -80rpx;z-index: 1;position: relative;">
 			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 880rpx;">
-				<!-- <scroll-view style="height: 750rpx;" :scroll-y='true'> -->
+				 <scroll-view style="height: 750rpx;" :scroll-y='true'>
 				<view>
 					<view>
 						<text class="titleFont">起点</text>
@@ -57,6 +57,23 @@
 						<!-- <text>人</text> -->
 					</view>
 				</view>
+				
+				<view>
+					<view style="padding-top: 20rpx ;">
+						<text class="titleFont">乘车人信息</text>
+					</view>
+					<view style="display: flex;">
+					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
+						<input v-model="passengerMessage" class="contentFont" />
+						<view style="margin-left: 106rpx;" @click="toAddMessage">
+							<uni-icons type="plus" size="34"></uni-icons>
+						</view>
+					</view>
+					<!-- <view style="position: fixed;top: 56rpx;left: 20rpx; z-index: 99999;" @click="toPersonal">
+						<uni-icons type="plus" size="34"></uni-icons>
+					</view> -->
+					</view>
+				</view>
 				<!-- <view>
 							<view style="padding-top: 20rpx ;">
 								<text class="titleFont">剩余座位</text>
@@ -66,7 +83,7 @@
 								<text>个</text>
 							</view>
 						</view> -->
-				<!-- </scroll-view> -->
+				</scroll-view>
 				<view style="margin-top: 50rpx;">
 					<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
 						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
@@ -114,6 +131,7 @@
 				type: '',
 				showPicker: false,
 				remark: '',
+				passengerMessage:'',
 				startSiteName: '请选择起点',
 				startLon: '',
 				startLat: '',
@@ -211,6 +229,11 @@
 					url: '../GRZX/user'
 				});
 			},
+			toAddMessage: function() {
+				uni.navigateTo({
+					url: '/pages/Volunteer/passengerList'
+				});
+			},
 			showToast: function(title, icon = 'none') {
 				uni.showToast({
 					title: title,
@@ -297,6 +320,9 @@
 					return false;
 				}else if (that.remark ==='') {
 					that.showToast('请说明乘车原因');
+					return false;
+				}else if (that.passengerMessage ==='') {
+					that.showToast('请录入乘车人信息');
 					return false;
 				}
 				return true;
