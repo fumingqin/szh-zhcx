@@ -47,6 +47,14 @@
 		        uniSwipeActionItem,
 				uniPopup, 
 		},
+		onLoad() {
+			let that = this;
+			var passengers = uni.getStorageSync('passengers') || '';
+			if(passengers != ''){
+				var arr = passengers.split(',');
+				that.passengers = arr;
+			}
+		},
 		data() {
 			return {
 				buttonOption:[
@@ -130,7 +138,14 @@
 			finish:function(){
 				let that = this;
 				if(that.passengers.length > 0){
-					uni.setStorageSync('passengers',that.passengers);
+					
+					var str = '';
+					for (let item of that.passengers) {
+						str += item + ',';
+					}
+					str = str.substring(0,str.length-1);
+					uni.setStorageSync('passengers',str);
+					console.log(str);
 					uni.navigateBack();
 				}else{
 					uni.showToast({
