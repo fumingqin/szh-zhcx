@@ -28,11 +28,16 @@
 					</view>
 
 					<view style="padding-top: 40rpx ;">
-						<radio-group  name="orderType">
-							<label v-for="(item, index) in orderMode" :key="index" @click="radioClick(index)" > 
-								<radio style="transform: scale(0.8);margin-left: 20rpx;" :value="orderType" :checked="index===orderType" />{{item.orderType}}
-							</label>  
-						</radio-group>
+						<view style="margin-left: 64rpx;">
+							<radio-group  name="orderType">
+								<label v-for="(item, index) in orderMode" :key="index" @click="radioClick(index)" > 
+									<radio style="transform: scale(0.8);margin-left: 40rpx;" :value="orderType" :checked="index===orderType" />{{item.orderType}}
+								</label>  
+							</radio-group>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+							
+						</view>
 					</view>
 
 					<view>
