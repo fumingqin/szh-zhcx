@@ -30,7 +30,7 @@
 					<view style="padding-top: 40rpx ;">
 						<radio-group  name="orderType">
 							<label v-for="(item, index) in orderMode" :key="index" @click="radioClick(index)" > 
-								<radio style="transform: scale(0.7)" :value="orderType" :checked="index===orderType" />{{item.orderType}}
+								<radio style="transform: scale(0.8);margin-left: 20rpx;" :value="orderType" :checked="index===orderType" />{{item.orderType}}
 							</label>  
 						</radio-group>
 					</view>
@@ -61,10 +61,10 @@
 							<text class="titleFont">返程时间</text>
 						</view>
 						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-							<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}}</text>
+							<text style="letter-spacing:1px" @click="onShowDatePicker1('datetime')">{{datestring1}}</text>
 						</view>
-						<mx-date-picker :show="showPicker" :showSeconds="false" :type="type" :value="value" :show-tips="true" :begin-text="'入住'"
-						 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
+						<mx-date-picker :show="showPicker1" :showSeconds="false" :type="type1" :value="value1" :show-tips="true" :begin-text="'入住'"
+						 :end-text="'离店'" :show-seconds="true" @confirm="onSelected1" @cancel="onCancle1" />
 					</view>
 
 					<view>
@@ -148,11 +148,17 @@
 					{orderType:'往返'}
 				],
 				datestring: '',
+				datestring1: '',
 				date: '',
+				date1: '',
 				Week: '',
+				Week1: '',
 				value: '',
+				value1: '',
 				type: '',
+				type1: '',
 				showPicker: false,
+				showPicker1: false,
 				remark: '',
 				passengerMessage: '',
 				orderType:0,
@@ -177,6 +183,7 @@
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			uni.removeStorageSync('passengers');
 			that.getTodayDate();
+			that.getTodayDate1();
 			that.load();
 			//获得Canvas的上下文
 			content = uni.createCanvasContext('firstCanvas')
@@ -281,6 +288,19 @@
 				this.datestring = timer;
 				this.date = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
 			},
+			getTodayDate1: function() {
+				var date = new Date(),
+					year = date.getFullYear(),
+					month = date.getMonth() + 1,
+					day = date.getDate(),
+					hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours(),
+					minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				month >= 1 && month <= 9 ? (month = "0" + month) : "";
+				day >= 0 && day <= 9 ? (day = "0" + day) : "";
+				var timer = year + '-' + month + '-' + day + '' + ' ' + hour + ':' + minutes;
+				this.datestring1 = timer;
+				this.date1 = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+			},
 			onSelected: function(e) { //选择
 				this.showPicker = false;
 				this[this.type] = e.value;
@@ -288,8 +308,18 @@
 				// this.queryWeek(e.date.toString().substring(0, 3));
 				this.date = e.value;
 			},
+			onSelected1: function(e) { //选择
+				this.showPicker1 = false;
+				this[this.type1] = e.value;
+				this.datestring1 = this[this.type1];
+				// this.queryWeek(e.date.toString().substring(0, 3));
+				this.date1 = e.value;
+			},
 			onCancle: function() {
 				this.showPicker = false;
+			},
+			onCancle1: function() {
+				this.showPicker1 = false;
 			},
 			queryWeek: function(e) {
 				switch (e) {
@@ -359,6 +389,11 @@
 				this.type = type;
 				this.showPicker = true;
 				this.value = this[type];
+			},
+			onShowDatePicker1: function(type1) {
+				this.type1 = type1;
+				this.showPicker1 = true;
+				this.value1 = this[type1];
 			},
 			//-----------------------------------手机签名------------------------------------------------
 			//-------- 画布的触摸移动开始手势响应----------
