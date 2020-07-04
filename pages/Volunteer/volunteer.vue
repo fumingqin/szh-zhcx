@@ -28,7 +28,7 @@
 					</view>
 
 					<view style="padding-top: 40rpx ;">
-						<view style="margin-left: 64rpx;">
+						<view style="margin-left: 76rpx;">
 							<radio-group  name="orderType">
 								<label v-for="(item, index) in orderMode" :key="index" @click="radioClick(index)" > 
 									<radio style="transform: scale(0.8);margin-left: 40rpx;" :value="orderType" :checked="index===orderType" />{{item.orderType}}
