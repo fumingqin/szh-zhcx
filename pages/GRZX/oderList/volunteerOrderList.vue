@@ -16,6 +16,8 @@
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==1?'tabactive':''" @click="tabclick(1)">进行中</view>
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==2?'tabactive':''" @click="tabclick(2)">已完成</view>
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">已取消</view>
+					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==4?'tabactive':''" @click="tabclick(4)">待审核</view>
+					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==5?'tabactive':''" @click="tabclick(5)">已审核</view>
 				</view>
 			</view>
 			<scroll-view v-bind:style="{height:scrowHeight+'px'}" scroll-y=true refresher-enabled=true @refresherrefresh="refreshClick" :refresher-triggered="triggered">
@@ -51,6 +53,12 @@
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
+										</view>
+										<view v-if="item.orderState == '审核中'">
+											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
+										</view>
+										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
+											<button @click="cancel(item)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 									<!-- <view class="btnarea">
@@ -99,6 +107,12 @@
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
+										</view>
+										<view v-if="item.orderState == '审核中'">
+											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
+										</view>
+										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
+											<button @click="cancel(item)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 								</view>
@@ -186,6 +200,91 @@
 						<!-- 志愿者结束 -->
 					</view>
 				</view>
+				<!--待审核-->
+				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==4">
+					<view v-for="(item,index) in unexamineArr" :key="index">
+						<!-- 志愿者开始 -->
+						<view style="margin-top: 20rpx;">
+							<view class="order">
+								<view style="padding: 35rpx 30rpx;">
+									<view style="display: flex;justify-content: space-between;align-items: center;">
+										<view style="display: flex;align-items: center;">
+											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
+											<view class="ordertitle">{{item.title}}</view>
+										</view>
+										<view class="orderstatus stateClass">{{item.orderState}}</view>
+									</view>
+									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
+										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
+										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
+										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
+										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
+											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
+										</view>
+										<view v-if="item.orderState == '待上车'">
+											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+										</view>
+										<view v-if="item.orderState == '已上车'">
+											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
+										</view>
+										<view v-if="item.orderState == '审核中'">
+											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
+										</view>
+										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
+											<button @click="cancel(item)" style="width: auto;" type="default">取消订单</button>
+										</view>
+									</view>
+								</view>
+							</view>
+						</view>
+						<!-- 志愿者结束 -->
+					</view>
+				</view>
+				<!--已审核-->
+				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==5">
+					<view v-for="(item,index) in examineArr" :key="index">
+						<!-- 志愿者开始 -->
+						<view style="margin-top: 20rpx;">
+							<view class="order">
+								<view style="padding: 35rpx 30rpx;">
+									<view style="display: flex;justify-content: space-between;align-items: center;">
+										<view style="display: flex;align-items: center;">
+											<image src="@/static/driver/Car.png" style="width: 50rpx;" mode="widthFix"></image>
+											<view class="ordertitle">{{item.title}}</view>
+										</view>
+										<view class="orderstatus stateClass">{{item.orderState}}</view>
+									</view>
+									<view style="padding-left: 45rpx;padding-top: 10rpx;" class="orderstatus">
+										<view style="margin-top: 10rpx;">上车点：{{item.startAddress}}</view>
+										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
+										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
+										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+									</view>
+									<view class="btnarea">
+										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
+											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
+										</view>
+										<view v-if="item.orderState == '待上车'">
+											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+										</view>
+										<view v-if="item.orderState == '已上车'">
+											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
+										</view>
+										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
+											<button @click="cancel(item)" style="width: auto;" type="default">取消订单</button>
+										</view>
+									</view>
+								</view>
+							</view>
+						</view>
+						<!-- 志愿者结束 -->
+					</view>
+				</view>
 			</scroll-view>
 		</view>
 	</view>
@@ -207,6 +306,8 @@
 				underwayArr: [], //进行中
 				finishedArr: [], //已完成
 				cancleArr: [], //已取消
+				unexamineArr:[],//待审核
+				examineArr:[],//已审核
 				userInfo: '',
 				menuButtonHeight: '',
 				menuButtonTop: '',
@@ -291,6 +392,8 @@
 				that.underwayArr=[];
 				that.finishedArr=[];
 				that.cancleArr=[];
+				that.unexamineArr=[];
+				that.examineArr=[];
 				console.log(that.userInfo.volunteerId,'id')
 				uni.stopPullDownRefresh();
 				uni.request({
@@ -362,6 +465,12 @@
 							that.cancleArr = that.orderArr.filter(x => {
 								return x.orderState == '已取消';
 							});
+							that.unexamineArr = that.orderArr.filter(x => {
+								return x.orderState == '审核中';
+							});
+							that.examineArr = that.orderArr.filter(x => {
+								return x.orderState == '待派单';
+							});
 						}else{
 							that.showToast('获取订单失败');
 						}
@@ -408,7 +517,7 @@
 						return '待上车';
 						break;
 					case 'refuse':
-						return '待接单';
+						return '待接单';//拒接
 						break;
 					case 'fault':
 						return '故障';

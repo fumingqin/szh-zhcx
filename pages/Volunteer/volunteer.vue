@@ -521,6 +521,7 @@
 						seatCount: that.people,
 						startDate: that.date + ':00',
 						remark: that.remark,
+						passengers:that.passengerMessage,
 						volunteerId: that.userInfo.volunteerId,
 						signaturePhoto: e,
 					},
