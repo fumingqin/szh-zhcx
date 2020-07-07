@@ -52,7 +52,7 @@
 
 					<view>
 						<view style="padding-top: 20rpx ;">
-							<text class="titleFont">上车时间</text>
+							<text class="titleFont">出发时间</text>
 						</view>
 						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
 							<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}}</text>
@@ -512,12 +512,19 @@
 			//下单
 			getOrder(e) {
 				var that = this;
+				if(that.orderType==1){
+					that.orderType='往返';
+				}else{
+					that.orderType='单程';
+				}
 				uni.request({
 					url: that.$volunteer.Interface.placeorder.value,
 					method: that.$volunteer.Interface.placeorder.method,
 					data: {
 						startName: that.startSiteName,
 						endName: that.endSiteName,
+						isReturn:that.orderType,
+					    returnTime:that.date1 + ':00',
 						seatCount: that.people,
 						startDate: that.date + ':00',
 						remark: that.remark,
