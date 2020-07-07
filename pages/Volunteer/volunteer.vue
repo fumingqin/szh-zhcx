@@ -28,7 +28,7 @@
 					</view>
 
 					<view style="padding-top: 40rpx ;">
-						<view style="margin-left: 76rpx;">
+						<view style="margin-left: 80rpx;">
 							<radio-group  name="orderType">
 								<label v-for="(item, index) in orderMode" :key="index" @click="radioClick(index)" > 
 									<radio style="transform: scale(0.8);margin-left: 40rpx;" :value="orderType" :checked="index===orderType" />{{item.orderType}}
@@ -70,6 +70,11 @@
 						</view>
 						<mx-date-picker :show="showPicker1" :showSeconds="false" :type="type1" :value="value1" :show-tips="true" :begin-text="'入住'"
 						 :end-text="'离店'" :show-seconds="true" @confirm="onSelected1" @cancel="onCancle1" />
+					</view>
+					
+					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+						<text>是否允许拼车</text>
+						<switch style="margin-left: 280rpx;" :checked="isCarpool" color="#00aa00" @change="switchChange" />
 					</view>
 
 					<view>
@@ -170,6 +175,9 @@
 				startSiteName: '请选择起点',
 				startLon: '',
 				startLat: '',
+				statusTip:'',
+				isCarpool:false,
+				
 
 				endSiteName: '请选择终点',
 				endLon: '',
@@ -596,6 +604,10 @@
 			radioClick:function(e){
 				this.orderType= e;
 			},
+			//是否拼车开关转换
+			switchChange(e){
+				this.statusTip = e.detail.value ? true: false;
+			},
 		}
 	}
 </script>
@@ -665,5 +677,4 @@
 	        -webkit-appearance: none;  
 	        background: transparent;  
 	    }
-	
 </style>
