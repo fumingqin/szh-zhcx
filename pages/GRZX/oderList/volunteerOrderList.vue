@@ -58,7 +58,7 @@
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
-											<button @click="cancel(item)" style="width: auto;" type="default">取消订单</button>
+											<button @click="cancelOrder(item)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 									<!-- <view class="btnarea">
@@ -112,7 +112,7 @@
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
-											<button @click="cancel(item)" style="width: auto;" type="default">取消订单</button>
+											<button @click="cancelOrder(item)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 								</view>
@@ -235,7 +235,7 @@
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
-											<button @click="cancel(item)" style="width: auto;" type="default">取消订单</button>
+											<button @click="cancelOrder(item)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 								</view>
@@ -276,7 +276,7 @@
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
 										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
-											<button @click="cancel(item)" style="width: auto;" type="default">取消订单</button>
+											<button @click="cancelOrder(item)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 								</view>
@@ -490,6 +490,45 @@
 				uni.navigateTo({
 					url:'./OrderDetail?orderNumber=' + item.id,
 				});
+			},
+			//--------------------订单审核--------------------------
+			examine:function(){
+				uni.navigateTo({
+					url:'../../Volunteer/examineOrder',
+				});
+			},
+			//--------------------订单取消--------------------------
+			cancelOrder: function(orderNumber) { //取消订单
+				let that = this;
+				uni.showModal({
+					content: "您确定要取消订单吗",
+					success(res) {
+						if (res.confirm) {
+							uni.request({
+								url: that.$volunteer.Interface.getorderDetail.value,
+								method: that.$volunteer.Interface.getorderDetail.method,
+								data: {
+									orderId: orderNumber,
+								},
+								success(res) {
+									if (res.data.code == 200) {
+										uni.showToast({
+											title: res.data.msg,
+											icon: "none"
+										})
+										// uni.startPullDownRefresh();
+									}
+								},
+								fail() {
+									uni.showToast({
+										title: "网络连接失败",
+										icon: "none"
+									})
+								}
+							})
+						}
+					}
+				})
 			},
 		
 			//--------------------订单状态格式化--------------------------

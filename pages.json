@@ -141,6 +141,10 @@
 				"navigationBarTitleText": "乘车人列表"
 			}
         }
+        ,{
+            "path" : "pages/Volunteer/examineOrder",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
