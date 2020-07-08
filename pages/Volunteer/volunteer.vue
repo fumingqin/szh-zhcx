@@ -7,8 +7,8 @@
 			</view>
 		</view>
 		<view style="margin-top: -80rpx;z-index: 1;position: relative;">
-			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 880rpx;">
-				<scroll-view style="height: 750rpx;" :scroll-y='true'>
+			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 900rpx;">
+				<scroll-view style="height: 800rpx;" :scroll-y='true'>
 					<view>
 						<view>
 							<text class="titleFont">起点</text>
@@ -28,26 +28,31 @@
 					</view>
 
 					<view style="padding-top: 40rpx ;">
-						<radio-group  name="orderType">
-							<label v-for="(item, index) in orderMode" :key="index" @click="radioClick(index)" > 
-								<radio style="transform: scale(0.7)" :value="orderType" :checked="index===orderType" />{{item.orderType}}
-							</label>  
-						</radio-group>
+						<view style="margin-left: 100rpx;">
+							<radio-group  name="orderType">
+								<label v-for="(item, index) in orderMode" :key="index" @click="radioClick(index)" > 
+									<radio style="transform: scale(0.8);margin-left: 40rpx;" :value="orderType" :checked="index===orderType" />{{item.orderType}}
+								</label>  
+							</radio-group>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+							
+						</view>
 					</view>
 
 					<view>
 						<view style="padding-top: 20rpx ;">
 							<text class="titleFont">人数</text>
 						</view>
-						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
 							<input class="contentFont" v-model="people" type="number" />
-							<text>人</text>
+							<text style="margin-left: 124rpx;">人</text>
 						</view>
 					</view>
 
 					<view>
 						<view style="padding-top: 20rpx ;">
-							<text class="titleFont">上车时间</text>
+							<text class="titleFont">出发时间</text>
 						</view>
 						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
 							<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}}</text>
@@ -61,10 +66,15 @@
 							<text class="titleFont">返程时间</text>
 						</view>
 						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-							<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}}</text>
+							<text style="letter-spacing:1px" @click="onShowDatePicker1('datetime')">{{datestring1}}</text>
 						</view>
-						<mx-date-picker :show="showPicker" :showSeconds="false" :type="type" :value="value" :show-tips="true" :begin-text="'入住'"
-						 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
+						<mx-date-picker :show="showPicker1" :showSeconds="false" :type="type1" :value="value1" :show-tips="true" :begin-text="'入住'"
+						 :end-text="'离店'" :show-seconds="true" @confirm="onSelected1" @cancel="onCancle1" />
+					</view>
+					
+					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+						<text>是否允许拼车</text>
+						<switch style="margin-left: 280rpx;" :checked="isCarpool" color="#00aa00" @change="switchChange" />
 					</view>
 
 					<view>
@@ -103,7 +113,7 @@
 							</view>
 						</view> -->
 				</scroll-view>
-				<view style="margin-top: 50rpx;">
+				<view style="margin-top: 40rpx;">
 					<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
 						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
 					</button>
@@ -148,17 +158,26 @@
 					{orderType:'往返'}
 				],
 				datestring: '',
+				datestring1: '',
 				date: '',
+				date1: '',
 				Week: '',
+				Week1: '',
 				value: '',
+				value1: '',
 				type: '',
+				type1: '',
 				showPicker: false,
+				showPicker1: false,
 				remark: '',
 				passengerMessage: '',
 				orderType:0,
 				startSiteName: '请选择起点',
 				startLon: '',
 				startLat: '',
+				statusTip:'',
+				isCarpool:false,
+				
 
 				endSiteName: '请选择终点',
 				endLon: '',
@@ -177,6 +196,7 @@
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			uni.removeStorageSync('passengers');
 			that.getTodayDate();
+			that.getTodayDate1();
 			that.load();
 			//获得Canvas的上下文
 			content = uni.createCanvasContext('firstCanvas')
@@ -281,6 +301,19 @@
 				this.datestring = timer;
 				this.date = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
 			},
+			getTodayDate1: function() {
+				var date = new Date(),
+					year = date.getFullYear(),
+					month = date.getMonth() + 1,
+					day = date.getDate(),
+					hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours(),
+					minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				month >= 1 && month <= 9 ? (month = "0" + month) : "";
+				day >= 0 && day <= 9 ? (day = "0" + day) : "";
+				var timer = year + '-' + month + '-' + day + '' + ' ' + hour + ':' + minutes;
+				this.datestring1 = timer;
+				this.date1 = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+			},
 			onSelected: function(e) { //选择
 				this.showPicker = false;
 				this[this.type] = e.value;
@@ -288,8 +321,18 @@
 				// this.queryWeek(e.date.toString().substring(0, 3));
 				this.date = e.value;
 			},
+			onSelected1: function(e) { //选择
+				this.showPicker1 = false;
+				this[this.type1] = e.value;
+				this.datestring1 = this[this.type1];
+				// this.queryWeek(e.date.toString().substring(0, 3));
+				this.date1 = e.value;
+			},
 			onCancle: function() {
 				this.showPicker = false;
+			},
+			onCancle1: function() {
+				this.showPicker1 = false;
 			},
 			queryWeek: function(e) {
 				switch (e) {
@@ -359,6 +402,11 @@
 				this.type = type;
 				this.showPicker = true;
 				this.value = this[type];
+			},
+			onShowDatePicker1: function(type1) {
+				this.type1 = type1;
+				this.showPicker1 = true;
+				this.value1 = this[type1];
 			},
 			//-----------------------------------手机签名------------------------------------------------
 			//-------- 画布的触摸移动开始手势响应----------
@@ -472,15 +520,23 @@
 			//下单
 			getOrder(e) {
 				var that = this;
+				if(that.orderType==0){
+					that.orderType='单程';
+				}else if(that.orderType==1){
+					that.orderType='往返';
+				}
 				uni.request({
 					url: that.$volunteer.Interface.placeorder.value,
 					method: that.$volunteer.Interface.placeorder.method,
 					data: {
 						startName: that.startSiteName,
 						endName: that.endSiteName,
+						isReturn:that.orderType,
+					    returnTime:that.date1 + ':00',
 						seatCount: that.people,
 						startDate: that.date + ':00',
 						remark: that.remark,
+						passengers:that.passengerMessage,
 						volunteerId: that.userInfo.volunteerId,
 						signaturePhoto: e,
 					},
@@ -548,6 +604,10 @@
 			radioClick:function(e){
 				this.orderType= e;
 			},
+			//是否拼车开关转换
+			switchChange(e){
+				this.statusTip = e.detail.value ? true: false;
+			},
 		}
 	}
 </script>
@@ -565,7 +625,7 @@
 	}
 
 	.contentFont {
-		font-size: 38rpx;
+		font-size: 34rpx;
 		font-family: Source Han Sans SC;
 		font-weight: 400;
 		color: #2C2D2D;
@@ -617,5 +677,4 @@
 	        -webkit-appearance: none;  
 	        background: transparent;  
 	    }
-	
 </style>
