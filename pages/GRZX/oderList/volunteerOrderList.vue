@@ -342,9 +342,11 @@
 				});
 				that.getVolunteerOrder();
 				//开启定时器
-				that.timeId=setInterval(function(){
-					that.getVolunteerOrder();
-				},5000);
+				if(that.timeId==0){
+					that.timeId=setInterval(function(){
+						that.getVolunteerOrder();
+					},5000);
+				}
 			}
 		},
 		// --------------------------下拉刷新----------------------------
