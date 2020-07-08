@@ -33,8 +33,8 @@
 		data(){
 			return{
 				// imgSrc:'../../static/GRZX/test.png',
-				imgSrc:'',
-				OrderDetail:'',
+				imgSrc:'',	//签名的路径
+				OrderDetail:'', //订单详情
 				failReason:'',//审核不通过的原因
 			}
 		},

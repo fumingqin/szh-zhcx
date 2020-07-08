@@ -161,12 +161,12 @@
 			//--------------只能输入数字-------------
 			judgeNum: function(val){  
 				var regPos = /^\d+(\.\d+)?$/; //非负浮点数
-				    var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
-				    if(regPos.test(val) || regNeg.test(val)) {
-				        return true;
-				    } else {
-				        return false;
-				    }
+				var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+				if(regPos.test(val) || regNeg.test(val)) {
+					return true;
+				} else {
+					return false;
+				}
 			},
 			inputChange: function(e){
 				const key = e.currentTarget.dataset.key;
@@ -213,7 +213,6 @@
 				}
 				var that=this;
 				uni.request({
-					// url:'http://yvan.utools.club/api/account/login',
 					url:that.$Grzx.Interface.login.value,
 					header:that.$Grzx.Interface.login.header,
 					data:{
@@ -256,22 +255,20 @@
 								getApp().globalData.driverID = data.id;
 								getApp().globalData.licensePlate = data.car.licensePlate + data.car.licenseColor;
 								getApp().globalData.constantly();
-								//setTimeout(function(){},100)
-									uni.redirectTo({
-										url:'/pages/driver/driverOperation/taxiDriver',
-										// url:'/pages/GRZX/user'
-									})	
+								uni.redirectTo({
+									url:'/pages/driver/driverOperation/taxiDriver',
+								})	
 							// --------志愿者登录--------
 							}else if(type=="volunteer"){
 								var volunteerList={
-									portrait:data.headPic,
-									volunteerNo:data.no,
-									volunteerId:data.id,
-									userName:data.name,
-									phoneNumber:data.tel,
-									type:'志愿者',
-									password:password,
-									expireTime:expireTime,
+									portrait:data.headPic,	 //头像	
+									volunteerNo:data.no,	//志愿者编号
+									volunteerId:data.id,	//志愿者id
+									userName:data.name,		//志愿者姓名
+									phoneNumber:data.tel,	//志愿者电话号码
+									type:'志愿者',			//用户类型
+									password:password,		//密码	
+									expireTime:expireTime,	//登录过期时间
 								}
 								uni.setStorageSync('userInfo',volunteerList)
 								uni.redirectTo({

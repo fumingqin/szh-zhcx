@@ -64,25 +64,20 @@
 	export default{
 		data(){
 			return{
-				carType:'车辆类型',
-				closestStartAddress:'最近起点',
-				carSeat:'车辆座位',
-				typeList:['大型高一','大型高二','中巴','出租车','大巴'],
-				addressList:['1km','2km','3km','4km'],
-				seatList:['10人','20人','30人','50人'],
-				// 司机列表
-				List:[],
-				index:-1,
+				carType:'车辆类型', //车辆类型
+				closestStartAddress:'最近起点',//最近起点
+				carSeat:'车辆座位', //车辆座位
+				typeList:['大型高一','大型高二','中巴','出租车','大巴'], //下拉列表(车型)
+				addressList:['1km','2km','3km','4km'], //下拉列表(距离)
+				seatList:['10人','20人','30人','50人'], //下拉列表(座位数)
+				
+				List:[], // 司机列表
+				index:-1, //默认值
 				driverList:[], //司机列表
 				
-				//列表的默认高度
-				imgHeight:0,
-				imgSrc:'../../static/trafficPolice/HeadPhoto.png',
-				canvasw:0,
-				canvash:0,
-				signImage: '',
-				endDefault:false,
-				userInfo:[],
+				imgHeight:0,//列表的默认高度
+				imgSrc:'../../static/trafficPolice/HeadPhoto.png', //司机头像
+				userInfo:[], //用户信息
 			}
 		},
 		onLoad: function(options) {
@@ -115,8 +110,6 @@
 				uni.getSystemInfo({
 				　　success: function(res) { // res - 各种参数
 						that.imgHeight=res.windowHeight-175; //scroll-view的高度
-						that.canvasw = res.windowWidth;
-						that.canvash = (that.canvasw) * 9 / 16;
 						console.log(that.imgHeight)
 				    }
 				});

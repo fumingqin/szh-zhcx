@@ -57,18 +57,17 @@
 		data(){
 			return{
 				//数量
-				dispatchOrderNum:150,
-				receiveOrderNum:100,
-				finishedOrderNum:300,
-				//订单列表
-				OrderList:[],
-				//手机屏幕的高度
-				imgHeight:0,
-				//顶部高度
-				Height:'',
-				menuButtonHeight:'',
-				menuButtonTop:'',
-				userInfo:[],
+				// dispatchOrderNum:150,
+				// receiveOrderNum:100,
+				// finishedOrderNum:300,
+				
+				OrderList:[], //订单列表
+				
+				imgHeight:0, //手机屏幕的高度
+				Height:'', 	//订单列表距离顶部高度
+				menuButtonHeight:'', //小程序右上角按钮的高度
+				menuButtonTop:'', //小程序右上角按钮距离顶部的高度
+				userInfo:[],//用户信息
 				
 				timeId:0,//定时器ID
 			}
