@@ -182,8 +182,20 @@
 					success:function(res){
 						if(that.orderInfo.passengers.indexOf(res.result) > -1){
 							Voice('通过');
-							that.showToast('验证通过');
+							uni.showToast({
+								title:'验证通过',
+								icon:'none',
+								duration:2000,
+								mask:true
+							});
 						}else{
+							uni.showToast({
+								title:'验证通过',
+								icon:'none',
+								duration:2000,
+								mask:true
+							});
+							that.showToast('不通过');
 						}
 					},
 					fail:function(res){

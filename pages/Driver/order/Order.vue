@@ -42,6 +42,7 @@
 										<view>上车时间：{{item.orderTime}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
+										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
 									</view>
 									
 									<view class="btnarea">
@@ -87,6 +88,7 @@
 										<view>上车时间：{{item.orderTime}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
+										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
 									</view>
 									
 									<view class="btnarea">
@@ -133,6 +135,7 @@
 										<view>上车时间：{{item.orderTime}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
+										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
 									</view>
 									<view class="btnarea">
 										<view>
@@ -168,6 +171,7 @@
 										<view>上车时间：{{item.orderTime}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
+										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
 									</view>
 									<view class="btnarea">
 										<view>
@@ -425,7 +429,25 @@
 					return '未通过'
 				}
 			},
-			
+			//时间差值计算
+			costTime:function(startTime,endTime){
+				var ret = '';
+				if(startTime !== null && endTime !== null){
+					var start = new Date(startTime).getTime();//开始
+					var end = new Date(endTime).getTime();
+					var diff = end - start; //时间毫秒差
+					if(diff > 0){
+						var m = Math.ceil(diff / 1000 / 60); //分钟 向前取整
+						ret = m + '分钟'
+						if(m > 60){
+							var h = Math.floor(m / 60);//小时 向后取整
+							var remainder = m % 60 ;
+							ret = h + '小时' + remainder + '分钟'
+						}
+					}
+				}
+				return ret;
+			}
 		}
 	}
 </script>
