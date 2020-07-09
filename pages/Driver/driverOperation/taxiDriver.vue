@@ -147,6 +147,9 @@
 						uni.hideLoading();
 						if (res.data.code===200) {
 							that.showToast('接单成功，请到订单列表查看');
+							uni.navigateTo({
+								url:'../order/Order'
+							})
 						} else {
 							that.showToast(res.data.msg);
 						}

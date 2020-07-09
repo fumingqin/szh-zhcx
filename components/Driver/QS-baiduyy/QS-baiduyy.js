@@ -29,9 +29,11 @@ function getBDVoicToken() {
 			}, */
 			success: (res) => {
 				//console.log('访问成功');
+				console.log(res);
 				rs(res);
 			},
 			fail: (err) => {
+				console.log(err);
 				//console.log('访问失败');
 				rj(err);
 			}

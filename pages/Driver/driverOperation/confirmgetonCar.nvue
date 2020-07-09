@@ -14,6 +14,7 @@
 					</view>
 					<view>
 						<!--导航-->
+						<image v-if="state === 'departure'" src="@/static/driver/scan.png" style="width: 120rpx;height: 120rpx;" @click="scan"></image>
 						<image v-if="state === 'passenger'" src="@/static/driver/navigate.png" style="width: 120rpx;height: 120rpx;" @click="toNavigation"></image>
 					</view>
 				</view>
@@ -141,7 +142,8 @@
 					startName:'',//起点
 					endName:'',//终点
 					expectDuration:'',//预计时长
-					expectMileage:''//预计里程
+					expectMileage:'',//预计里程
+					passengers:'',
 				},
 				focus:false,
 				isShowNavigate:false,
@@ -174,6 +176,22 @@
 			clearInterval(that.directionInterval);
 		},
 		methods: {
+			scan:function(){
+				let that = this;
+				uni.scanCode({
+					success:function(res){
+						if(that.orderInfo.passengers.indexOf(res.result) > -1){
+							Voice('通过');
+							that.showToast('验证通过');
+						}else{
+						}
+					},
+					fail:function(res){
+						
+					}
+				});
+			},
+			
 			thisReason:function(item){
 				let that = this;
 				//that.focus = false;
@@ -217,6 +235,7 @@
 							let data = res.data.data;
 							if (res.data.code===200) {
 								that.state = data.state;
+								that.orderInfo.passengers = data.passengers;
 								that.orderInfo.tel = data.volunteer.tel;								that.orderInfo.startLng = data.line.startLng;								that.orderInfo.startLat = data.line.startLat;								that.orderInfo.endLng = data.line.endLng;								that.orderInfo.endLat = data.line.endLat;								that.orderInfo.startName = data.line.startName;								that.orderInfo.endName = data.line.endName;								that.orderInfo.expectDuration = data.line.expectDuration;								that.orderInfo.expectMileage = data.line.expectMileage;
 								that.setMarker(1,data.line.startLng,data.line.startLat,'../../../static/driver/Start.png');
 								that.setMarker(2,data.line.endLng,data.line.endLat,'../../../static/driver/End.png');

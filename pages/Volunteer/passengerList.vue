@@ -21,7 +21,7 @@
 				</view>
 				<view class="popupInputBlock">
 					<view class="popupInput">
-						<input v-model="popupValue" placeholder="请输入编号" />
+						<input :focus="focus" v-model="popupValue" placeholder="请输入编号" />
 					</view>
 				</view>
 				<view class="popupButtonBlock">
@@ -74,6 +74,7 @@
 				passengers:[],
 				popupValue:'',
 				index:-1,
+				focus:false,
 			}
 		},
 		methods: {
@@ -85,9 +86,13 @@
 			},
 			openPopup:function(){
 				let that = this;
+				that.focus = false;
 				that.popupValue = '';
 				that.index = -1;
 				that.$refs.addPassenger.open();
+				setTimeout(function(){
+					that.focus = true;
+				},500);
 			},
 			closePopup:function(){
 				let that = this;
@@ -97,9 +102,13 @@
 			openPopupEdit:function(item,index){
 				let that = this;
 				that.showLoading();
+				that.focus = false;
 				that.popupValue = item;
 				that.index = index;
 				that.$refs.addPassenger.open();
+				setTimeout(function(){
+					that.focus = true;
+				},500);
 				uni.hideLoading();
 			},
 			
