@@ -58,7 +58,7 @@
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
-											<button @click="cancelOrder(item)" style="width: auto;" type="default">取消订单</button>
+											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 									<!-- <view class="btnarea">
@@ -112,7 +112,7 @@
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
-											<button @click="cancelOrder(item)" style="width: auto;" type="default">取消订单</button>
+											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 								</view>
@@ -235,7 +235,7 @@
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
-											<button @click="cancelOrder(item)" style="width: auto;" type="default">取消订单</button>
+											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 								</view>
@@ -276,7 +276,7 @@
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
 										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
-											<button @click="cancelOrder(item)" style="width: auto;" type="default">取消订单</button>
+											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
 								</view>
@@ -502,6 +502,7 @@
 			//--------------------订单取消--------------------------
 			cancelOrder: function(orderNumber) { //取消订单
 				let that = this;
+				console.log(orderNumber)
 				uni.showModal({
 					content: "您确定要取消订单吗",
 					success(res) {
@@ -513,12 +514,15 @@
 									orderId: orderNumber,
 								},
 								success(res) {
+									console.log(res)
 									if (res.data.code == 200) {
 										uni.showToast({
-											title: res.data.msg,
+											title: "取消成功",
 											icon: "none"
 										})
-										// uni.startPullDownRefresh();
+										setTimeout(function() {
+											uni.startPullDownRefresh();
+										}, 1000)
 									}
 								},
 								fail() {
