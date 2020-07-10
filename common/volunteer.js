@@ -25,6 +25,12 @@ const Interface={
 		method:'POST',
 		pages: [],
 	},
+	cancelorder:{
+		value:Url+'/api/volunteer/cancel-order',
+		name:'志愿者取消订单',
+		method:'GET',
+		pages: [],
+	},
 }
 const GetImage={
 	url:'https://zntc.145u.net:9099/api/zhcx/GetImage',

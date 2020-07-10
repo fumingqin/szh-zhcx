@@ -507,8 +507,8 @@
 					success(res) {
 						if (res.confirm) {
 							uni.request({
-								url: that.$volunteer.Interface.getorderDetail.value,
-								method: that.$volunteer.Interface.getorderDetail.method,
+								url: that.$volunteer.Interface.cancelorder.value,
+								method: that.$volunteer.Interface.cancelorder.method,
 								data: {
 									orderId: orderNumber,
 								},
