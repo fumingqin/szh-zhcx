@@ -57,7 +57,7 @@
 										<view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view>
-										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
+										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
@@ -111,7 +111,7 @@
 										<view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view>
-										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
+										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
@@ -234,7 +234,7 @@
 										<view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view>
-										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
+										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
@@ -275,7 +275,7 @@
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
 										</view>
-										<view v-if="item.orderState == '审核中'||item.orderState == '待接单'||item.orderState == '待派单'">
+										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
