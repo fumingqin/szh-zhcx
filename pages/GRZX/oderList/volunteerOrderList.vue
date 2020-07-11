@@ -49,6 +49,7 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
+											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '已上车'">
@@ -103,6 +104,7 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
+											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '已上车'">
@@ -150,6 +152,7 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
+											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '已上车'">
@@ -188,6 +191,7 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
+											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '已上车'">
@@ -228,8 +232,9 @@
 										<view v-if="item.orderState == '待上车'">
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
-										<view v-if="item.orderState == '已上车'">
-											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;" type="default">确认到达</button>
+										<view v-if="item.orderState == '待上车'">
+											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
+											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
@@ -270,6 +275,7 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
+											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '已上车'">
@@ -583,6 +589,34 @@
 				// 	return dateTime;
 				// }
 				return time;
+			},
+			//-------------------扫码验证------------------------------
+			scan:function(item){
+				let that = this;
+				uni.scanCode({
+					success:function(res){
+						if(item.passengers.indexOf(res.result) > -1){
+							Voice('通过');
+							uni.showToast({
+								title:'验证通过',
+								icon:'none',
+								duration:2000,
+								mask:true
+							});
+						}else{
+							uni.showToast({
+								title:'验证通过',
+								icon:'none',
+								duration:2000,
+								mask:true
+							});
+							that.showToast('不通过');
+						}
+					},
+					fail:function(res){
+						
+					}
+				});
 			},
 			//-------------------确认乘客上车------------------------------
 			confirmgetonCar: function(item) { 
