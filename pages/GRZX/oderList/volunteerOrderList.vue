@@ -444,7 +444,6 @@
 									obj = {
 										id: item.id, //订单ID
 										title: item.line.name, //线路名称
-										//orderTime: item.createTime, //订单时间
 										runTime: item.orderTime, //出发时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
@@ -458,7 +457,19 @@
 									obj = {
 										id: item.id, //订单ID
 										title: item.line.name, //线路名称
-										//orderTime: item.createTime, //订单时间
+										runTime: item.orderTime, //出发时间
+										endAddress: item.line.endName, //目的地
+										startAddress: item.line.startName, //出发点
+										orderState: that.formatState(item.state), //订单状态
+										state: item.state, //订单状态
+										peoperNumber: item.peoperNumber, //乘车人数
+									};
+									that.orderArr.push(obj);
+								}else if (item.parentId == null&&item.state=='cancel') {
+									//显示已取消的订单
+									obj = {
+										id: item.id, //订单ID
+										title: item.line.name, //线路名称
 										runTime: item.orderTime, //出发时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
