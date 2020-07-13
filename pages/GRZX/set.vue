@@ -71,14 +71,16 @@
 			//清除缓存
 			clearStorage(){
 				var user=uni.getStorageSync('userInfo');
-				var vehicle=uni.getStorageSync('vehicleInfo');
+				var vehicle=uni.getStorageSync('vehicleInfo')||'';
 				uni.showModal({
 				    content: '是否清除数据',
 				    success: (e)=>{
 				    	if(e.confirm){
 							uni.clearStorageSync();
 							uni.setStorageSync('userInfo',user);
-							uni.setStorageSync('vehicleInfo',vehicle);
+							if(vehicle!=""){
+								uni.setStorageSync('vehicleInfo',vehicle);
+							}
 							uni.redirectTo({
 								url:'/pages/GRZX/set'
 							})
