@@ -73,6 +73,10 @@
 					</view>
 					
 					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+						<text>预计到达时间：{{totalTime}}</text>
+					</view>
+					
+					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
 						<text>是否允许拼车</text>
 						<switch style="margin-left: 280rpx;" :checked="isCarpool" color="#00aa00" @change="switchChange" />
 					</view>
@@ -81,9 +85,14 @@
 						<view style="padding-top: 20rpx ;">
 							<text class="titleFont">乘车原因</text>
 						</view>
-						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
+						<!-- <view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
 							<input v-model="remark" class="contentFont" placeholder="请输入乘车原因" />
-							<!-- <text>人</text> -->
+						</view> -->
+						<view  style="display: flex;flex-wrap: wrap;">
+							<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 10rpx;padding: 10rpx;justify-content: flex-start;">
+								<text style="border-radius: 10rpx;border-color: #AAAAAA;border-width: 1px;border-style: solid;">{{item}}</text>
+							</view>
+							<textarea :focus='focus' maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 120rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;" name='remark' v-model="remark" placeholder="请选择或填写原因"></textarea>
 						</view>
 					</view>
 
@@ -189,6 +198,13 @@
 				seat: 0,
 				volunteerImg: '',
 				signImage: '',
+				byCarArr: [
+					'紧急用车',
+					'临时任务',
+					'赛场监督',
+				],
+				estimateTime:'',//预计时间单位分钟
+				totalTime:'',//预计总时间
 			}
 		},
 		onLoad() {
@@ -222,9 +238,12 @@
 					url: that.$volunteer.GetImage.url,
 					data: {
 						model: 10,
+						companyid:'世中会',
+						systemtype:'XCX',
 					},
 					method: 'POST',
 					success(res) {
+						console.log(res);
 						var image = res.data.data.filter(item => {
 							return item.type == 'shizhonghui2';
 						})
@@ -265,6 +284,14 @@
 						//清除监听，不清除会消耗资源
 						uni.$off('endStaionChange');
 					});
+					//监听事件,监听下个页面返回的值，预计时间赋值
+					uni.$on('expectDuration', function(data) {
+						// data即为传过来的值
+						that.estimateTime = data.data;
+						//清除监听，不清除会消耗资源
+						uni.$off('expectDuration');
+					});
+					console.log(that.estimateTime);
 					uni.navigateTo({
 						//跳转到下个页面的时候加个字段，判断当前点击的是下车点
 						url: '/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian' + '&startSiteName=' + that.startSiteName +
@@ -607,6 +634,15 @@
 			//是否拼车开关转换
 			switchChange(e){
 				this.statusTip = e.detail.value ? true: false;
+			},
+			thisReason:function(item){
+				let that = this;
+				//that.focus = false;
+				that.remark = item;
+				// setTimeout(function(){
+				// 	that.focus = true;
+				// 	that.cursor = item.length;
+				// },50);
 			},
 		}
 	}
