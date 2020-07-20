@@ -96,6 +96,10 @@
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
 			</view>
 		</view>	
+		
+		<view class="workClass" @click="switchState" v-if="userType=='司机'">
+			{{workState}}
+		</view>
 	</view>
 </template>
 
@@ -104,12 +108,12 @@
 	export default{
 		data(){
 			return{
-				nickname:'',
-				portrait:'',
-				advert:'/static/GRZX/advert.png',
-				userType:'派单员',
-				
+				nickname:'',	//昵称
+				portrait:'',	//头像
+				advert:'/static/GRZX/advert.png', //广告
+				userType:'',	//用户类型
 				licensePlate:'',//车牌号加颜色
+				workState:'',	//司机的工作状态
 			}
 		},
 		onLoad(){
@@ -130,10 +134,35 @@
 						that.userType=res.data.type;
 						if(that.userType=="司机"){
 							that.licensePlate=res.data.licensePlate;
+							that.loadWorkState();	//加载司机工作状态
 						}
 					}
 				})
 			},
+			
+			// ---------------------------加载司机工作状态----------------------------
+			loadWorkState(){
+				var that=this;
+				uni.getStorage({
+					key:'workState',
+					success(res) {
+						if(res.data=="online"){
+							that.workState="下班";
+						}else if(res.data=="offline"){
+							that.workState="上班";
+						}
+					},
+					fail() {
+						// that.workState="上班";
+					}
+				})
+			},
+			
+			// ---------------------------司机切换上下班状态----------------------------
+			switchState(){
+				
+			},
+			
 			// ---------------------------跳转订单的点击-----------------------
 			orderClick(e){
 				var that=this;
@@ -158,22 +187,26 @@
 					url:'/pages/GRZX/personal',
 				})
 			},
+			
 			// ---------------------------返回上一页--------------------------
 			returnClick(){
 				uni.navigateBack();
 			},
+			
 			// ---------------------------电话客服--------------------------
 			phoneClick(){
 				uni.makePhoneCall({
 					phoneNumber: '18065328329', //仅为示例
 				});
 			},
+			
 			// ---------------------------设置--------------------------
 			setClick(){
 				uni.navigateTo({
 					url:'/pages/GRZX/set',
 				})
 			},
+			
 			// ---------------------------退出登录--------------------------
 			exitClick(){
 				uni.showModal({
@@ -183,6 +216,7 @@
 							uni.removeStorageSync('userInfo'); 		//清除用户信息缓存
 							uni.removeStorageSync('vehicleInfo'); 	//清除车辆信息缓存
 							uni.removeStorageSync('passengers'); 	//清除乘客信息缓存
+							uni.removeStorageSync('workState'); 	//清除司机上下班状态缓存
 							getApp().globalData.driverID = '';
 							getApp().globalData.licensePlate = '';
 							getApp().globalData.closeUpload();
@@ -195,6 +229,7 @@
 					}
 				})
 			},
+			
 			//----------------------判断是否为base64格式-------------------
 			isBase64:function(str) {
 			    if (str ==='' || str.trim() ===''){ return false; }
@@ -204,6 +239,7 @@
 			        return false;
 			    }
 			},
+			
 			//----------------------判断是否为数字-----------------------
 			judgeNum(val){
 				var regPos = /^\d+(\.\d+)?$/; //非负浮点数
@@ -473,6 +509,19 @@
 		left: 9.13%;
 		position: absolute;
 		color: #FFFFFF;
+	}
+
+	.workClass{
+		margin-left: 5%;
+		margin-bottom: 20upx;
+		width: 90%;
+		text-align: center;
+		font-size: 34upx;
+		border-radius: 20upx;
+		color: #FFFFFF;
+		background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));
+		box-shadow:0px 7px 38px 8px rgba(70,103,252,0.15);
+		padding: 25upx 0;
 	}
 
 </style>

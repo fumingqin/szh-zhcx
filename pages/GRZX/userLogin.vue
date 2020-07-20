@@ -231,8 +231,9 @@
 								icon:'success',
 							})
 							var data=res.data.data;
-							// --------司机登录--------
+							// -------------------------------司机登录-------------------------------
 							if(type=="driver"){
+								uni.setStorageSync('workState',data.state);
 								var driverList={
 									address:data.address,	//地址
 									company:data.company,	//公司
@@ -258,7 +259,7 @@
 								uni.redirectTo({
 									url:'/pages/driver/driverOperation/taxiDriver',
 								})	
-							// --------志愿者登录--------
+							// -------------------------------志愿者登录-------------------------------
 							}else if(type=="volunteer"){
 								var volunteerList={
 									portrait:data.headPic,	 //头像	

@@ -20,7 +20,7 @@
 		</view>
 		<!-- 派单列表 -->
 		<scroll-view class="scrollClass"  v-bind:style="{height:imgHeight+'px'}" scroll-y="true" >
-			<view class="driverListClass" v-for="(item, index) in DriverList" :key="index" :class="{'cur': List.indexOf(index)!=-1}" @tap="selectDriver(index)">
+			<view class="driverListClass" v-for="(item, index) in driverList" :key="index" :class="{'cur': List.indexOf(index)!=-1}" @tap="selectDriver(index)">
 				<view style="display: flex;flex-direction: row;">
 					<image :src="imgSrc" class="imgClass"></image>
 					<view class="style1">
