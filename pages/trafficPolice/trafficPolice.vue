@@ -67,6 +67,8 @@
 					url:that.$volunteer.GetImage.url,
 					data:{
 						model:10,
+						companyid:'世中会',
+						systemtype:'XCX',
 					},
 					method:'POST',
 					success(res) {

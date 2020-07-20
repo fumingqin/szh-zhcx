@@ -33,7 +33,7 @@ const Interface={
 	},
 }
 const GetImage={
-	url:'https://zntc.145u.net:9099/api/zhcx/GetImage',
+	url:'https://zntc.145u.net:9099/api/zhcx/getImage',
 	name:'获取图片',
 	method:'POST',
 	pages: [],
