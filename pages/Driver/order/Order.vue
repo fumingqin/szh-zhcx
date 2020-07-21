@@ -374,32 +374,43 @@
 			toDepart: function(item) {
 				//发车
 				let that = this;
-				uni.showLoading({
-					mask: true,
-					title:'加载中'
-				});
-				uni.request({
-					url:that.$taxi.Interface.driverLeaves.value,
-					method:that.$taxi.Interface.driverLeaves.method,
-					data:{
-						orderId:item.id
-					},
+				
+				uni.showModal({
+					content:'您是否确定发车？',
+					showCancel:true,
 					success:function(res){
-						uni.hideLoading();
-						if (res.data.code===200) {
-							that.showToast('发车成功');
-							setTimeout(function(){
-								uni.navigateTo({
-									url: '/pages/driver/driverOperation/confirmgetonCar?orderNumber=' + item.id,
-								});
-							},1500);
+						if(res.confirm){
+							uni.showLoading({
+								mask: true,
+								title:'加载中'
+							});
+							uni.request({
+								url:that.$taxi.Interface.driverLeaves.value,
+								method:that.$taxi.Interface.driverLeaves.method,
+								data:{
+									orderId:item.id
+								},
+								success:function(res){
+									uni.hideLoading();
+									if (res.data.code===200) {
+										that.showToast('发车成功');
+										setTimeout(function(){
+											uni.navigateTo({
+												url: '/pages/driver/driverOperation/confirmgetonCar?orderNumber=' + item.id,
+											});
+										},1500);
+									}
+								},
+								fail:function(res){
+									uni.hideLoading();
+									that.showToast('网络连接失败');
+								}
+							});
 						}
-					},
-					fail:function(res){
-						uni.hideLoading();
-						that.showToast('网络连接失败');
+							
 					}
 				});
+				
 			},
 			
 			formatState:function(state){

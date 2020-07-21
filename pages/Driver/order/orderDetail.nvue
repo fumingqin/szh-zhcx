@@ -85,8 +85,7 @@
 					icon: icon
 				});
 			},
-			getOrderDetail:function(){
-				let that = this;
+			getOrderDetail:function(){				let that = this;
 				uni.request({
 					url: $taxi.Interface.getOrderDetail.value,
 					method: $taxi.Interface.getOrderDetail.method,
