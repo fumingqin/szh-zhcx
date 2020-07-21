@@ -66,6 +66,7 @@
 				stationType:'',//判断上个页面点击的是上车点还是下车点
 				startSiteName:'',
 				pointType:'',
+				expectDuration:'',
 			}
 		},
 		onLoad(param){
@@ -103,7 +104,11 @@
 					success: (res) => {
 						console.log(res)
 						uni.hideLoading();
-						let that = this;
+						that.expectDuration=res.data.data.data[0].expectDuration;
+						uni.$emit('expectDuration', {
+						    data: that.expectDuration
+						});
+						// console.log(that.expectDuration);
 						var array=[];
 						if (res.data.length != 0) {
 							if(that.pointType === 'start'){

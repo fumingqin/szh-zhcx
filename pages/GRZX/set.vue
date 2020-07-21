@@ -72,7 +72,9 @@
 			clearStorage(){
 				var user=uni.getStorageSync('userInfo');
 				var vehicle=uni.getStorageSync('vehicleInfo')||'';
+				var workState=uni.getStorageSync('workState')||'';
 				uni.showModal({
+					title:'清除缓存',
 				    content: '是否清除数据',
 				    success: (e)=>{
 				    	if(e.confirm){
@@ -80,6 +82,9 @@
 							uni.setStorageSync('userInfo',user);
 							if(vehicle!=""){
 								uni.setStorageSync('vehicleInfo',vehicle);
+							}
+							if(workState!=""){
+								uni.setStorageSync('workState',workState);
 							}
 							uni.redirectTo({
 								url:'/pages/GRZX/set'
