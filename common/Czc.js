@@ -79,6 +79,25 @@ const Interface = {
 		method:'GET',
 		pages:[]
 	}, 
+	offLine:{
+		value:Url + '/api/driver/offLine',
+		name:'下班',
+		method:'GET',
+		pages:[]
+	},
+	onLine:{
+		value:Url + '/api/driver/onLine',
+		name:'上班',
+		method:'GET',
+		pages:[]
+	},
+	getCommutingList:{
+		value:Url + '/api/driver/get-commuting-list',
+		name:'获取司机上下班打卡记录',
+		method:'GET',
+		pages:[]
+	},
+	
 	reportAddress:{
 		value:Url1 + '/api/szh/report_address',
 		name:'司机端持续上报经纬度',

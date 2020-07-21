@@ -114,6 +114,7 @@
 				userType:'',	//用户类型
 				licensePlate:'',//车牌号加颜色
 				workState:'',	//司机的工作状态
+				driverId:'',//司机ID
 			}
 		},
 		onLoad(){
@@ -129,6 +130,7 @@
 				uni.getStorage({
 					key:'userInfo',
 					success(res) {
+						that.driverId = res.data.driverId;
 						that.nickname=res.data.userName;
 						that.portrait=res.data.portrait;
 						that.userType=res.data.type;
@@ -160,7 +162,62 @@
 			
 			// ---------------------------司机切换上下班状态----------------------------
 			switchState(){
-				
+				uni.showLoading({
+					title:'加载中',
+					mask:true,
+				});
+				let that = this;
+				var url = '';
+				var method = '';
+				if(that.workState === '上班'){
+					//下班调下班接口
+					url = that.$taxi.Interface.onLine.value;
+					method = that.$taxi.Interface.onLine.method;
+				} else if (that.workState === '下班'){
+					url = that.$taxi.Interface.offLine.value;
+					method = that.$taxi.Interface.offLine.method;
+				}
+				if(url !== '' && method !== ''){
+					uni.request({
+						url: url,
+						method: method,
+						data: {
+							driverId: that.driverId,
+						},
+						success: function(res) {
+							uni.hideLoading();
+							if (res.data.code===200) {
+								if(that.workState === '上班'){
+									that.workState = '下班';
+									uni.setStorageSync('workState','online');
+									uni.showToast({
+										title:'已上班',
+										icon:'none'
+									});
+								} else if(that.workState === '下班'){
+									that.workState = '上班';
+									uni.setStorageSync('workState','offline');
+									uni.showToast({
+										title:'已下班',
+										icon:'none'
+									});
+								}
+							} else {
+								uni.showToast({
+									title:res.data.msg,
+									icon:'none'
+								});
+							}
+						},
+						fail: function(res) {
+							uni.hideLoading();
+							uni.showToast({
+								title:'网络连接失败',
+								icon:'none'
+							});
+						},
+					});
+				}
 			},
 			
 			// ---------------------------跳转订单的点击-----------------------
