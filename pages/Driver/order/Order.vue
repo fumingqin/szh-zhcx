@@ -332,7 +332,13 @@
 					phoneNumber: item.volunteer.tel
 				});
 			},
-			toArrive: function(item) {
+			toArrive:function(item){
+				let that = this;
+				uni.navigateTo({
+					url:'../driverOperation/orderComplete?orderNumber=' + item.id
+				});
+			},
+			/* toArrive: function(item) {
 				//到达
 				let that = this;
 				uni.showLoading({
@@ -363,7 +369,7 @@
 						that.showToast('网络连接失败');
 					}
 				});
-			},
+			}, */
 
 			toDepart: function(item) {
 				//发车

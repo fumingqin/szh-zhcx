@@ -29,26 +29,30 @@
 					<text class="destinationArea">{{item.line.area}}</text>
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;margin-top: 0;">
-					<text class="fontClass" style="width:140rpx;height:40rpx;">出发时间:</text>
-					<text class="fontClass" style="height:40rpx;">{{item.orderTime}}</text>
+					<text class="fontClass" style="width:140rpx;">出发时间:</text>
+					<text class="fontClass" >{{item.orderTime}}</text>
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;margin-top: 0;">
-					<text class="fontClass" style="width:140rpx;height:40rpx;">线路名称:</text>
-					<text class="fontClass" style="height:40rpx;">{{item.line.name}}</text>
+					<text class="fontClass" style="width:140rpx;">线路名称:</text>
+					<text class="fontClass" >{{item.line.name}}</text>
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;">
-					<text class="fontClass" style="width:140rpx;height:40rpx;">预计里程:</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectMileage(item.line.expectMileage)}}</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;margin-left: 40rpx;">预计时长:</text>
-					<text class="fontClass" style="width:140rpx;height:40rpx;">{{formatExpectDuration(item.line.expectDuration)}}</text>
+					<text class="fontClass" style="width:140rpx;">预计里程:</text>
+					<text class="fontClass" style="width:140rpx;">{{formatExpectMileage(item.line.expectMileage)}}</text>
+					<text class="fontClass" style="width:140rpx;margin-left: 40rpx;">预计时长:</text>
+					<text class="fontClass" style="width:140rpx;">{{formatExpectDuration(item.line.expectDuration)}}</text>
+				</view>
+				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;margin-top: 0;">
+					<text class="fontClass" style="width:200rpx;">预计到达时间:</text>
+					<text class="fontClass" >{{formatExpectArriveTime(item.orderTime,item.line.expectDuration)}}</text>
 				</view>
 				<view style="margin: -10rpx 40rpx;display: flex;flex-direction: row;">
-					<text class="fontClass" style="width:110rpx;height:40rpx;">上车点:</text>
-					<text class="fontClass" style="height:40rpx;">{{item.line.startName}}</text>
+					<text class="fontClass" style="width:110rpx;">上车点:</text>
+					<text class="fontClass" >{{item.line.startName}}</text>
 				</view>
 				<view style="margin: 20rpx 40rpx;display: flex;flex-direction: row;">
-					<text class="fontClass" style="width:110rpx;height:40rpx;">下车点:</text>
-					<text class="fontClass" style="height:40rpx;">{{item.line.endName}}</text>
+					<text class="fontClass" style="width:110rpx;">下车点:</text>
+					<text class="fontClass" >{{item.line.endName}}</text>
 				</view>
 				<view style="display: flex; margin-left: 4rpx;">
 					<button v-show="item.state === 'waiting'" @click="receipt(item)" style="width:278rpx;border-radius:12rpx; margin-top: 20rpx; font-size: 34rpx;text-align: center;background-color: #ED766C; border: 1px solid #ED766C; color: #FFFFFF; align-items: center;">
@@ -219,7 +223,13 @@
 				// }
 				return expectMileage + '公里';
 			},
-			
+			formatExpectArriveTime:function(startTime,duration){
+				//预计到达时间
+				startTime = startTime.replace(/-/g,'/');
+				var time = new Date(startTime).getTime();
+				var endTime = new Date(time + duration * 60 * 1000);
+				return utils.timeTodate('Y-m-d H:i',endTime) + ':00'
+			},
 			toOrderList:function(){
 				uni.navigateTo({
 					url:'../order/Order'

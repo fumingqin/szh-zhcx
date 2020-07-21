@@ -14,7 +14,7 @@
 					</view>
 					<view>
 						<!--导航-->
-						<image v-if="state === 'departure'" src="@/static/driver/scan.png" style="width: 120rpx;height: 120rpx;" @click="scan"></image>
+						<!-- <image v-if="state === 'departure'" src="@/static/driver/scan.png" style="width: 120rpx;height: 120rpx;" @click="scan"></image> -->
 						<image v-if="state === 'passenger'" src="@/static/driver/navigate.png" style="width: 120rpx;height: 120rpx;" @click="toNavigation"></image>
 					</view>
 				</view>
@@ -176,7 +176,7 @@
 			clearInterval(that.directionInterval);
 		},
 		methods: {
-			scan:function(){
+			/* scan:function(){
 				let that = this;
 				uni.scanCode({
 					success:function(res){
@@ -202,7 +202,7 @@
 						
 					}
 				});
-			},
+			}, */
 			
 			thisReason:function(item){
 				let that = this;
@@ -303,7 +303,8 @@
 								}
 							} else if (res.data.data.state === 'arrive'){
 								uni.redirectTo({
-									url: '/pages/driver/driverOperation/orderComplete'
+									//url: '/pages/driver/driverOperation/orderComplete'
+									url: './taxiDriver',
 								});
 								if(!that.isShowArrive){
 									that.arriveBroadcast();
@@ -387,8 +388,15 @@
 					}
 				});
 			},
-		
-			confirmGetToDestination: function() {
+			confirmGetToDestination:function(){
+				//长按确认到达目的地
+				let that = this;
+				uni.redirectTo({
+					url: '/pages/driver/driverOperation/orderComplete?orderNumber='+that.orderNumber
+				});
+				clearInterval(that.orderInterval);
+			},
+			/* confirmGetToDestination: function() {
 				//长按确认到达目的地
 				let that = this;
 				uni.showLoading({
@@ -402,10 +410,11 @@
 						orderId:that.orderNumber
 					},
 					success:function(res){
+						console.log(res);
 						uni.hideLoading();
 						if(res.data.code===200 || res.data.msg === '订单状态错误，更改失败'){
 							uni.redirectTo({
-								url: '/pages/driver/driverOperation/orderComplete'
+								url: '/pages/driver/driverOperation/orderComplete?orderNumber='+that.orderNumber
 							});
 							if(!that.isShowArrive){
 								that.arriveBroadcast();
@@ -421,7 +430,7 @@
 						that.showToast('网络连接失败');
 					}
 				});
-			},
+			}, */
 		
 			call: function(phoneNumber) {
 				//呼叫乘客
