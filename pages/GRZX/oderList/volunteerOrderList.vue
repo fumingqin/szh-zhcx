@@ -108,8 +108,10 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
@@ -197,8 +199,10 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
@@ -240,8 +244,10 @@
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
@@ -282,8 +288,10 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
