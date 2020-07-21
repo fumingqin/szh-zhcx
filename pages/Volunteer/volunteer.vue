@@ -149,6 +149,7 @@
 	import MxDatePicker from '@/components/mx-datepicker/mx-datepicker.vue';
 	import uniIcons from "@/components/uni-icons/uni-icons.vue";
 	import uniPopup from "@/components/uni-popup/uni-popup.vue";
+	import utils from '@/components/Driver/shoyu-date/utils.filter.js';
 	import {
 		pathToBase64,
 		base64ToPath
@@ -211,7 +212,6 @@
 			let that = this;
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			uni.removeStorageSync('passengers');
-			that.getTodayDate();
 			that.getTodayDate1();
 			that.load();
 			//获得Canvas的上下文
@@ -229,6 +229,14 @@
 		onShow() {
 			var that = this;
 			that.passengerMessage = uni.getStorageSync('passengers') || '';
+			//监听事件,监听下个页面返回的值，预计时间赋值
+			uni.$on('expectDuration', function(data) {
+				// data即为传过来的值
+				that.estimateTime = data.data;
+				//清除监听，不清除会消耗资源
+				uni.$off('expectDuration');
+			});
+			that.getTodayDate();
 		},
 		methods: {
 			// ---------------------------加载图片----------------------------
@@ -283,15 +291,7 @@
 						that.endSiteName = data.data;
 						//清除监听，不清除会消耗资源
 						uni.$off('endStaionChange');
-					});
-					//监听事件,监听下个页面返回的值，预计时间赋值
-					uni.$on('expectDuration', function(data) {
-						// data即为传过来的值
-						that.estimateTime = data.data;
-						//清除监听，不清除会消耗资源
-						uni.$off('expectDuration');
-					});
-					console.log(that.estimateTime);
+					});				
 					uni.navigateTo({
 						//跳转到下个页面的时候加个字段，判断当前点击的是下车点
 						url: '/pages/Volunteer/homeSattionPick?&station=' + 'zhongdian' + '&startSiteName=' + that.startSiteName +
@@ -327,6 +327,8 @@
 				var timer = year + '-' + month + '-' + day + '' + ' ' + hour + ':' + minutes;
 				this.datestring = timer;
 				this.date = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+				
+				this.totalTime = this.formatExpectArriveTime(this.date,this.estimateTime);
 			},
 			getTodayDate1: function() {
 				var date = new Date(),
@@ -347,6 +349,8 @@
 				this.datestring = this[this.type];
 				// this.queryWeek(e.date.toString().substring(0, 3));
 				this.date = e.value;
+				
+				this.totalTime = this.formatExpectArriveTime(this.date,this.estimateTime);
 			},
 			onSelected1: function(e) { //选择
 				this.showPicker1 = false;
@@ -643,6 +647,14 @@
 				// 	that.focus = true;
 				// 	that.cursor = item.length;
 				// },50);
+			},
+			
+			//------------------预计到达时间-----------
+			formatExpectArriveTime:function(startTime,duration){
+				startTime = startTime.replace(/-/g,'/');
+				var time = new Date(startTime).getTime();
+				var endTime = new Date(time + duration * 60 * 1000);
+				return utils.timeTodate('Y-m-d H:i',endTime)
 			},
 		}
 	}
