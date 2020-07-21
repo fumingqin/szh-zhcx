@@ -50,8 +50,10 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
@@ -325,8 +327,6 @@
 				menuButtonTop: '',
 				scrowHeight: '', //scroll-view的高度法
 				triggered: false,
-				reason: '',
-
 				timeId: 0, //定时器的id
 			}
 		},
@@ -357,7 +357,7 @@
 				if (that.timeId == 0) {
 					that.timeId = setInterval(function() {
 						that.getVolunteerOrder();
-					}, 5000);
+					}, 10000);
 				}
 			}
 		},
@@ -408,7 +408,7 @@
 				that.cancleArr = [];
 				that.unexamineArr = [];
 				that.examineArr = [];
-				console.log(that.userInfo.volunteerId, 'id')
+				// console.log(that.userInfo.volunteerId, 'id')
 				uni.stopPullDownRefresh();
 				uni.request({
 					url: that.$Grzx.Interface.getOrders.value,
@@ -420,7 +420,7 @@
 						uni.hideLoading();
 						that.triggered = false; //触发onRestore，并关闭刷新图标
 						that._freshing = false;
-						//console.log(res)
+						console.log(res,'订单数据')
 						if (res.data.code == 200) {
 							var obj = new Object();
 							for (let item of res.data.data) {
@@ -437,6 +437,7 @@
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
 										reason: item.failReason, //未通过原因
+										passengers:item.passengers,//乘车人信息
 									};
 									that.orderArr.push(obj);
 								} else if (item.state == "waiting" && item.peoperNumber > 0 && item.parentId == null) {
@@ -450,6 +451,7 @@
 										orderState: '待派单', //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										passengers:item.passengers,//乘车人信息
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId != null) {
@@ -463,6 +465,7 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										passengers:item.passengers,//乘车人信息
 									};
 									that.orderArr.push(obj);
 								}else if (item.parentId == null&&item.state=='cancel') {
@@ -476,11 +479,12 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										passengers:item.passengers,//乘车人信息
 									};
 									that.orderArr.push(obj);
 								}
 							};
-							console.log(that.orderArr)
+							// console.log(that.orderArr)
 							that.underwayArr = that.orderArr.filter(x => {
 								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过';
 							});
@@ -525,7 +529,7 @@
 			//--------------------订单取消--------------------------
 			cancelOrder: function(orderNumber) { //取消订单
 				let that = this;
-				console.log(orderNumber)
+				// console.log(orderNumber)
 				uni.showModal({
 					content: "您确定要取消订单吗",
 					success(res) {
@@ -537,7 +541,7 @@
 									orderId: orderNumber,
 								},
 								success(res) {
-									console.log(res)
+									// console.log(res)
 									if (res.data.code == 200) {
 										uni.showToast({
 											title: "取消成功",
@@ -613,6 +617,8 @@
 			//-------------------扫码验证------------------------------
 			scan: function(item) {
 				let that = this;
+				console.log(item);
+				console.log(item.passengers);
 				uni.scanCode({
 					success: function(res) {
 						if (item.passengers.indexOf(res.result) > -1) {
@@ -625,12 +631,12 @@
 							});
 						} else {
 							uni.showToast({
-								title: '验证通过',
+								title: '验证不通过',
 								icon: 'none',
 								duration: 2000,
 								mask: true
 							});
-							that.showToast('不通过');
+							// that.showToast('不通过');
 						}
 					},
 					fail: function(res) {
