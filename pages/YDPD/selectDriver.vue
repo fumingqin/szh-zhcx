@@ -18,6 +18,7 @@
 				</xfl-select>
 			</view>
 		</view>
+		
 		<!-- 派单列表 -->
 		<scroll-view class="scrollClass"  v-bind:style="{height:imgHeight+'px'}" scroll-y="true" >
 			<view class="driverListClass" v-for="(item, index) in driverList" :key="index" :class="{'cur': List.indexOf(index)!=-1}" @tap="selectDriver(index)">
@@ -44,6 +45,7 @@
 		<view class="btnClass" @click="successClick">
 			确认派单
 		</view>
+		
 		<!-- 签名的弹窗 -->
 		<uni-popup ref="centerPopup" type="center">
 			<view class="centerClass">
@@ -114,18 +116,22 @@
 				    }
 				});
 			},
+			
 			//--------------选择车型--------------
 			selectType:function(e){
 				
 			},
+			
 			//--------------选择起点--------------
 			selectAddress:function(e){
 				
 			},
+			
 			//--------------车辆座位--------------
 			selectSeat:function(e){
 				
 			},
+			
 			//--------------获取司机列表--------------
 			getDriverList:function(){
 				var that=this;
@@ -169,6 +175,7 @@
 					}
 				];
 			},
+			
 			//--------------选择司机--------------
 			selectDriver:function(e){
 				if (this.List.indexOf(e) == -1) {
@@ -181,6 +188,7 @@
 					this.index=-1;
 				}
 			},
+			
 			//--------------确认派单--------------
 			successClick:function(){
 				var that=this;
