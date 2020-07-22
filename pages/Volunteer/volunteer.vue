@@ -26,6 +26,25 @@
 							<text @click="endStationTap" v-model="endSiteName" class="contentFont">{{endSiteName}}</text>
 						</view>
 					</view>
+					
+					<view v-if="estimateState==1">
+						<view>
+							<view style="padding-top: 20rpx ;">
+								<text class="titleFont">预计里程和时间</text>
+							</view>
+							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+								<text>预计里程{{estimateMileage}}公里,预计时间{{estimateTime}}分钟</text>
+							</view>
+						</view>
+						<view>
+							<view style="padding-top: 20rpx ;">
+								<text class="titleFont">预计到达时间</text>
+							</view>
+							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+								<text>{{totalTime}}</text>
+							</view>
+						</view>
+					</view>
 
 					<view style="padding-top: 40rpx ;">
 						<view style="margin-left: 100rpx;">
@@ -73,10 +92,6 @@
 					</view>
 					
 					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-						<text>预计到达时间：{{totalTime}}</text>
-					</view>
-					
-					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
 						<text>是否允许拼车</text>
 						<switch style="margin-left: 280rpx;" :checked="isCarpool" color="#00aa00" @change="switchChange" />
 					</view>
@@ -89,10 +104,10 @@
 							<input v-model="remark" class="contentFont" placeholder="请输入乘车原因" />
 						</view> -->
 						<view  style="display: flex;flex-wrap: wrap;">
-							<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 10rpx;padding: 10rpx;justify-content: flex-start;">
-								<text style="border-radius: 10rpx;border-color: #AAAAAA;border-width: 1px;border-style: solid;">{{item}}</text>
+							<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 34rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
+								<text style="border-radius: 10rpx;border-color: #AAAAAA;border-width: 1px;border-style: solid;padding: 8rpx;">{{item}}</text>
 							</view>
-							<textarea :focus='focus' maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 120rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;" name='remark' v-model="remark" placeholder="请选择或填写原因"></textarea>
+							<textarea :focus='focus' maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 140rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;margin-left: 10rpx;" name='remark' v-model="remark" placeholder="请选择或填写原因"></textarea>
 						</view>
 					</view>
 
@@ -181,7 +196,7 @@
 				showPicker1: false,
 				remark: '',
 				passengerMessage: '',
-				orderType:0,
+				orderType:1,
 				startSiteName: '请选择起点',
 				startLon: '',
 				startLat: '',
@@ -205,7 +220,9 @@
 					'赛场监督',
 				],
 				estimateTime:'',//预计时间单位分钟
+				estimateMileage:'',//预计里程
 				totalTime:'',//预计总时间
+				estimateState:0,//预估时间状态
 			}
 		},
 		onLoad() {
@@ -235,6 +252,12 @@
 				that.estimateTime = data.data;
 				//清除监听，不清除会消耗资源
 				uni.$off('expectDuration');
+			});
+			uni.$on('expectMileage', function(data) {
+				// data即为传过来的值
+				that.estimateMileage = data.data;
+				//清除监听，不清除会消耗资源
+				uni.$off('expectMileage');
 			});
 			that.getTodayDate();
 		},
@@ -289,6 +312,7 @@
 					uni.$on('endStaionChange', function(data) {
 						// data即为传过来的值
 						that.endSiteName = data.data;
+						that.estimateState=1;//选择完终点站才出现预计时间
 						//清除监听，不清除会消耗资源
 						uni.$off('endStaionChange');
 					});				

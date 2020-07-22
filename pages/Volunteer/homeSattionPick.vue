@@ -66,7 +66,8 @@
 				stationType:'',//判断上个页面点击的是上车点还是下车点
 				startSiteName:'',
 				pointType:'',
-				expectDuration:'',
+				expectDuration:'',//预计时间
+				expectMileage:'',//预计里程
 			}
 		},
 		onLoad(param){
@@ -105,8 +106,12 @@
 						console.log(res)
 						uni.hideLoading();
 						that.expectDuration=res.data.data.data[0].expectDuration;
+						that.expectMileage=res.data.data.data[0].expectMileage;
 						uni.$emit('expectDuration', {
 						    data: that.expectDuration
+						});
+						uni.$emit('expectMileage', {
+						    data: that.expectMileage
 						});
 						// console.log(that.expectDuration);
 						var array=[];

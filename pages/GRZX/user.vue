@@ -97,7 +97,7 @@
 			</view>
 		</view>	
 		
-		<view class="workClass" @click="switchState" v-if="userType=='司机'">
+		<view v-show="false" class="workClass" @click="switchState" v-if="userType=='司机'">
 			{{workState}}
 		</view>
 	</view>
