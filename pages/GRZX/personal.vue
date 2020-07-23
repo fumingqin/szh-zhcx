@@ -66,6 +66,7 @@
 			this.loadUserInfo();
 		},
 		methods:{
+			//------------------------加载用户信息------------------------
 			loadUserInfo(){
 				var that=this;
 				uni.getStorage({
@@ -85,7 +86,8 @@
 					}
 				})
 			},
-			//------------判断是否为base64格式-----------
+			
+			//------------------------判断是否为base64格式------------------------
 			isBase64:function(str) {
 			    if (str ==='' || str.trim() ===''){ return false; }
 			    try {

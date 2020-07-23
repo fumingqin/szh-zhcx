@@ -62,7 +62,6 @@
 				// finishedOrderNum:300,
 				
 				OrderList:[], //订单列表
-				
 				imgHeight:0, //手机屏幕的高度
 				Height:'', 	//订单列表距离顶部高度
 				menuButtonHeight:'', //小程序右上角按钮的高度
@@ -100,6 +99,7 @@
 				    }
 				});
 			},
+			
 			//----------------------获取订单列表------------------------
 			getOrderList:function(){
 				var that=this;
@@ -163,6 +163,7 @@
 					that.$Grzx.showToast('暂无可派的订单','none',9000)
 				}
 			},
+			
 			//----------------------派单------------------------
 			dispatchOrder:function(e){
 				console.log(e)
@@ -170,18 +171,21 @@
 					url:'/pages/YDPD/selectDriver'
 				})
 			},
+			
 			//---------------------审核-------------------------
 			checkOrder:function(e){
 				uni.navigateTo({
 					url:'/pages/YDPD/checkOrder?OrderDetail='+e,
 				})
 			},
+			
 			//--------------------跳转个人中心-------------------
 			toPersonal:function(){
 				uni.navigateTo({
 					url:'/pages/GRZX/user'
 				})
 			},
+			
 			//--------------------开启定时器-------------------
 			startTimeout:function(){
 				var that=this;

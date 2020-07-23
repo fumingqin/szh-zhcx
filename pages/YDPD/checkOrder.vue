@@ -54,10 +54,12 @@
 					uni.navigateBack();
 				},500)
 			},
+			
 			//---------------审核不通过---------------
 			failClick:function(){
 				this.openPopup('centerPopup');
 			},
+			
 			//---------------提交审核不通过原因---------------
 			submitClick:function(){
 				var that=this;
@@ -72,14 +74,15 @@
 						uni.navigateBack();
 					},500)
 				}
-				
 			},
+			
 			//-----------开启弹窗------------
 			openPopup: function(value) {
 				this.$nextTick(function() {
 					this.$refs[value].open();
 				});
 			},
+			
 			//-----------关闭弹窗------------
 			closePopup: function(value) {
 				this.$nextTick(function() {
