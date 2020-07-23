@@ -1,11 +1,11 @@
 <template>
 	<view>
 		<!-- 顶部搜索框 -->
-		<view class="topSerchView">
+		<!-- <view class="topSerchView">
 			<view class="SearchBar" elevation='5px' style="">
 				<input class="addressInput" @input="onInput" placeholder="请输入关键字搜索" />
 			</view>
-		</view>
+		</view> -->
 		<!-- 搜索列表 -->
 		<view class="stationList" :style="{ 'height':scrollHeight }" v-if="isShowList">
 			<block v-for="(item,index) in keywordList" :key="index">
