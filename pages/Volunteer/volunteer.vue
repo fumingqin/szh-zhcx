@@ -7,8 +7,8 @@
 			</view>
 		</view>
 		<view style="margin-top: -80rpx;z-index: 1;position: relative;">
-			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 900rpx;">
-				<scroll-view style="height: 800rpx;" :scroll-y='true'>
+			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 980rpx;">
+				<scroll-view style="height: 850rpx;" :scroll-y='true'>
 					<view>
 						<view>
 							<text class="titleFont">起点</text>
@@ -105,7 +105,7 @@
 						</view> -->
 						<view  style="display: flex;flex-wrap: wrap;">
 							<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 34rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
-								<text style="border-radius: 10rpx;border-color: #AAAAAA;border-width: 1px;border-style: solid;padding: 8rpx;">{{item}}</text>
+								<text style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;">{{item}}</text>
 							</view>
 							<textarea :focus='focus' maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 140rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;margin-left: 10rpx;" name='remark' v-model="remark" placeholder="请选择或填写原因"></textarea>
 						</view>
@@ -137,7 +137,7 @@
 							</view>
 						</view> -->
 				</scroll-view>
-				<view style="margin-top: 40rpx;">
+				<view style="margin-top: 70rpx;">
 					<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
 						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
 					</button>
