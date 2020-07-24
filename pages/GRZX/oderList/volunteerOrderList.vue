@@ -81,7 +81,10 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
-					<view v-show="!ExistOrder[0]" class="tipClass">您还没有相关订单</view>
+					<view v-show="!ExistOrder[0]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 				<!--进行中-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==1">
@@ -130,7 +133,10 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
-					<view v-show="!ExistOrder[1]" class="tipClass">您还没有相关订单</view>	
+					<view v-show="!ExistOrder[1]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 				<!--已完成-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==2">
@@ -174,7 +180,10 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
-					<view v-show="!ExistOrder[2]" class="tipClass">您还没有相关订单</view>
+					<view v-show="!ExistOrder[2]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 				<!--已取消-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==3">
@@ -217,7 +226,10 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
-					<view v-show="!ExistOrder[3]" class="tipClass">您还没有相关订单</view>
+					<view v-show="!ExistOrder[3]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 				<!--待审核-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==4">
@@ -265,7 +277,10 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
-					<view v-show="!ExistOrder[4]" class="tipClass">您还没有相关订单</view>
+					<view v-show="!ExistOrder[4]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 				<!--已审核-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==5">
@@ -311,7 +326,10 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
-					<view v-show="!ExistOrder[5]" class="tipClass">您还没有相关订单</view>
+					<view v-show="!ExistOrder[5]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 			</scroll-view>
 		
