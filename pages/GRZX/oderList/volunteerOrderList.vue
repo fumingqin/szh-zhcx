@@ -21,11 +21,11 @@
 				</view>
 			</view>
 			<scroll-view v-bind:style="{height:scrowHeight+'px'}" scroll-y=true refresher-enabled=true @refresherrefresh="refreshClick"
-			 :refresher-triggered="triggered">
+			 :refresher-triggered="triggered" >
 
 				<!--全部-->
-				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
-					<view v-for="(item,index) in orderArr" :key="index">
+				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0" >
+					<view v-for="(item,index) in orderArr" :key="index" v-show="ExistOrder[0]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -81,10 +81,11 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[0]" class="tipClass">您还没有相关订单</view>
 				</view>
 				<!--进行中-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==1">
-					<view v-for="(item,index) in underwayArr" :key="index">
+					<view v-for="(item,index) in underwayArr" :key="index" v-show="ExistOrder[1]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -129,10 +130,11 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[1]" class="tipClass">您还没有相关订单</view>	
 				</view>
 				<!--已完成-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==2">
-					<view v-for="(item,index) in finishedArr" :key="index">
+					<view v-for="(item,index) in finishedArr" :key="index" v-show="ExistOrder[2]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="booktime" v-if="item.orderType == '预约'">
@@ -172,10 +174,11 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[2]" class="tipClass">您还没有相关订单</view>
 				</view>
 				<!--已取消-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==3">
-					<view v-for="(item,index) in cancleArr" :key="index">
+					<view v-for="(item,index) in cancleArr" :key="index" v-show="ExistOrder[3]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -214,10 +217,11 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[3]" class="tipClass">您还没有相关订单</view>
 				</view>
 				<!--待审核-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==4">
-					<view v-for="(item,index) in unexamineArr" :key="index">
+					<view v-for="(item,index) in unexamineArr" :key="index" v-show="ExistOrder[4]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -261,10 +265,11 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[4]" class="tipClass">您还没有相关订单</view>
 				</view>
 				<!--已审核-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==5">
-					<view v-for="(item,index) in examineArr" :key="index">
+					<view v-for="(item,index) in examineArr" :key="index" v-show="ExistOrder[5]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -306,8 +311,11 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[5]" class="tipClass">您还没有相关订单</view>
 				</view>
 			</scroll-view>
+		
+			
 		</view>
 	</view>
 </template>
@@ -321,10 +329,11 @@
 		},
 		data() {
 			return {
-				//carTypeid: 0,
+				ExistOrder:[false,false,false,false,false,false], //是否存在订单
+				
 				ani: ['slide-top', 'zoom-in'],
-				current: 0,
-				orderArr: [],
+				current: 0, 
+				orderArr: [], //全部订单
 				underwayArr: [], //进行中
 				finishedArr: [], //已完成
 				cancleArr: [], //已取消
@@ -508,6 +517,8 @@
 							that.examineArr = that.orderArr.filter(x => {
 								return x.orderState == '待派单';
 							});
+							//检查是否存在订单
+							that.checkExitOrder(that.orderArr,that.underwayArr,that.finishedArr,that.cancleArr,that.unexamineArr,that.examineArr);
 						} else {
 							that.showToast('获取订单失败');
 						}
@@ -697,7 +708,7 @@
 					}
 				})
 			},
-			//---------------------------scroll-view下拉刷新---------------------
+			//---------------------------scroll-view下拉刷新---------------------------
 			refreshClick: function() {
 				if (!this.triggered) { //界面下拉触发，triggered可能不是true，要设为true
 					this.triggered = true;
@@ -705,6 +716,29 @@
 						title: '加载订单中...',
 					});
 					this.getVolunteerOrder();
+				}
+			},
+			
+			//---------------------------是否存在订单---------------------------
+			checkExitOrder:function(orderArr,underwayArr,finishedArr,cancleArr,unexamineArr,examineArr){
+				var that=this;
+				if(orderArr!=""){
+					that.ExistOrder[0]=true;
+				}
+				if(underwayArr!=""){
+					that.ExistOrder[1]=true;
+				}
+				if(finishedArr!=""){
+					that.ExistOrder[2]=true;
+				}
+				if(cancleArr!=""){
+					that.ExistOrder[3]=true;
+				}
+				if(unexamineArr!=""){
+					that.ExistOrder[4]=true;
+				}
+				if(examineArr!=""){
+					that.ExistOrder[5]=true;
 				}
 			},
 		}
@@ -820,5 +854,12 @@
 		width: 140rpx;
 		margin-left: 10rpx;
 		text-align: center;
+	}
+	
+	.tipClass{ //您还没有相关订单
+		width: 100%;
+		text-align: center;
+		padding-top: 500upx;
+		color:#999999;
 	}
 </style>

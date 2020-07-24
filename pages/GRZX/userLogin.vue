@@ -141,7 +141,7 @@
 					key:'userInfo',
 					success:function(res){
 						var message=that.checkDate(res.data.expireTime); //显示是否过期
-						console.log(message)
+						// console.log(message)
 						if(message=="未过期"){
 							uni.showLoading({
 								title:'自动登录中...'
@@ -149,11 +149,11 @@
 							that.login(res.data.phoneNumber,res.data.password,res.data.type,res.data.expireTime);
 						}else if(message=="已过期"){
 							that.$Grzx.showToast('登录已过期，请重新登录');
-							console.log("登录已过期");
+							// console.log("登录已过期");
 						}
 					},
 					fail:function(){
-						console.log("未获取到登录信息");
+						// console.log("未获取到登录信息");
 					},
 				})
 			},
@@ -177,7 +177,7 @@
 			
 			//--------------校验车牌号-------------
 			checkCarNum: function(e){
-				console.log(e)
+				// console.log(e)
 				if(!this.isLicensePlate(e.detail.value)){
 					uni.showToast({
 						title:'请输入正确的车牌号',
@@ -323,13 +323,13 @@
 			//--------------检查是否过期-------------
 			checkDate:function(date1){
 				var date2=this.getSpecifiedTime(0); 
-				console.log(date1,"登录过期时间")
-				console.log(date2,"当前时间")
+				// console.log(date1,"登录过期时间")
+				// console.log(date2,"当前时间")
 				var arry1  = date1.split("-");
 				var arry2  = date2.split("-");
 				var time1=parseInt(arry1[0]+arry1[1]+arry1[2],10);
 				var time2=parseInt(arry2[0]+arry2[1]+arry2[2],10);
-				console.log(time1-time2)
+				// console.log(time1-time2)
 				if(time1>=time2){
 					return "未过期";
 				}else{
@@ -339,7 +339,7 @@
 			
 			//--------------下拉选择-------------
 			selectClick: function(e){
-				console.log(e.newVal)
+				// console.log(e.newVal)
 				this.userType=e.newVal;
 			},
 			
