@@ -32,8 +32,11 @@
 							<view style="padding-top: 20rpx ;">
 								<text class="titleFont">预计里程和时间</text>
 							</view>
-							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-								<text>预计里程{{estimateMileage}}公里,预计时间{{estimateTime}}分钟</text>
+							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;">
+								<text>预计里程:</text>
+								<text style="color: #007AFF;">{{estimateMileage}}公里</text>
+								<text style="margin-left: 20rpx;">预计时间:</text>
+								<text style="color: #007AFF;">{{estimateTime}}分钟</text>
 							</view>
 						</view>
 						<view>
