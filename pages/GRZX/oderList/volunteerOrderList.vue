@@ -42,7 +42,7 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 										<view v-if="item.orderState == '未通过'" style="margin-top: 10rpx;">未通过原因：{{item.reason}}</view>
 									</view>
 									<view class="btnarea">
@@ -105,7 +105,7 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -143,9 +143,9 @@
 					<view v-for="(item,index) in finishedArr" :key="index" v-show="ExistOrder[2]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
-							<view class="booktime" v-if="item.orderType == '预约'">
+							<!-- <view class="booktime" v-if="item.orderType == '预约'">
 								预约日期：{{formatTime(item.appointmentTime)}}
-							</view>
+							</view> -->
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
@@ -160,7 +160,7 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -204,7 +204,7 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -250,7 +250,7 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -301,7 +301,7 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -649,7 +649,8 @@
 				// } else {
 				// 	return dateTime;
 				// }
-				return time;
+				var dateTime=time.substring(0,16);
+				return dateTime;
 			},
 			//-------------------扫码验证------------------------------
 			scan: function(item) {
