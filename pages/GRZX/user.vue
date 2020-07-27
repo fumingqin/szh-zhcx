@@ -393,7 +393,7 @@
 		height: 21upx;
 		position: absolute;
 		left: 9upx;
-		top: 10upx;
+		top: 12upx;
 	}
 	.fontClass{
 		width: 74%;
