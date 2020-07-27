@@ -1,4 +1,4 @@
-<template>
+ <template>
 	<view>
 		<view style="position: relative;">
 			<image :src="volunteerImg" style="width: 750rpx;height: 400rpx;"></image>
@@ -258,7 +258,12 @@
 			});
 			uni.$on('expectMileage', function(data) {
 				// data即为传过来的值
-				that.estimateMileage = data.data;
+				var num=parseFloat(data.data);
+				if(data.data.indexOf(".")==-1){
+					that.estimateMileage = num;
+				}else{
+					that.estimateMileage = num.toFixed(1);
+				}
 				//清除监听，不清除会消耗资源
 				uni.$off('expectMileage');
 			});
