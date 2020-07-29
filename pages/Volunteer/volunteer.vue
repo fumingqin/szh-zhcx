@@ -107,10 +107,14 @@
 							<input v-model="remark" class="contentFont" placeholder="请输入乘车原因" />
 						</view> -->
 						<view  style="display: flex;flex-wrap: wrap;">
-							<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 34rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
+							<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 35rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
 								<text style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;">{{item}}</text>
 							</view>
-							<textarea :focus='focus' maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 140rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;margin-left: 10rpx;" name='remark' v-model="remark" placeholder="请选择或填写原因"></textarea>
+							<!-- <textarea :focus='focus' fixed="true" maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 140rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;margin-left: 10rpx;" name='remark' v-model="remark" placeholder="请选择或填写原因"></textarea> -->
+							<!-- <input :focus='focus' v-model="remark" style="margin-top: 20rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;margin-left: 10rpx;" name='remark' placeholder="请选择或填写原因"/> -->
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
+							<input class="contentFont" v-model="remark" placeholder="请选择或填写原因"/>
 						</view>
 					</view>
 
@@ -205,6 +209,7 @@
 				startLat: '',
 				statusTip:'',
 				isCarpool:false,
+				endDefault:false,
 				
 
 				endSiteName: '请选择终点',
@@ -528,6 +533,7 @@
 			},
 			//清除操作
 			clearClick: function() {
+				console.log(this.endDefault);
 				//清除画布
 				this.endDefault = false;
 				content.clearRect(0, 0, this.canvasw, 500) //canvash
@@ -560,6 +566,11 @@
 			},
 			//签名图片接口
 			submitClick(e) {
+				this.endDefault = false;
+				uni.showLoading({
+					title:'加载中...',
+					mask:true
+				})
 				var that = this;
 				console.log(e, "that.signImage")
 				uni.request({
@@ -582,6 +593,10 @@
 			},
 			//下单
 			getOrder(e) {
+				uni.showLoading({
+					title:'加载中...',
+					mask:true
+				})
 				var that = this;
 				if(that.orderType==0){
 					that.orderType='单程';
@@ -618,6 +633,7 @@
 						} else {
 							that.showToast('提交失败');
 						}
+						uni.hideLoading();
 					},
 					fail: function(res) {
 						console.log(res);
