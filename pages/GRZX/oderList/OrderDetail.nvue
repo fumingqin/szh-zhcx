@@ -87,7 +87,7 @@
 				//开启定时器
 				if (that.timeId == 0) {
 					that.timeId = setInterval(function() {
-						that.setMarker();
+						that.getOrderDetailInfo(that.orderNumber);
 					}, 5000);
 				}
 		},
