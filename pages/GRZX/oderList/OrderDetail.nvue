@@ -28,7 +28,7 @@
 
 				<view style="flex-direction: row;background-color: #FFFFFF;justify-content: space-between;align-items: center;padding: 20rpx;margin-top: 20rpx;border-radius: 20upx;box-shadow:0rpx 6rpx 20rpx 0rpx rgba(231,231,231,0.53);">
 					<view style="flex-direction: row;align-items: center;">
-						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">司机号码：{{driverPhone}}</text>
+						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">司机号码：{{formatTel(driverPhone)}}</text>
 						<!-- <text style="font-size:28rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">元（已优惠9.45元）</text> -->
 					</view>
 					<view>
@@ -66,6 +66,9 @@
 				startLat: "",
 				endLon: "", //结束
 				endLat: "",
+				cartLon: "", //车辆经度
+				cartLat: "",//车辆纬度
+				timeId: 0, //定时器的id
 			}
 		},
 		onLoad(option) {
@@ -73,6 +76,20 @@
 			that.getOrderDetailInfo(option.orderNumber);
 			that.orderNumber = option.orderNumber;
 			that.getDirectionDriving();
+		},
+		onUnload() {
+			if (this.timeId != 0) {
+				clearInterval(this.timeId); //清除定时器
+			}
+		},
+		onShow() {
+			var that = this;
+				//开启定时器
+				if (that.timeId == 0) {
+					that.timeId = setInterval(function() {
+						that.getOrderDetailInfo(that.orderNumber);
+					}, 5000);
+				}
 		},
 		mounted() {
 			let that = this;
@@ -102,11 +119,14 @@
 							that.startLat = data.line.startLat;
 							that.endLon = data.line.endLng; //终点
 							that.endLat = data.line.endLat;
+							that.cartLon=data.car.lon;//车辆经纬度
+							that.cartLat=data.car.lat;
 							that.driverName = data.driver.name;
 							that.vehicleNumber = data.car.licensePlate; //车牌号
 							that.driverPhone = data.driver.tel; //司机电话
 							that.setMarker(1, that.startLon, that.startLat, '../../../static/Volunteer/Start.png');
 							that.setMarker(2, that.endLon, that.endLat, '../../../static/Volunteer/End.png');
+							that.setMarker(3, that.cartLon, that.cartLat, '../../../static/Volunteer/Car.png');
 							// that.getDirectionDriving(that.orderInfo.startLon + ',' + that.orderInfo.startLat, that.orderInfo.endtLon + ',' + that.orderInfo.endLat);
 						} else {
 							uni.showToast({
@@ -137,6 +157,10 @@
 			setMarker: function(id, lon, lat, iconPath) {
 				var width = 20;
 				var height = 20;
+				if(id==3){
+					var width = 40;
+					var height = 40;
+				}
 				//描绘点的方法
 				var that = this;
 				var marker = new Object();
@@ -187,7 +211,10 @@
 					},
 				});
 			},
-			
+			formatTel:function(tel){
+				//substring()，第一个数字包括，第二个数字不包括
+				return tel.substring(0,3) + '****' + tel.substring(7,tel.length);
+			},
 		}
 	}
 </script>

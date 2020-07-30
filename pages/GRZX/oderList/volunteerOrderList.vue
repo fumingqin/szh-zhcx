@@ -21,11 +21,11 @@
 				</view>
 			</view>
 			<scroll-view v-bind:style="{height:scrowHeight+'px'}" scroll-y=true refresher-enabled=true @refresherrefresh="refreshClick"
-			 :refresher-triggered="triggered">
+			 :refresher-triggered="triggered" >
 
 				<!--全部-->
-				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
-					<view v-for="(item,index) in orderArr" :key="index">
+				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0" >
+					<view v-for="(item,index) in orderArr" :key="index" v-show="ExistOrder[0]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -42,7 +42,7 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 										<view v-if="item.orderState == '未通过'" style="margin-top: 10rpx;">未通过原因：{{item.reason}}</view>
 									</view>
 									<view class="btnarea">
@@ -50,8 +50,10 @@
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
@@ -79,10 +81,14 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[0]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 				<!--进行中-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==1">
-					<view v-for="(item,index) in underwayArr" :key="index">
+					<view v-for="(item,index) in underwayArr" :key="index" v-show="ExistOrder[1]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -99,15 +105,17 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
@@ -124,16 +132,20 @@
 							</view>
 						</view>
 						<!-- 志愿者结束 -->
+					</view>
+					<view v-show="!ExistOrder[1]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
 					</view>
 				</view>
 				<!--已完成-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==2">
-					<view v-for="(item,index) in finishedArr" :key="index">
+					<view v-for="(item,index) in finishedArr" :key="index" v-show="ExistOrder[2]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
-							<view class="booktime" v-if="item.orderType == '预约'">
+							<!-- <view class="booktime" v-if="item.orderType == '预约'">
 								预约日期：{{formatTime(item.appointmentTime)}}
-							</view>
+							</view> -->
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
 									<view style="display: flex;justify-content: space-between;align-items: center;">
@@ -148,7 +160,7 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -167,11 +179,15 @@
 							</view>
 						</view>
 						<!-- 志愿者结束 -->
+					</view>
+					<view v-show="!ExistOrder[2]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
 					</view>
 				</view>
 				<!--已取消-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==3">
-					<view v-for="(item,index) in cancleArr" :key="index">
+					<view v-for="(item,index) in cancleArr" :key="index" v-show="ExistOrder[3]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -188,15 +204,17 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
@@ -208,10 +226,14 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[3]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 				<!--待审核-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==4">
-					<view v-for="(item,index) in unexamineArr" :key="index">
+					<view v-for="(item,index) in unexamineArr" :key="index" v-show="ExistOrder[4]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -228,7 +250,7 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -238,8 +260,10 @@
 											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
@@ -253,10 +277,14 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[4]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 				<!--已审核-->
 				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==5">
-					<view v-for="(item,index) in examineArr" :key="index">
+					<view v-for="(item,index) in examineArr" :key="index" v-show="ExistOrder[5]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="order">
@@ -273,15 +301,17 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{formatTime(item.peoperNumber)}}人</view>
+										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
 											<button @click="toDetail(item)" style="width: auto;" type="default">详情</button>
 										</view>
 										<view v-if="item.orderState == '待上车'">
-											<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;" type="default">扫码验证</button>
-											<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											<view style="display: flex;">
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
+											</view>
 										</view>
 										<view v-if="item.orderState == '已上车'">
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
@@ -296,8 +326,14 @@
 						</view>
 						<!-- 志愿者结束 -->
 					</view>
+					<view v-show="!ExistOrder[5]">
+						<image src="../../../static/GRZX/noOrder.png" style="width: 300rpx;height: 300rpx;margin-top: 200rpx;margin-left: 200rpx;"></image>
+						<view style="width: 100%;text-align: center;color: #999999;">您还没有相关订单</view>
+					</view>
 				</view>
 			</scroll-view>
+		
+			
 		</view>
 	</view>
 </template>
@@ -311,10 +347,11 @@
 		},
 		data() {
 			return {
-				//carTypeid: 0,
+				ExistOrder:[false,false,false,false,false,false], //是否存在订单
+				
 				ani: ['slide-top', 'zoom-in'],
-				current: 0,
-				orderArr: [],
+				current: 0, 
+				orderArr: [], //全部订单
 				underwayArr: [], //进行中
 				finishedArr: [], //已完成
 				cancleArr: [], //已取消
@@ -325,8 +362,6 @@
 				menuButtonTop: '',
 				scrowHeight: '', //scroll-view的高度法
 				triggered: false,
-				reason: '',
-
 				timeId: 0, //定时器的id
 			}
 		},
@@ -357,7 +392,7 @@
 				if (that.timeId == 0) {
 					that.timeId = setInterval(function() {
 						that.getVolunteerOrder();
-					}, 5000);
+					}, 10000);
 				}
 			}
 		},
@@ -408,7 +443,7 @@
 				that.cancleArr = [];
 				that.unexamineArr = [];
 				that.examineArr = [];
-				console.log(that.userInfo.volunteerId, 'id')
+				// console.log(that.userInfo.volunteerId, 'id')
 				uni.stopPullDownRefresh();
 				uni.request({
 					url: that.$Grzx.Interface.getOrders.value,
@@ -420,7 +455,7 @@
 						uni.hideLoading();
 						that.triggered = false; //触发onRestore，并关闭刷新图标
 						that._freshing = false;
-						//console.log(res)
+						console.log(res,'订单数据')
 						if (res.data.code == 200) {
 							var obj = new Object();
 							for (let item of res.data.data) {
@@ -437,6 +472,7 @@
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
 										reason: item.failReason, //未通过原因
+										passengers:item.passengers,//乘车人信息
 									};
 									that.orderArr.push(obj);
 								} else if (item.state == "waiting" && item.peoperNumber > 0 && item.parentId == null) {
@@ -450,6 +486,7 @@
 										orderState: '待派单', //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										passengers:item.passengers,//乘车人信息
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId != null) {
@@ -463,6 +500,7 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										passengers:item.passengers,//乘车人信息
 									};
 									that.orderArr.push(obj);
 								}else if (item.parentId == null&&item.state=='cancel') {
@@ -476,11 +514,12 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										passengers:item.passengers,//乘车人信息
 									};
 									that.orderArr.push(obj);
 								}
 							};
-							console.log(that.orderArr)
+							// console.log(that.orderArr)
 							that.underwayArr = that.orderArr.filter(x => {
 								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过';
 							});
@@ -496,6 +535,8 @@
 							that.examineArr = that.orderArr.filter(x => {
 								return x.orderState == '待派单';
 							});
+							//检查是否存在订单
+							that.checkExitOrder(that.orderArr,that.underwayArr,that.finishedArr,that.cancleArr,that.unexamineArr,that.examineArr);
 						} else {
 							that.showToast('获取订单失败');
 						}
@@ -525,7 +566,7 @@
 			//--------------------订单取消--------------------------
 			cancelOrder: function(orderNumber) { //取消订单
 				let that = this;
-				console.log(orderNumber)
+				// console.log(orderNumber)
 				uni.showModal({
 					content: "您确定要取消订单吗",
 					success(res) {
@@ -537,7 +578,7 @@
 									orderId: orderNumber,
 								},
 								success(res) {
-									console.log(res)
+									// console.log(res)
 									if (res.data.code == 200) {
 										uni.showToast({
 											title: "取消成功",
@@ -608,11 +649,14 @@
 				// } else {
 				// 	return dateTime;
 				// }
-				return time;
+				var dateTime=time.substring(0,16);
+				return dateTime;
 			},
 			//-------------------扫码验证------------------------------
 			scan: function(item) {
 				let that = this;
+				console.log(item);
+				console.log(item.passengers);
 				uni.scanCode({
 					success: function(res) {
 						if (item.passengers.indexOf(res.result) > -1) {
@@ -625,12 +669,12 @@
 							});
 						} else {
 							uni.showToast({
-								title: '验证通过',
+								title: '验证不通过',
 								icon: 'none',
 								duration: 2000,
 								mask: true
 							});
-							that.showToast('不通过');
+							// that.showToast('不通过');
 						}
 					},
 					fail: function(res) {
@@ -683,7 +727,7 @@
 					}
 				})
 			},
-			//---------------------------scroll-view下拉刷新---------------------
+			//---------------------------scroll-view下拉刷新---------------------------
 			refreshClick: function() {
 				if (!this.triggered) { //界面下拉触发，triggered可能不是true，要设为true
 					this.triggered = true;
@@ -691,6 +735,29 @@
 						title: '加载订单中...',
 					});
 					this.getVolunteerOrder();
+				}
+			},
+			
+			//---------------------------是否存在订单---------------------------
+			checkExitOrder:function(orderArr,underwayArr,finishedArr,cancleArr,unexamineArr,examineArr){
+				var that=this;
+				if(orderArr!=""){
+					that.ExistOrder[0]=true;
+				}
+				if(underwayArr!=""){
+					that.ExistOrder[1]=true;
+				}
+				if(finishedArr!=""){
+					that.ExistOrder[2]=true;
+				}
+				if(cancleArr!=""){
+					that.ExistOrder[3]=true;
+				}
+				if(unexamineArr!=""){
+					that.ExistOrder[4]=true;
+				}
+				if(examineArr!=""){
+					that.ExistOrder[5]=true;
 				}
 			},
 		}
@@ -806,5 +873,12 @@
 		width: 140rpx;
 		margin-left: 10rpx;
 		text-align: center;
+	}
+	
+	.tipClass{ //您还没有相关订单
+		width: 100%;
+		text-align: center;
+		padding-top: 500upx;
+		color:#999999;
 	}
 </style>

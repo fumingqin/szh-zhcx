@@ -21,45 +21,45 @@
 			</view>
 			
 			<view class="myBox" v-if="userType=='司机'">
-				<view class="collection" @click="orderClick(0)">
+				<view class="collection" @click="orderClick(0)" hover-class="btn_Click">
 					<image src="../../static/GRZX/tubiao_pay1.png" class="imgStyle1" mode="aspectFill"></image>
 					<text class="myFont">全部</text>
 				</view>
-				<view class="order" @click="orderClick(1)">
+				<view class="order" @click="orderClick(1)" hover-class="btn_Click">
 					<image src="../../static/GRZX/tubiao_pay2.png" class="imgStyle2" mode="aspectFill"></image>
 					<text class="myFont">进行中</text>
 				</view>
-				<view class="history" @click="orderClick(2)">
+				<view class="history" @click="orderClick(2)" hover-class="btn_Click">
 					<image src="../../static/GRZX/tubiao_pay3.png" class="imgStyle3" mode="aspectFill"></image>
 					<text class="myFont">已完成</text>
 				</view>
 			</view>
 			
 			<view class="myBox" v-if="userType=='志愿者'||userType=='随车志愿者'">
-				<view class="collection" @click="orderClick(0)">
+				<view class="collection" @click="orderClick(0)" hover-class="btn_Click">
 					<image src="../../static/GRZX/tubiao_pay1.png" class="imgStyle1" mode="aspectFill"></image>
 					<text class="myFont">全部</text>
 				</view>
-				<view class="order" @click="orderClick(1)">
+				<view class="order" @click="orderClick(1)" hover-class="btn_Click">
 					<image src="../../static/GRZX/tubiao_pay2.png" class="imgStyle2" mode="aspectFill"></image>
 					<text class="myFont">进行中</text>
 				</view>
-				<view class="history" @click="orderClick(2)">
+				<view class="history" @click="orderClick(2)" hover-class="btn_Click">
 					<image src="../../static/GRZX/tubiao_pay3.png" class="imgStyle3" mode="aspectFill"></image>
 					<text class="myFont">已完成</text>
 				</view>
 			</view>
 			
 			<view class="myBox" v-if="userType=='派单员'">
-				<view class="collection" @click="orderClick(1)">
+				<view class="collection" @click="orderClick(1)" hover-class="btn_Click">
 					<image src="../../static/GRZX/tubiao_pay1.png" class="imgStyle1" mode="aspectFill"></image>
 					<text class="myFont">待审核</text>
 				</view>
-				<view class="order" @click="orderClick(2)">
+				<view class="order" @click="orderClick(2)" hover-class="btn_Click">
 					<image src="../../static/GRZX/tubiao_pay2.png" class="imgStyle2" mode="aspectFill"></image>
 					<text class="myFont">待派单</text>
 				</view>
-				<view class="history" @click="orderClick(3)">
+				<view class="history" @click="orderClick(3)" hover-class="btn_Click">
 					<image src="../../static/GRZX/tubiao_pay3.png" class="imgStyle3" mode="aspectFill"></image>
 					<text class="myFont">已处理</text>
 				</view>
@@ -75,7 +75,7 @@
 	
 		<view class="serviceBox">
 			<text class="moreClass">更多服务</text>
-			<view class="boxClass marginTop" @click="phoneClick">
+			<view class="boxClass marginTop" @click="phoneClick" hover-class="btn_Click">
 				<image src="../../static/GRZX/tubiao_kefu.png" class="iconClass2"></image>
 				<text class="fontStyle">电话客服</text>
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
@@ -85,19 +85,19 @@
 				<button open-type="contact" class="contactClass">在线客服</button>
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
 			</view>
-			<view class="boxClass borderTop" @click="exitClick">
+			<view class="boxClass borderTop" @click="exitClick" hover-class="btn_Click">
 				<image src="../../static/GRZX/tubiao_tuichu.png" class="iconClass3"></image>
 				<text class="fontStyle">退出登录</text>
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
 			</view>
-			<view class="boxClass borderTop" @click="setClick">
+			<view class="boxClass borderTop" @click="setClick" hover-class="btn_Click">
 				<image src="../../static/GRZX/tubiao_shezhi.png" class="iconClass1"></image>
 				<text class="fontStyle">设&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置</text>
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
 			</view>
 		</view>	
 		
-		<view v-show="false" class="workClass" @click="switchState" v-if="userType=='司机'">
+		<view class="workClass" @click="switchState" v-if="userType=='司机'">
 			{{workState}}
 		</view>
 	</view>
@@ -118,7 +118,6 @@
 			}
 		},
 		onLoad(){
-			
 		},
 		onShow(){
 			this.loadData();
@@ -155,7 +154,10 @@
 						}
 					},
 					fail() {
-						// that.workState="上班";
+						uni.showToast({
+							title:'网络连接失败',
+							icon:'none'
+						});
 					}
 				})
 			},
@@ -267,7 +269,8 @@
 			// ---------------------------退出登录--------------------------
 			exitClick(){
 				uni.showModal({
-					content: '确定要退出登录么',
+					title:'提示',
+					content: '确定要退出登录吗？',
 					success: (e)=>{
 						if(e.confirm){
 							uni.removeStorageSync('userInfo'); 		//清除用户信息缓存
@@ -390,7 +393,7 @@
 		height: 21upx;
 		position: absolute;
 		left: 9upx;
-		top: 10upx;
+		top: 12upx;
 	}
 	.fontClass{
 		width: 74%;
@@ -403,7 +406,7 @@
 		left: 34upx;
 		top: 1upx;
 	}
-	.myBox{			//包括我的收藏，我的订单，我的历史
+	.myBox{			
 		width: 91.47%;
 		height: 170upx;
 		position: absolute;
@@ -414,7 +417,7 @@
 		flex-direction: row;
 		border-radius: 12upx;
 	}
-	.collection{		//我的收藏
+	.collection{		
 		width: 33.33%;
 		height: 100%;
 		display: flex;
@@ -426,7 +429,13 @@
 		margin-top: 31upx;
 		margin-left: 36.68%;
 	}
-	.order{				//我的订单
+	/* 按钮点击效果 */
+	.btn_Click{
+		transition: all .3s; /*过渡 */ 
+		opacity: 0.9;
+		background-color:#E4E7ED;
+	}
+	.order{				
 		width: 33.33%;
 		height: 100%;
 		display: flex;
@@ -438,7 +447,7 @@
 		margin-top: 31upx;
 		margin-left: 36.68%;
 	}
-	.history{			//我的历史
+	.history{			
 		width: 33.34%;
 		height: 100%;
 		display: flex;

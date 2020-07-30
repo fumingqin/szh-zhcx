@@ -1,4 +1,4 @@
-<template>
+ <template>
 	<view>
 		<view style="position: relative;">
 			<image :src="volunteerImg" style="width: 750rpx;height: 400rpx;"></image>
@@ -7,8 +7,8 @@
 			</view>
 		</view>
 		<view style="margin-top: -80rpx;z-index: 1;position: relative;">
-			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 900rpx;">
-				<scroll-view style="height: 800rpx;" :scroll-y='true'>
+			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 980rpx;">
+				<scroll-view style="height: 850rpx;" :scroll-y='true'>
 					<view>
 						<view>
 							<text class="titleFont">起点</text>
@@ -32,8 +32,11 @@
 							<view style="padding-top: 20rpx ;">
 								<text class="titleFont">预计里程和时间</text>
 							</view>
-							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-								<text>预计里程{{estimateMileage}}公里,预计时间{{estimateTime}}分钟</text>
+							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;">
+								<text>预计里程:</text>
+								<text style="color: #007AFF;">{{estimateMileage}}公里</text>
+								<text style="margin-left: 20rpx;">预计时间:</text>
+								<text style="color: #007AFF;">{{estimateTime}}分钟</text>
 							</view>
 						</view>
 						<view>
@@ -104,10 +107,14 @@
 							<input v-model="remark" class="contentFont" placeholder="请输入乘车原因" />
 						</view> -->
 						<view  style="display: flex;flex-wrap: wrap;">
-							<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 34rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
-								<text style="border-radius: 10rpx;border-color: #AAAAAA;border-width: 1px;border-style: solid;padding: 8rpx;">{{item}}</text>
+							<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 35rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
+								<text style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;">{{item}}</text>
 							</view>
-							<textarea :focus='focus' maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 140rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;margin-left: 10rpx;" name='remark' v-model="remark" placeholder="请选择或填写原因"></textarea>
+							<!-- <textarea :focus='focus' fixed="true" maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 140rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;margin-left: 10rpx;" name='remark' v-model="remark" placeholder="请选择或填写原因"></textarea> -->
+							<!-- <input :focus='focus' v-model="remark" style="margin-top: 20rpx;width: 550rpx;margin: 0 auto;border: #EAEAEA 2px solid;margin-left: 10rpx;" name='remark' placeholder="请选择或填写原因"/> -->
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
+							<input class="contentFont" v-model="remark" placeholder="请选择或填写原因"/>
 						</view>
 					</view>
 
@@ -137,7 +144,7 @@
 							</view>
 						</view> -->
 				</scroll-view>
-				<view style="margin-top: 40rpx;">
+				<view style="margin-top: 70rpx;">
 					<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
 						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
 					</button>
@@ -202,6 +209,7 @@
 				startLat: '',
 				statusTip:'',
 				isCarpool:false,
+				endDefault:false,
 				
 
 				endSiteName: '请选择终点',
@@ -255,7 +263,12 @@
 			});
 			uni.$on('expectMileage', function(data) {
 				// data即为传过来的值
-				that.estimateMileage = data.data;
+				var num=parseFloat(data.data);
+				if(data.data.indexOf(".")==-1){
+					that.estimateMileage = num;
+				}else{
+					that.estimateMileage = num.toFixed(1);
+				}
 				//清除监听，不清除会消耗资源
 				uni.$off('expectMileage');
 			});
@@ -520,6 +533,7 @@
 			},
 			//清除操作
 			clearClick: function() {
+				console.log(this.endDefault);
 				//清除画布
 				this.endDefault = false;
 				content.clearRect(0, 0, this.canvasw, 500) //canvash
@@ -552,6 +566,11 @@
 			},
 			//签名图片接口
 			submitClick(e) {
+				this.endDefault = false;
+				uni.showLoading({
+					title:'加载中...',
+					mask:true
+				})
 				var that = this;
 				console.log(e, "that.signImage")
 				uni.request({
@@ -574,6 +593,10 @@
 			},
 			//下单
 			getOrder(e) {
+				uni.showLoading({
+					title:'加载中...',
+					mask:true
+				})
 				var that = this;
 				if(that.orderType==0){
 					that.orderType='单程';
@@ -610,6 +633,7 @@
 						} else {
 							that.showToast('提交失败');
 						}
+						uni.hideLoading();
 					},
 					fail: function(res) {
 						console.log(res);
