@@ -240,13 +240,13 @@
 			},
 			
 			passengerBroadcast:function(){
-				Voice('请系好安全带，注意出行安全。');
-				Voice('Please fasten your seat belt and pay attention to travel safety.');
+				Voice.openVoice('请系好安全带，注意出行安全。');
+				Voice.openVoice('Please fasten your seat belt and pay attention to travel safety.');
 			},
 			
 			arriveBroadcast:function(){
-				Voice('目的地已到达，请携带好您的随身物品。');
-				Voice('The destination has arrived. Please take your belongings with you.');
+				Voice.openVoice('目的地已到达，请携带好您的随身物品。');
+				Voice.openVoice('The destination has arrived. Please take your belongings with you.');
 			},
 		}
 	}

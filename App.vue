@@ -1,6 +1,7 @@
 <script>
 	import homeJS from 'common/Home.js';
 	import $taxi from '@/common/Czc.js';
+	import Voice from '@/components/Driver/QS-baiduyy/QS-baiduyy.js';
 	export default {
 		globalData: {
 			globalInterval: 0,
@@ -52,6 +53,7 @@
 			console.log('App Launch')
 		},
 		onShow: function() {
+			Voice.reset();
 			console.log('App Show')
 		},
 		onHide: function() {
