@@ -228,7 +228,6 @@
 					},
 					method:that.$Grzx.Interface.login.method,
 					success(res) {
-						console.log(res)
 						if(res.data.code===200){
 							uni.hideLoading();
 							uni.showToast({
@@ -283,7 +282,7 @@
 							}
 						}else{
 							uni.showToast({
-								title:res.data.msg,
+								title:'登录失败，账号密码不正确或暂未绑定车辆',
 								icon:'none',
 							})
 						}
