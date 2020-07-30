@@ -25,7 +25,7 @@
 						<!-- 出租车开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="booktime">
-								上车时间：{{item.orderTime}}
+								上车时间：{{formatOrderTime(item.orderTime)}}
 							</view>
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
@@ -39,7 +39,7 @@
 									
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
-										<view>上车时间：{{item.orderTime}}</view>
+										<view>上车时间：{{formatOrderTime(item.orderTime)}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
 										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
@@ -71,7 +71,7 @@
 						<!-- 出租车开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="booktime">
-								上车时间：{{item.orderTime}}
+								上车时间：{{formatOrderTime(item.orderTime)}}
 							</view>
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
@@ -85,7 +85,7 @@
 									
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
-										<view>上车时间：{{item.orderTime}}</view>
+										<view>上车时间：{{formatOrderTime(item.orderTime)}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
 										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
@@ -118,7 +118,7 @@
 						<!-- 出租车开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="booktime">
-								上车时间：{{item.orderTime}}
+								上车时间：{{formatOrderTime(item.orderTime)}}
 							</view>
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
@@ -132,7 +132,7 @@
 									</view>
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
-										<view>上车时间：{{item.orderTime}}</view>
+										<view>上车时间：{{formatOrderTime(item.orderTime)}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
 										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
@@ -154,7 +154,7 @@
 						<!-- 出租车开始 -->
 						<view style="margin-top: 20rpx;">
 							<view class="booktime">
-								上车时间：{{item.orderTime}}
+								上车时间：{{formatOrderTime(item.orderTime)}}
 							</view>
 							<view class="order">
 								<view style="padding: 35rpx 30rpx;">
@@ -168,7 +168,7 @@
 									</view>
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
-										<view>上车时间：{{item.orderTime}}</view>
+										<view>上车时间：{{formatOrderTime(item.orderTime)}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
 										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
@@ -332,13 +332,13 @@
 					phoneNumber: item.volunteer.tel
 				});
 			},
-			toArrive:function(item){
+			/* toArrive:function(item){
 				let that = this;
 				uni.navigateTo({
 					url:'../driverOperation/orderComplete?orderNumber=' + item.id
 				});
-			},
-			/* toArrive: function(item) {
+			}, */
+			toArrive: function(item) {
 				//到达
 				let that = this;
 				uni.showLoading({
@@ -352,7 +352,6 @@
 						orderId:item.id
 					},
 					success:function(res){
-						uni.hideLoading();
 						if (res.data.code===200) {
 							that.showToast('到达成功');
 							Voice('目的地已到达，请携带好您的随身物品。');
@@ -363,13 +362,14 @@
 						}else{
 							that.getTaxiOrder();
 						}
+						uni.hideLoading();
 					},
 					fail:function(res){
 						uni.hideLoading();
 						that.showToast('网络连接失败');
 					}
 				});
-			}, */
+			},
 
 			toDepart: function(item) {
 				//发车
@@ -446,6 +446,10 @@
 					return '未通过'
 				}
 			},
+			formatOrderTime:function(time){
+				return time.substring(0,time.length - 3);
+			},
+			
 			//时间差值计算
 			costTime:function(startTime,endTime){
 				var ret = '';

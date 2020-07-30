@@ -28,13 +28,13 @@ function getBDVoicToken() {
 				"content-type": "application/x-www-form-urlencoded"
 			}, */
 			success: (res) => {
-				//console.log('访问成功');
-				console.log(res);
+				console.log('访问成功');
+				//console.log(res);
 				rs(res);
 			},
 			fail: (err) => {
-				console.log(err);
-				//console.log('访问失败');
+				//console.log(err);
+				console.log('访问失败');
 				rj(err);
 			}
 		})
