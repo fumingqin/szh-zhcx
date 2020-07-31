@@ -72,19 +72,32 @@
 				uni.getStorage({
 					key:'userInfo',
 					success(res){
-						that.userType=res.data.type;
-						that.name=res.data.userName;
+						that.userType=that.formatData(res.data.type);
+						that.name=that.formatData(res.data.userName);
 						that.portrait=res.data.portrait;
-						that.phoneNumber=res.data.phoneNumber;
+						that.phoneNumber=that.formatData(res.data.phoneNumber);
 						if(res.data.type=="司机"){
-							that.gender=res.data.gender;
-							that.licensePlate=res.data.licensePlate;
-							that.address=res.data.address;
-							that.company=res.data.company;
-							that.licenseType=res.data.driverType;
+							if(res.data.gender==null || res.data.gender==""){
+								that.gender= "保密";
+							}else{
+								that.gender=res.data.gender;
+							}
+							that.licensePlate=that.formatData(res.data.licensePlate);
+							that.address=that.formatData(res.data.address);
+							that.company=that.formatData(res.data.company);
+							that.licenseType=that.formatData(res.data.driverType);
 						}
 					}
 				})
+			},
+			
+			//------------------------------格式化------------------------------
+			formatData:function(data){
+				if(data==null || data==""){
+					return "暂无";
+				}else{
+					return data;
+				}
 			},
 			
 			//------------------------判断是否为base64格式------------------------
