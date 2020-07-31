@@ -75,7 +75,7 @@
 			let that = this;
 			that.getOrderDetailInfo(option.orderNumber);
 			that.orderNumber = option.orderNumber;
-			that.getDirectionDriving(that.orderNumber);
+			that.getDirectionDriving();
 			//开启定时器
 			if (that.timeId == 0) {
 				that.timeId = setInterval(function() {
