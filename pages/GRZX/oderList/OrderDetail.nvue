@@ -114,6 +114,7 @@
 					success(res) {
 						let data = res.data.data;
 						if (res.data.code == 200) {
+							that.markers=[];
 							console.log(res.data)
 							that.startLon = data.line.startLng; //起点
 							that.startLat = data.line.startLat;
