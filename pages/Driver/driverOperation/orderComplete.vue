@@ -6,19 +6,31 @@
 		<view style="position: fixed;top: 80rpx;left: 34rpx;right: 0px;align-items: center; display: flex;flex-direction: row;">
 			<view style="width: 180rpx; font-family:Source Han Sans SC;color: #FFFFFF; font-size: 38rpx;font-weight:bold; margin-left: 244rpx;">订单完成</view>
 		</view>
+		
 		<!-- 中间白色背景 -->
-		<view style="width: 94%;margin-top: -80rpx;padding: 50rpx 0;background-color: #FFFFFF;margin-left: 22rpx; border-radius:20rpx;">
+		<view style="width: 700rpx;margin-top: -80rpx;padding: 50rpx 0;background-color: #FFFFFF;margin-left: 25rpx; border-radius:20rpx;">
 			<view class="content-block">
 				<text>运行时长：{{getUseTime(orderInfo.orderTime,orderInfo.overTime)}}</text>
 			</view>
 			<view class="content-block" style="margin-top: 50rpx;">
 				<text>里程数：{{getLong(orderInfo.expectMileage)}}</text>
 			</view>
+			<view style="display: flex;align-items: center;justify-content: center;margin-top: 50rpx;">
+				<checkbox-group @change="corrChange" style="display: flex;justify-content: space-between;width: 600rpx;">
+					<checkbox class="content-block" value="time">
+						<text>时长有异议</text>
+					</checkbox>
+					<checkbox class="content-block" value="mileage">
+						<text>里程有异议</text>
+					</checkbox>
+				</checkbox-group>
+			</view>
 			<view style="margin-top: 50rpx;">
 				<textarea style="margin: 0 auto;border:1px solid #999999;padding: 20rpx;border-radius: 20rpx;" v-model="remarkVal"
 				 placeholder="请输入备注,若无可不填"></textarea>
 			</view>
 		</view>
+		
 		<view style="margin-top: 30rpx;">
 			<button @click="finished" class="button-class">
 				<text class="button-text">保存并返回</text>
@@ -38,15 +50,40 @@
 					expectMileage:'',
 					orderTime:'',
 					overTime:'',
-				}
+				},
+				isCorrTime:0,
+				isCorrMileage:0,
 			}
 		},
 		onLoad(option) {
 			var that = this;
 			that.orderNumber = option.orderNumber;
-			that.getOrderDetail();
+			//that.getOrderDetail();
 		},
 		methods: {
+			showToast: function(title, icon = 'none') {
+				uni.showToast({
+					title: title,
+					icon: icon
+				});
+			},
+			corrChange:function(res){
+				let that = this;
+				that.isCorrTime = 0;
+				that.isCorrMileage = 0;
+				for (let item of res.detail.value) {
+					switch(item){
+						case 'time' :
+							that.isCorrTime = 1;
+							break;
+						case 'mileage' :
+							that.isCorrMileage = 1;
+							break;
+						default:
+							break;
+					}
+				}
+			},
 			finished:function() {
 				let that = this;
 				uni.request({

@@ -28,47 +28,52 @@ function getBDVoicToken() {
 				"content-type": "application/x-www-form-urlencoded"
 			}, */
 			success: (res) => {
-				//console.log('访问成功');
-				console.log(res);
+				console.log('访问成功');
+				//console.log(res);
 				rs(res);
 			},
 			fail: (err) => {
-				console.log(err);
-				//console.log('访问失败');
+				//console.log(err);
+				console.log('访问失败');
 				rj(err);
 			}
 		})
 	})
 }
 
-export default function openVoice(objs) { // 传入需转为语音的文本内容
-	let lineUp = false;
-	let returnAudio = false;
-	if (typeof(objs) !== 'string') {
-		if (objs && objs.lineUp === true) {
-			lineUp = true;
+export default{
+	reset:function(){
+		audioStartSwitch = false;
+	},
+	openVoice: function (objs) { // 传入需转为语音的文本内容
+		let lineUp = false;
+		let returnAudio = false;
+		if (typeof(objs) !== 'string') {
+			if (objs && objs.lineUp === true) {
+				lineUp = true;
+			}
+			if (objs && objs.returnAudio === true) {
+				returnAudio = true;
+			}
 		}
-		if (objs && objs.returnAudio === true) {
-			returnAudio = true;
+		if(returnAudio) {
+			return new Promise((resolve, reject)=>{
+				openVoiceFc(objs, returnAudio).then(res=>{
+					resolve(res);
+				}).catch(err=>{
+					reject(err)
+				});
+			})
+		}
+		//console.log(audioStartSwitch);
+		if (!audioStartSwitch || lineUp) {
+			audioStartSwitch = true;
+			openVoiceFc(objs);
+		} else {
+			audioTeam.push(objs);
 		}
 	}
-	if(returnAudio) {
-		return new Promise((resolve, reject)=>{
-			openVoiceFc(objs, returnAudio).then(res=>{
-				resolve(res);
-			}).catch(err=>{
-				reject(err)
-			});
-		})
-	}
-	
-	if (!audioStartSwitch || lineUp) {
-		audioStartSwitch = true;
-		openVoiceFc(objs);
-	} else {
-		audioTeam.push(objs);
-	}
-}
+} 
 
 function openVoiceFc(objs, returnAudio) {
 	//console.log('准备获取语音tok');
@@ -92,13 +97,13 @@ function openVoiceFc(objs, returnAudio) {
 		getBDVoicToken().then(res => {
 			//console.log('获取语音tok接口成功');
 			if (res.data && res.data.access_token) {
-				//console.log('token: ' + res.data.access_token);
+				console.log('token: ' + res.data.access_token);
 				tts(objs, res.data.access_token);
 			} else {
 				//console.log('获取语音tok接口为空');
 			}
 		}).catch(err => {
-			console.log('获取语音tok接口失败');
+			//console.log('获取语音tok接口失败');
 		})
 	}
 }

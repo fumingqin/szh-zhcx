@@ -4,7 +4,7 @@
 		 :polyline="polyline" :markers="markers" :show-location="true">
 		</map>
 		<image @click="back" src="@/static/driver/back1.png" style="width: 120rpx;height: 120rpx;position: fixed;top: 50px;left: 1px;"></image>
-		
+
 		<view style="position: fixed;bottom: 110rpx;">
 			<view style="margin-left: 25rpx;width: 700rpx;">
 				<view style="flex-direction: row;justify-content: space-between;align-items: center;">
@@ -15,7 +15,8 @@
 					<view>
 						<!--导航-->
 						<!-- <image v-if="state === 'departure'" src="@/static/driver/scan.png" style="width: 120rpx;height: 120rpx;" @click="scan"></image> -->
-						<image v-if="state === 'passenger'" src="@/static/driver/navigate.png" style="width: 120rpx;height: 120rpx;" @click="toNavigation"></image>
+						<image v-if="state === 'passenger'" src="@/static/driver/navigate.png" style="width: 120rpx;height: 120rpx;"
+						 @click="toNavigation"></image>
 					</view>
 				</view>
 			</view>
@@ -65,7 +66,7 @@
 				</button>
 			</view>
 		</view>
-		
+
 		<uni-popup ref='callPolice' :animation='true' type='center' :maskClick='false'>
 			<!--一键报警-->
 			<view class="popupBlock" style="margin: 0 auto;">
@@ -78,11 +79,13 @@
 				</view>
 				<view>
 					<view style="flex-wrap: wrap;width: 550rpx;margin: 0 auto;flex-direction: row;">
-						<view v-for="(item,index) in callPoliceArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 10rpx;border-radius: 10rpx;border-color: #AAAAAA;border-width: 1px;border-style: solid;padding: 10rpx;">
+						<view v-for="(item,index) in callPoliceArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 10rpx;border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 10rpx;background-color: rgba(94,109,255,1);border-color: rgba(94,109,255,1);color: #FFFFFF;">
 							<text>{{item}}</text>
 						</view>
 					</view>
-					<textarea :focus='focus' maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;" style="margin-top: 20rpx;height: 200rpx;width: 550rpx;margin: 0 auto;" name='alarmRemark' v-model="alarmRemark" placeholder="请填写报警原因"></textarea>
+					<textarea :focus='focus' maxlength="200" class="popupTitleFont borderTextArea" placeholder-style="font-size:30rpx;"
+					 style="margin-top: 20rpx;height: 200rpx;width: 550rpx;margin: 0 auto;" name='alarmRemark' v-model="alarmRemark"
+					 placeholder="请填写报警原因"></textarea>
 					<button @click="sendCall" class="popupButtonOk">
 						<text class="popupButtonOkFont">确定</text>
 					</button>
@@ -112,17 +115,17 @@
 				markers: [],
 				mapHeight: '',
 				viewHeight: '',
-				orderInterval: '',//订单定时器
-				directionInterval:'',
+				orderInterval: '', //订单定时器
+				directionInterval: '',
 				callPoliceArr: [
 					'交通事故',
 					'车辆故障',
 					'身体不适',
 					'堵车',
 				],
-				alarmReason: '堵车',//报警原因
+				alarmReason: '堵车', //报警原因
 				pickerValue: 0,
-				alarmRemark: '',//报警备注
+				alarmRemark: '', //报警备注
 				driverId: '',
 				orderNumber: '', //订单编号
 				state: '',
@@ -132,22 +135,22 @@
 				endLon: '',
 				endLat: '',
 				endAddress: '',
-				userInfo:null,
-				orderInfo:{
-					tel:'',//用户电话
-					startLng:'',
-					startLat:'',
-					endLng:'',
-					endLat:'',
-					startName:'',//起点
-					endName:'',//终点
-					expectDuration:'',//预计时长
-					expectMileage:'',//预计里程
-					passengers:'',
+				userInfo: null,
+				orderInfo: {
+					tel: '', //用户电话
+					startLng: '',
+					startLat: '',
+					endLng: '',
+					endLat: '',
+					startName: '', //起点
+					endName: '', //终点
+					expectDuration: '', //预计时长
+					expectMileage: '', //预计里程
+					passengers: '',
 				},
-				focus:false,
-				isShowNavigate:false,
-				isShowArrive:false,
+				focus: false,
+				isShowNavigate: false,
+				isShowArrive: false,
 			}
 		},
 		onLoad(option) {
@@ -203,8 +206,8 @@
 					}
 				});
 			}, */
-			
-			thisReason:function(item){
+
+			thisReason: function(item) {
 				let that = this;
 				//that.focus = false;
 				that.alarmRemark = item;
@@ -213,26 +216,26 @@
 				// 	that.cursor = item.length;
 				// },50);
 			},
-			
-			getMyLocation:function(){
+
+			getMyLocation: function() {
 				let that = this;
 				uni.getLocation({
-					type:'gcj02',
-					success:function(res){
+					type: 'gcj02',
+					success: function(res) {
 						that.longitude = res.longitude;
 						that.latitude = res.latitude;
 					}
 				})
 			},
-			
+
 			//本页面统一调用此方法
-			showToast:function(title,icon='none'){
+			showToast: function(title, icon = 'none') {
 				uni.showToast({
-					title:title,
-					icon:icon
+					title: title,
+					icon: icon
 				});
 			},
-			
+
 			getOrder: function() {
 				let that = this;
 				//获取订单详情
@@ -245,12 +248,20 @@
 						},
 						success: function(res) {
 							let data = res.data.data;
-							if (res.data.code===200) {
+							if (res.data.code === 200) {
 								that.state = data.state;
 								that.orderInfo.passengers = data.passengers;
-								that.orderInfo.tel = data.volunteer.tel;								that.orderInfo.startLng = data.line.startLng;								that.orderInfo.startLat = data.line.startLat;								that.orderInfo.endLng = data.line.endLng;								that.orderInfo.endLat = data.line.endLat;								that.orderInfo.startName = data.line.startName;								that.orderInfo.endName = data.line.endName;								that.orderInfo.expectDuration = data.line.expectDuration;								that.orderInfo.expectMileage = data.line.expectMileage;
-								that.setMarker(1,data.line.startLng,data.line.startLat,'../../../static/driver/Start.png');
-								that.setMarker(2,data.line.endLng,data.line.endLat,'../../../static/driver/End.png');
+								that.orderInfo.tel = data.volunteer.tel;
+								that.orderInfo.startLng = data.line.startLng;
+								that.orderInfo.startLat = data.line.startLat;
+								that.orderInfo.endLng = data.line.endLng;
+								that.orderInfo.endLat = data.line.endLat;
+								that.orderInfo.startName = data.line.startName;
+								that.orderInfo.endName = data.line.endName;
+								that.orderInfo.expectDuration = data.line.expectDuration;
+								that.orderInfo.expectMileage = data.line.expectMileage;
+								that.setMarker(1, data.line.startLng, data.line.startLat, '../../../static/driver/Start.png');
+								that.setMarker(2, data.line.endLng, data.line.endLat, '../../../static/driver/End.png');
 							}
 							resolve(res);
 						},
@@ -266,114 +277,114 @@
 			getOrderInfo: function() {
 				let that = this;
 				uni.showLoading({
-					mask:true,
-					title:'加载中'
+					mask: true,
+					title: '加载中'
 				});
 				that.getOrder().then(res => {
 					uni.hideLoading();
 					let data = res.data.data;
-					if (res.data.code===200) {
-						if(res.data.data.state === 'passenger'){
-							if(!that.isShowNavigate){
+					if (res.data.code === 200) {
+						if (res.data.data.state === 'passenger') {
+							if (!that.isShowNavigate) {
 								that.toNavigation();
 								//that.passengerBroadcast();
 								that.isShowNavigate = true;
 							}
-						} 
-						that.setMarker(1,data.line.startLng,data.line.startLat,'../../../static/driver/Start.png');
-						that.setMarker(2,data.line.endLng,data.line.endLat,'../../../static/driver/End.png');
+						}
+						that.setMarker(1, data.line.startLng, data.line.startLat, '../../../static/driver/Start.png');
+						that.setMarker(2, data.line.endLng, data.line.endLat, '../../../static/driver/End.png');
 					}
-				}).catch(rej =>{
-					uni.hideLoading(); 
+				}).catch(rej => {
+					uni.hideLoading();
 				});
 			},
-			
-			constantlyOrderInfo:function(){
+
+			constantlyOrderInfo: function() {
 				//定时器获取订单信息
 				let that = this;
-				that.orderInterval = setInterval(function(){
-					that.getOrder().then(res =>{
+				that.orderInterval = setInterval(function() {
+					that.getOrder().then(res => {
 						uni.hideLoading();
-						if (res.data.code===200) {
-							if(res.data.data.state === 'passenger'){
-								if(!that.isShowNavigate){
+						if (res.data.code === 200) {
+							if (res.data.data.state === 'passenger') {
+								if (!that.isShowNavigate) {
 									that.toNavigation();
 									that.passengerBroadcast();
 									that.isShowNavigate = true;
 								}
-							} else if (res.data.data.state === 'arrive'){
+							} else if (res.data.data.state === 'arrive') {
 								uni.redirectTo({
 									//url: '/pages/driver/driverOperation/orderComplete'
 									url: './taxiDriver',
 								});
-								if(!that.isShowArrive){
+								if (!that.isShowArrive) {
 									that.arriveBroadcast();
 									that.isShowArrive = true;
 								}
 								clearInterval(that.orderInterval);
-							} else if (res.data.data.state === 'cancle'){
+							} else if (res.data.data.state === 'cancle') {
 								that.showToast('用户已取消');
-								setTimeout(function(){
+								setTimeout(function() {
 									uni.redirectTo({
 										url: '/pages/driver/driverOperation/taxiDriver'
 									});
-								},1500);
+								}, 1500);
 							}
 						}
 					}).catch(rej => {
 						uni.hideLoading();
 					});
-				},5000);
+				}, 5000);
 			},
-			
-			confirmgeToOrigint:function(){
+
+			confirmgeToOrigint: function() {
 				//长按确认到达上车点
 				let that = this;
 				uni.showLoading({
-					mask:true,
-					title:'加载中'
+					mask: true,
+					title: '加载中'
 				});
 				uni.request({
-					url:$taxi.Interface.origin.value,
-					method:$taxi.Interface.origin.method,
-					data:{
-						orderId:that.orderNumber
+					url: $taxi.Interface.origin.value,
+					method: $taxi.Interface.origin.method,
+					data: {
+						orderId: that.orderNumber
 					},
-					success:function(res){
+					success: function(res) {
 						uni.hideLoading();
 						let data = res.data.data;
-						if(res.data.code===200){
+						if (res.data.code === 200) {
 							that.state = 'departure';
 						} else {
 							that.showToast(res.data.msg);
 						}
 					},
-					fail:function(res){
+					fail: function(res) {
 						uni.hideLoading();
 						that.showToast('网络连接失败');
 					}
 				});
 			},
-			
-			confirmgetonCar: function() { 
+
+			confirmgetonCar: function() {
 				//长按确认乘客上车
 				let that = this;
 				uni.showLoading({
-					mask:true,
-					title:'加载中'
+					mask: true,
+					title: '加载中'
 				});
 				uni.request({
-					url:$taxi.Interface.confirmBoarding.value,
-					method:$taxi.Interface.confirmBoarding.method,
-					data:{
-						orderId:that.orderNumber
+					url: $taxi.Interface.confirmBoarding.value,
+					method: $taxi.Interface.confirmBoarding.method,
+					data: {
+						orderId: that.orderNumber
 					},
-					success:function(res){
+					success: function(res) {
 						uni.hideLoading();
 						let data = res.data.data;
-						if(res.data.code===200 || res.data.msg === '订单状态错误，更改失败'){
+						if (res.data.code === 200 || res.data.msg === '订单状态错误，更改失败') {
 							that.state = 'passenger';
-							if(!that.isShowNavigate){
+							if (!that.isShowNavigate) {
 								that.toNavigation();
 								that.passengerBroadcast();
 								that.isShowNavigate = true;
@@ -382,21 +393,21 @@
 							that.showToast(res.data.msg);
 						}
 					},
-					fail:function(res){
+					fail: function(res) {
 						uni.hideLoading();
 						that.showToast('网络连接失败');
 					}
 				});
 			},
-			confirmGetToDestination:function(){
+			/* confirmGetToDestination: function() {
 				//长按确认到达目的地
 				let that = this;
 				uni.redirectTo({
-					url: '/pages/driver/driverOperation/orderComplete?orderNumber='+that.orderNumber
+					url: '/pages/driver/driverOperation/orderComplete?orderNumber=' + that.orderNumber
 				});
 				clearInterval(that.orderInterval);
-			},
-			/* confirmGetToDestination: function() {
+			}, */
+			confirmGetToDestination: function() {
 				//长按确认到达目的地
 				let that = this;
 				uni.showLoading({
@@ -407,10 +418,11 @@
 					url:$taxi.Interface.terminus.value,
 					method:$taxi.Interface.terminus.method,
 					data:{
-						orderId:that.orderNumber
+						orderId:that.orderNumber,
+						driverRemark:'',
 					},
 					success:function(res){
-						console.log(res);
+						console.log('terminus',res);
 						uni.hideLoading();
 						if(res.data.code===200 || res.data.msg === '订单状态错误，更改失败'){
 							uni.redirectTo({
@@ -430,8 +442,8 @@
 						that.showToast('网络连接失败');
 					}
 				});
-			}, */
-		
+			},
+
 			call: function(phoneNumber) {
 				//呼叫乘客
 				let that = this;
@@ -445,47 +457,45 @@
 				let that = this;
 				that.$refs.callPolice.open();
 			},
-		
+
 			cancle: function() {
 				let that = this;
 				that.$refs.callPolice.close();
 				that.alarmRemark = '';
 				//that.focus = false;
 			},
-	
+
 			pickerChange: function(e) {
 				let that = this;
 				that.pickerValue = e.detail.value;
 				that.alarmReason = that.callPoliceArr[e.detail.value];
 			},
-			
+
 			sendCall: function() {
 				let that = this;
 				uni.showLoading({
-					mask:true,
-					title:'加载中'
+					mask: true,
+					title: '加载中'
 				});
-				console.log(that.orderNumber);
-				if(that.alarmRemark === ''){
+				if (that.alarmRemark === '') {
 					that.showToast('请输入内容');
 					return
 				}
 				uni.request({
-					url:$taxi.Interface.callPolice.value,
-					method:$taxi.Interface.callPolice.method,
-					data:{
-						callContent:that.alarmRemark,
-						orderId:that.orderNumber,
+					url: $taxi.Interface.callPolice.value,
+					method: $taxi.Interface.callPolice.method,
+					data: {
+						callContent: that.alarmRemark,
+						orderId: that.orderNumber,
 					},
-					success:function(res){
-						console.log(res);
+					success: function(res) {
 						uni.hideLoading();
-						if(res.data.code===200){
+						if (res.data.code === 200) {
 							that.showToast('报警成功');
 						}
 						that.cancle();
 					},
-					fail:function(res){
+					fail: function(res) {
 						that.showToast('网络连接失败');
 					}
 				});
@@ -495,7 +505,7 @@
 				var that = this;
 				uni.navigateBack({});
 			},
-			
+
 			setMarker: function(id, lon, lat, iconPath) {
 				var that = this;
 				that.markers = that.markers.filter(x => x.id !== id);
@@ -514,26 +524,26 @@
 				};
 				that.markers.push(marker);
 			},
-			
-			constantlyDirection:function(){
+
+			constantlyDirection: function() {
 				let that = this;
-				that.directionInterval = setInterval(function(){
+				that.directionInterval = setInterval(function() {
 					that.getDirectionDriving();
-				},10000);
+				}, 10000);
 			},
-			
+
 			getDirectionDriving: function() {
 				//路径规划
 				var that = this;
 				uni.request({
-					url:$taxi.Interface.track.value,
+					url: $taxi.Interface.track.value,
 					method: $taxi.Interface.track.method,
 					data: {
-						orderId:that.orderNumber
+						orderId: that.orderNumber
 					},
 					success: function(res) {
 						let data = res.data.data;
-						if(res.data.code===200){
+						if (res.data.code === 200) {
 							that.polyline = [];
 							let points = [];
 							for (let i of data) {
@@ -557,12 +567,12 @@
 					}
 				});
 			},
-			
-			formatExpectDuration:function(expectDuration){
+
+			formatExpectDuration: function(expectDuration) {
 				return parseInt(expectDuration) + '分钟'
 			},
-			
-			formatExpectMileage:function(expectMileage){
+
+			formatExpectMileage: function(expectMileage) {
 				// var mileage = parseFloat(expectMileage);
 				// var long = mileage / 1000;
 				// if(long > 1){
@@ -572,30 +582,30 @@
 				// }
 				return expectMileage + '公里';
 			},
-	
-			toNavigation:function(){
+
+			toNavigation: function() {
 				let that = this;
 				let endLat = that.orderInfo.endLat;
 				let endLng = that.orderInfo.endLng;
 				let endName = that.orderInfo.endName;
 				let type = 'gcj02';
-				Map.openMap(parseFloat(endLat) ,parseFloat(endLng) , endName,type);
+				Map.openMap(parseFloat(endLat), parseFloat(endLng), endName, type);
 			},
-			
+
 			//语音播报
-			passengerBroadcast:function(){
-				Voice('请系好安全带，注意出行安全。');
-				Voice('Please fasten your seat belt and pay attention to travel safety.');
+			passengerBroadcast: function() {
+				Voice.openVoice('请系好安全带，注意出行安全。');
+				Voice.openVoice('Please fasten your seat belt and pay attention to travel safety.');
 			},
-			
-			arriveBroadcast:function(){
-				Voice('目的地已到达，请携带好您的随身物品。');
-				Voice('The destination has arrived. Please take your belongings with you.');
+
+			arriveBroadcast: function() {
+				Voice.openVoice('目的地已到达，请携带好您的随身物品。');
+				Voice.openVoice('The destination has arrived. Please take your belongings with you.');
 			},
-			
-			formatTel:function(tel){
+
+			formatTel: function(tel) {
 				//substring()，第一个数字包括，第二个数字不包括
-				return tel.substring(0,3) + '****' + tel.substring(7,tel.length);
+				return tel.substring(0, 3) + '****' + tel.substring(7, tel.length);
 			},
 		}
 	}
@@ -632,7 +642,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 30rpx;
-	
+
 	}
 
 	.popupButtonChooseFont {
@@ -653,7 +663,7 @@
 		box-shadow: 0px 7px 38px 8px rgba(216, 48, 75, 0.15);
 		border-radius: 12rpx;
 	}
-	
+
 	.borderTextArea {
 		background-color: #FFFFFF;
 		border-color: #AAAAAA;

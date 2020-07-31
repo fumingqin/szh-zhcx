@@ -30,7 +30,7 @@
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;margin-top: 0;">
 					<text class="fontClass" style="width:140rpx;">出发时间:</text>
-					<text class="fontClass" >{{item.orderTime}}</text>
+					<text class="fontClass" >{{formatOrderTime(item.orderTime)}}</text>
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;margin-top: 0;">
 					<text class="fontClass" style="width:140rpx;">线路名称:</text>
@@ -46,7 +46,7 @@
 					<text class="fontClass" style="width:200rpx;">预计到达时间:</text>
 					<text class="fontClass" >{{formatExpectArriveTime(item.orderTime,item.line.expectDuration)}}</text>
 				</view>
-				<view style="margin: -10rpx 40rpx;display: flex;flex-direction: row;">
+				<view style="margin: 20rpx 40rpx;display: flex;flex-direction: row;">
 					<text class="fontClass" style="width:110rpx;">上车点:</text>
 					<text class="fontClass" >{{item.line.startName}}</text>
 				</view>
@@ -228,7 +228,10 @@
 				startTime = startTime.replace(/-/g,'/');
 				var time = new Date(startTime).getTime();
 				var endTime = new Date(time + duration * 60 * 1000);
-				return utils.timeTodate('Y-m-d H:i',endTime) + ':00'
+				return utils.timeTodate('Y-m-d H:i',endTime);
+			},
+			formatOrderTime:function(time){
+				return time.substring(0,time.length-3);
 			},
 			toOrderList:function(){
 				uni.navigateTo({
@@ -237,13 +240,13 @@
 			},
 			
 			passengerBroadcast:function(){
-				Voice('请系好安全带，注意出行安全。');
-				Voice('Please fasten your seat belt and pay attention to travel safety.');
+				Voice.openVoice('请系好安全带，注意出行安全。');
+				Voice.openVoice('Please fasten your seat belt and pay attention to travel safety.');
 			},
 			
 			arriveBroadcast:function(){
-				Voice('目的地已到达，请携带好您的随身物品。');
-				Voice('The destination has arrived. Please take your belongings with you.');
+				Voice.openVoice('目的地已到达，请携带好您的随身物品。');
+				Voice.openVoice('The destination has arrived. Please take your belongings with you.');
 			},
 		}
 	}
