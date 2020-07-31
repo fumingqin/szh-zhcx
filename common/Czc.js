@@ -104,6 +104,12 @@ const Interface = {
 		method:'POST',
 		pages:[]
 	},
+	saveDriverRemark:{
+		value:Url + '/api/driver/save-driver-remark',
+		name:'保存司机备注',
+		method:'POST',
+		pages:[]
+	}
 }
 
 export default {

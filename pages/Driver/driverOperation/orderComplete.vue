@@ -58,7 +58,7 @@
 		onLoad(option) {
 			var that = this;
 			that.orderNumber = option.orderNumber;
-			//that.getOrderDetail();
+			that.getOrderDetail();
 		},
 		methods: {
 			showToast: function(title, icon = 'none') {
@@ -87,19 +87,25 @@
 			finished:function() {
 				let that = this;
 				uni.request({
-					url:that.$taxi.Interface.terminus.value,
-					method:that.$taxi.Interface.terminus.method,
+					url:that.$taxi.Interface.saveDriverRemark.value,
+					method:that.$taxi.Interface.saveDriverRemark.method,
 					data:{
 						driverRemark:that.remarkVal,
-						orderId:that.orderNumber
+						orderId:that.orderNumber,
+						orderDuration:that.isCorrTime, //时长
+						orderMileage:that.isCorrMileage,
 					},
 					success:function(res){
 						uni.hideLoading();
 						console.log(res);
 						if(res.data.code===200){
-							uni.redirectTo({
-								url: './taxiDriver',
-							});
+							that.showToast('保存成功');
+							setTimeout(function(){
+								uni.redirectTo({
+									url: './taxiDriver',
+								});
+							},1500);
+							
 						} else {
 							that.showToast(res.data.msg);
 						}

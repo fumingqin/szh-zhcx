@@ -314,8 +314,8 @@
 								}
 							} else if (res.data.data.state === 'arrive') {
 								uni.redirectTo({
-									//url: '/pages/driver/driverOperation/orderComplete'
-									url: './taxiDriver',
+									url: '/pages/driver/driverOperation/orderComplete?orderNumber='+that.orderNumber
+									//url: './taxiDriver',
 								});
 								if (!that.isShowArrive) {
 									that.arriveBroadcast();

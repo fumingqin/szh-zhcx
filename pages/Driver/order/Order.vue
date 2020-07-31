@@ -284,7 +284,6 @@
 					success: function(res) {
 						uni.hideLoading();
 						let data = res.data.data;
-						console.log(data);
 						if (res.data.code===200) {
 							that.orderArr = [];
 							that.orderArr = data;
