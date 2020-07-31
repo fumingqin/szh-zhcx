@@ -87,6 +87,7 @@
 			}
 		},
 		onShow() {
+			this.getOrderList();
 		},
 		methods:{
 			//----------------加载scroll-wiew的高度----------------
