@@ -76,20 +76,17 @@
 			that.getOrderDetailInfo(option.orderNumber);
 			that.orderNumber = option.orderNumber;
 			that.getDirectionDriving();
-		},
-		onUnload() {
-			if (this.timeId != 0) {
-				clearInterval(this.timeId); //清除定时器
+			//开启定时器
+			if (that.timeId == 0) {
+				that.timeId = setInterval(function() {
+					that.getOrderDetailInfo(that.orderNumber);
+				}, 5000);
 			}
 		},
+		onUnload() {
+			clearInterval(this.timeId); //清除定时器
+		},
 		onShow() {
-			var that = this;
-				//开启定时器
-				if (that.timeId == 0) {
-					that.timeId = setInterval(function() {
-						that.getOrderDetailInfo(that.orderNumber);
-					}, 5000);
-				}
 		},
 		mounted() {
 			let that = this;
@@ -114,6 +111,7 @@
 					success(res) {
 						let data = res.data.data;
 						if (res.data.code == 200) {
+							that.markers=[];
 							console.log(res.data)
 							that.startLon = data.line.startLng; //起点
 							that.startLat = data.line.startLat;

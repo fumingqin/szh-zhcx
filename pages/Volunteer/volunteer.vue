@@ -27,6 +27,17 @@
 						</view>
 					</view>
 					
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">出发时间</text>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+							<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}}</text>
+						</view>
+						<mx-date-picker :show="showPicker" :showSeconds="false" :type="type" :value="value" :show-tips="true" :begin-text="'入住'"
+						 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
+					</view>
+					
 					<view v-if="estimateState==1">
 						<view>
 							<view style="padding-top: 20rpx ;">
@@ -70,17 +81,6 @@
 							<input class="contentFont" v-model="people" type="number" />
 							<text style="margin-left: 124rpx;">人</text>
 						</view>
-					</view>
-
-					<view>
-						<view style="padding-top: 20rpx ;">
-							<text class="titleFont">出发时间</text>
-						</view>
-						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-							<text style="letter-spacing:1px" @click="onShowDatePicker('datetime')">{{datestring}}</text>
-						</view>
-						<mx-date-picker :show="showPicker" :showSeconds="false" :type="type" :value="value" :show-tips="true" :begin-text="'入住'"
-						 :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onCancle" />
 					</view>
 					
 					<view v-if="orderType==1">
@@ -674,6 +674,8 @@
 				that.startSiteName = '请选择起点';
 				that.endSiteName = "请选择终点";
 				that.people = 0;
+				that.orderType=1;
+				that.estimateState=0;
 				that.remark = "";
 				that.clearClick();
 				that.closePopup('centerPopup');

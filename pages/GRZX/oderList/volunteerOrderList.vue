@@ -332,8 +332,6 @@
 					</view>
 				</view>
 			</scroll-view>
-		
-			
 		</view>
 	</view>
 </template>
@@ -372,28 +370,27 @@
 			that.menuButtonTop = menuButtonInfo.top;
 			that.loadscrowHeight();
 			that.current = options.current;
+			uni.showLoading({
+				title: '加载订单中...',
+			});
+			//开启定时器
+			if (that.timeId == 0) {
+				that.timeId = setInterval(function() {
+					that.getVolunteerOrder();
+				}, 10000);
+			}
 		},
 		onUnload() {
-			if (this.timeId != 0) {
-				clearInterval(this.timeId); //清除定时器
-			}
+			clearInterval(this.timeId); //清除定时器
 		},
 		onShow() {
 			var that = this;
+			console.log("定时器id",that.timeId);
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			if (that.userInfo == '') {
 				that.showToast('请先登录');
-			} else {
-				uni.showLoading({
-					title: '加载订单中...',
-				});
+			}else{
 				that.getVolunteerOrder();
-				//开启定时器
-				if (that.timeId == 0) {
-					that.timeId = setInterval(function() {
-						that.getVolunteerOrder();
-					}, 10000);
-				}
 			}
 		},
 		// --------------------------下拉刷新----------------------------
@@ -550,9 +547,6 @@
 
 			//--------------------详情按钮--------------------------
 			toDetail: function(item) {
-				if (this.timeId != 0) {
-					clearInterval(this.timeId); //清除定时器
-				}
 				uni.navigateTo({
 					url: './OrderDetail?orderNumber=' + item.id,
 				});
