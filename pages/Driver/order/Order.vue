@@ -352,9 +352,9 @@
 					},
 					success:function(res){
 						if (res.data.code===200) {
-							that.showToast('到达成功');
 							Voice('目的地已到达，请携带好您的随身物品。');
 							Voice('The destination has arrived. Please take your belongings with you.');
+							that.showToast('到达成功');
 							setTimeout(function(){
 								that.getTaxiOrder();
 							},1500);

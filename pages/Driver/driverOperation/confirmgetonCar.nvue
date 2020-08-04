@@ -419,10 +419,8 @@
 					method:$taxi.Interface.terminus.method,
 					data:{
 						orderId:that.orderNumber,
-						driverRemark:'',
 					},
 					success:function(res){
-						console.log('terminus',res);
 						uni.hideLoading();
 						if(res.data.code===200 || res.data.msg === '订单状态错误，更改失败'){
 							uni.redirectTo({
