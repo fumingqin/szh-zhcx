@@ -357,9 +357,15 @@
 							that.showToast('到达成功');
 							setTimeout(function(){
 								that.getTaxiOrder();
+								uni.navigateTo({
+									url: '/pages/driver/driverOperation/orderComplete?orderNumber='+item.id
+								});
 							},1500);
 						}else{
 							that.getTaxiOrder();
+							uni.navigateTo({
+								url: '/pages/driver/driverOperation/orderComplete?orderNumber='+item.id
+							});
 						}
 						uni.hideLoading();
 					},
