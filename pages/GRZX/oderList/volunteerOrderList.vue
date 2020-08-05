@@ -764,11 +764,11 @@
 			//-------------------扫码验证------------------------------
 			scan: function(item) {
 				let that = this;
-				console.log(item);
-				console.log(item.passengers);
+				var passengersArr = item.passengers.split(",");
+				console.log(passengersArr);
 				uni.scanCode({
 					success: function(res) {
-						if (item.passengers.indexOf(res.result) > -1) {
+						if (passengersArr.indexOf(res.result) > -1) {
 							Voice.openVoice('通过');
 							uni.showToast({
 								title: '验证通过',
