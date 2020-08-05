@@ -339,6 +339,7 @@
 <script>
 	import uniTransition from '@/components/uni-transition/uni-transition.vue';
 	import $taxi from '@/common/Czc.js';
+	import Voice from '@/components/Driver/QS-baiduyy/QS-baiduyy.js';
 	export default {
 		components: {
 			uniTransition
@@ -376,7 +377,7 @@
 			//开启定时器
 			if (that.timeId == 0) {
 				that.timeId = setInterval(function() {
-					that.getVolunteerOrder();
+					that.getVolunteerOrder_interval();
 				}, 10000);
 			}
 		},
@@ -450,6 +451,120 @@
 					},
 					success(res) {
 						uni.hideLoading();
+						that.triggered = false; //触发onRestore，并关闭刷新图标
+						that._freshing = false;
+						console.log(res,'订单数据')
+						if (res.data.code == 200) {
+							var obj = new Object();
+							for (let item of res.data.data) {
+								if ((item.state == "examine" || item.state == "fail") && item.parentId == null) {
+									//显示父订单
+									obj = {
+										id: item.id, //订单ID
+										title: item.line.name, //线路名称
+										//orderTime: item.createTime, //订单时间
+										runTime: item.orderTime, //出发时间
+										endAddress: item.line.endName, //目的地
+										startAddress: item.line.startName, //出发点
+										orderState: that.formatState(item.state), //订单状态
+										state: item.state, //订单状态
+										peoperNumber: item.peoperNumber, //乘车人数
+										reason: item.failReason, //未通过原因
+										passengers:item.passengers,//乘车人信息
+									};
+									that.orderArr.push(obj);
+								} else if (item.state == "waiting" && item.peoperNumber > 0 && item.parentId == null) {
+									//显示父订单
+									obj = {
+										id: item.id, //订单ID
+										title: item.line.name, //线路名称
+										runTime: item.orderTime, //出发时间
+										endAddress: item.line.endName, //目的地
+										startAddress: item.line.startName, //出发点
+										orderState: '待派单', //订单状态
+										state: item.state, //订单状态
+										peoperNumber: item.peoperNumber, //乘车人数
+										passengers:item.passengers,//乘车人信息
+									};
+									that.orderArr.push(obj);
+								} else if (item.parentId != null) {
+									//显示子订单
+									obj = {
+										id: item.id, //订单ID
+										title: item.line.name, //线路名称
+										runTime: item.orderTime, //出发时间
+										endAddress: item.line.endName, //目的地
+										startAddress: item.line.startName, //出发点
+										orderState: that.formatState(item.state), //订单状态
+										state: item.state, //订单状态
+										peoperNumber: item.peoperNumber, //乘车人数
+										passengers:item.passengers,//乘车人信息
+									};
+									that.orderArr.push(obj);
+								}else if (item.parentId == null&&item.state=='cancel') {
+									//显示已取消的订单
+									obj = {
+										id: item.id, //订单ID
+										title: item.line.name, //线路名称
+										runTime: item.orderTime, //出发时间
+										endAddress: item.line.endName, //目的地
+										startAddress: item.line.startName, //出发点
+										orderState: that.formatState(item.state), //订单状态
+										state: item.state, //订单状态
+										peoperNumber: item.peoperNumber, //乘车人数
+										passengers:item.passengers,//乘车人信息
+									};
+									that.orderArr.push(obj);
+								}
+							};
+							// console.log(that.orderArr)
+							that.underwayArr = that.orderArr.filter(x => {
+								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过';
+							});
+							that.finishedArr = that.orderArr.filter(x => {
+								return x.orderState == '已完成';
+							});
+							that.cancleArr = that.orderArr.filter(x => {
+								return x.orderState == '已取消';
+							});
+							that.unexamineArr = that.orderArr.filter(x => {
+								return x.orderState == '审核中';
+							});
+							that.examineArr = that.orderArr.filter(x => {
+								return x.orderState == '待派单';
+							});
+							//检查是否存在订单
+							that.checkExitOrder(that.orderArr,that.underwayArr,that.finishedArr,that.cancleArr,that.unexamineArr,that.examineArr);
+						} else {
+							that.showToast('获取订单失败');
+						}
+					},
+					fail: function(err) {
+						uni.hideLoading();
+						that.showToast('网络连接失败');
+					}
+				})
+			},
+			
+			//--------------------获取订单-定时器--------------------------
+			getVolunteerOrder_interval: function() {
+				let that = this;
+				that.orderArr = [];
+				that.underwayArr = [];
+				that.finishedArr = [];
+				that.cancleArr = [];
+				that.unexamineArr = [];
+				that.examineArr = [];
+				// console.log(that.userInfo.volunteerId, 'id')
+				// uni.stopPullDownRefresh();
+				uni.request({
+					url: that.$Grzx.Interface.getOrders.value,
+					method: that.$Grzx.Interface.getOrders.method,
+					data: {
+						volunteerId: that.userInfo.volunteerId,
+					},
+					success(res) {
+						// uni.hideLoading();
 						that.triggered = false; //触发onRestore，并关闭刷新图标
 						that._freshing = false;
 						console.log(res,'订单数据')
@@ -649,12 +764,12 @@
 			//-------------------扫码验证------------------------------
 			scan: function(item) {
 				let that = this;
-				console.log(item);
-				console.log(item.passengers);
+				var passengersArr = item.passengers.split(",");
+				console.log(passengersArr);
 				uni.scanCode({
 					success: function(res) {
-						if (item.passengers.indexOf(res.result) > -1) {
-							Voice('通过');
+						if (passengersArr.indexOf(res.result) > -1) {
+							Voice.openVoice('通过');
 							uni.showToast({
 								title: '验证通过',
 								icon: 'none',
@@ -669,6 +784,7 @@
 								mask: true
 							});
 							// that.showToast('不通过');
+							// setTimeout(function(){},5000);
 						}
 					},
 					fail: function(res) {

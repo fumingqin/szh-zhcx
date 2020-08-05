@@ -113,6 +113,8 @@
 						if (res.data.code == 200) {
 							that.markers=[];
 							console.log(res.data)
+							console.log(that.cartLon);
+							console.log(that.cartLat);
 							that.startLon = data.line.startLng; //起点
 							that.startLat = data.line.startLat;
 							that.endLon = data.line.endLng; //终点
