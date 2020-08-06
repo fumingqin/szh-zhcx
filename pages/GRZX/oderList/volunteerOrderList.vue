@@ -21,10 +21,10 @@
 				</view>
 			</view>
 			<scroll-view v-bind:style="{height:scrowHeight+'px'}" scroll-y=true refresher-enabled=true @refresherrefresh="refreshClick"
-			 :refresher-triggered="triggered" >
+			 :refresher-triggered="triggered">
 
 				<!--全部-->
-				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0" >
+				<view style="padding: 10rpx 0; margin-top: 50rpx;" v-if="current==0">
 					<view v-for="(item,index) in orderArr" :key="index" v-show="ExistOrder[0]">
 						<!-- 志愿者开始 -->
 						<view style="margin-top: 20rpx;">
@@ -51,7 +51,8 @@
 										</view>
 										<view v-if="item.orderState == '待上车'">
 											<view style="display: flex;">
-												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;"
+												 type="default">扫码验证</button>
 												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 											</view>
 										</view>
@@ -113,7 +114,8 @@
 										</view>
 										<view v-if="item.orderState == '待上车'">
 											<view style="display: flex;">
-												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;"
+												 type="default">扫码验证</button>
 												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 											</view>
 										</view>
@@ -212,7 +214,8 @@
 										</view>
 										<view v-if="item.orderState == '待上车'">
 											<view style="display: flex;">
-												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;"
+												 type="default">扫码验证</button>
 												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 											</view>
 										</view>
@@ -261,7 +264,8 @@
 										</view>
 										<view v-if="item.orderState == '待上车'">
 											<view style="display: flex;">
-												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;"
+												 type="default">扫码验证</button>
 												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 											</view>
 										</view>
@@ -309,7 +313,8 @@
 										</view>
 										<view v-if="item.orderState == '待上车'">
 											<view style="display: flex;">
-												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;" type="default">扫码验证</button>
+												<button @click="scan(item)" style="width: auto;background-color: #55aaff;color: #FFF;margin-right: 20rpx;"
+												 type="default">扫码验证</button>
 												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 											</view>
 										</view>
@@ -346,10 +351,10 @@
 		},
 		data() {
 			return {
-				ExistOrder:[false,false,false,false,false,false], //是否存在订单
-				
+				ExistOrder: [false, false, false, false, false, false], //是否存在订单
+
 				ani: ['slide-top', 'zoom-in'],
-				current: 0, 
+				current: 0,
 				orderArr: [], //全部订单
 				underwayArr: [], //进行中
 				finishedArr: [], //已完成
@@ -386,11 +391,11 @@
 		},
 		onShow() {
 			var that = this;
-			console.log("定时器id",that.timeId);
+			console.log("定时器id", that.timeId);
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			if (that.userInfo == '') {
 				that.showToast('请先登录');
-			}else{
+			} else {
 				that.getVolunteerOrder();
 			}
 		},
@@ -453,7 +458,7 @@
 						uni.hideLoading();
 						that.triggered = false; //触发onRestore，并关闭刷新图标
 						that._freshing = false;
-						console.log(res,'订单数据')
+						console.log(res, '订单数据')
 						if (res.data.code == 200) {
 							var obj = new Object();
 							for (let item of res.data.data) {
@@ -470,7 +475,7 @@
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
 										reason: item.failReason, //未通过原因
-										passengers:item.passengers,//乘车人信息
+										passengers: item.passengers, //乘车人信息
 									};
 									that.orderArr.push(obj);
 								} else if (item.state == "waiting" && item.peoperNumber > 0 && item.parentId == null) {
@@ -484,7 +489,7 @@
 										orderState: '待派单', //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
-										passengers:item.passengers,//乘车人信息
+										passengers: item.passengers, //乘车人信息
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId != null) {
@@ -498,10 +503,10 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
-										passengers:item.passengers,//乘车人信息
+										passengers: item.passengers, //乘车人信息
 									};
 									that.orderArr.push(obj);
-								}else if (item.parentId == null&&item.state=='cancel') {
+								} else if (item.parentId == null && item.state == 'cancel') {
 									//显示已取消的订单
 									obj = {
 										id: item.id, //订单ID
@@ -512,7 +517,7 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
-										passengers:item.passengers,//乘车人信息
+										passengers: item.passengers, //乘车人信息
 									};
 									that.orderArr.push(obj);
 								}
@@ -534,7 +539,8 @@
 								return x.orderState == '待派单';
 							});
 							//检查是否存在订单
-							that.checkExitOrder(that.orderArr,that.underwayArr,that.finishedArr,that.cancleArr,that.unexamineArr,that.examineArr);
+							that.checkExitOrder(that.orderArr, that.underwayArr, that.finishedArr, that.cancleArr, that.unexamineArr,
+								that.examineArr);
 						} else {
 							that.showToast('获取订单失败');
 						}
@@ -545,7 +551,7 @@
 					}
 				})
 			},
-			
+
 			//--------------------获取订单-定时器--------------------------
 			getVolunteerOrder_interval: function() {
 				let that = this;
@@ -567,7 +573,7 @@
 						// uni.hideLoading();
 						that.triggered = false; //触发onRestore，并关闭刷新图标
 						that._freshing = false;
-						console.log(res,'订单数据')
+						console.log(res, '订单数据')
 						if (res.data.code == 200) {
 							var obj = new Object();
 							for (let item of res.data.data) {
@@ -584,7 +590,7 @@
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
 										reason: item.failReason, //未通过原因
-										passengers:item.passengers,//乘车人信息
+										passengers: item.passengers, //乘车人信息
 									};
 									that.orderArr.push(obj);
 								} else if (item.state == "waiting" && item.peoperNumber > 0 && item.parentId == null) {
@@ -598,7 +604,7 @@
 										orderState: '待派单', //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
-										passengers:item.passengers,//乘车人信息
+										passengers: item.passengers, //乘车人信息
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId != null) {
@@ -612,10 +618,10 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
-										passengers:item.passengers,//乘车人信息
+										passengers: item.passengers, //乘车人信息
 									};
 									that.orderArr.push(obj);
-								}else if (item.parentId == null&&item.state=='cancel') {
+								} else if (item.parentId == null && item.state == 'cancel') {
 									//显示已取消的订单
 									obj = {
 										id: item.id, //订单ID
@@ -626,7 +632,7 @@
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
-										passengers:item.passengers,//乘车人信息
+										passengers: item.passengers, //乘车人信息
 									};
 									that.orderArr.push(obj);
 								}
@@ -648,7 +654,8 @@
 								return x.orderState == '待派单';
 							});
 							//检查是否存在订单
-							that.checkExitOrder(that.orderArr,that.underwayArr,that.finishedArr,that.cancleArr,that.unexamineArr,that.examineArr);
+							that.checkExitOrder(that.orderArr, that.underwayArr, that.finishedArr, that.cancleArr, that.unexamineArr,
+								that.examineArr);
 						} else {
 							that.showToast('获取订单失败');
 						}
@@ -758,15 +765,47 @@
 				// } else {
 				// 	return dateTime;
 				// }
-				var dateTime=time.substring(0,16);
+				var dateTime = time.substring(0, 16);
 				return dateTime;
 			},
 			//-------------------扫码验证------------------------------
-			scan: function(item) {
+
+			scanCode: function() {
+				return new Promise((resolve, reject) => {
+					uni.scanCode({
+						success: function(res) {
+							resolve(res);
+						},
+					});
+				});
+			},
+
+			async scan(item) {
 				let that = this;
 				var passengersArr = item.passengers.split(",");
-				console.log(passengersArr);
-				uni.scanCode({
+				var ret = await that.scanCode();
+				if (passengersArr.indexOf(ret.result) > -1) {
+					Voice.openVoice('通过');
+					uni.showToast({
+						title: '验证通过',
+						icon: 'none',
+						duration: 3000,
+						mask: true
+					});
+				} else {
+					uni.showToast({
+						title: '验证不通过',
+						icon: 'none',
+						duration: 3000,
+						mask: true
+					});
+					// that.showToast('不通过');
+					// setTimeout(function(){},5000);
+				}
+				
+				
+				
+				/* uni.scanCode({
 					success: function(res) {
 						if (passengersArr.indexOf(res.result) > -1) {
 							Voice.openVoice('通过');
@@ -790,7 +829,7 @@
 					fail: function(res) {
 
 					}
-				});
+				}); */
 			},
 			//-------------------确认乘客上车------------------------------
 			confirmgetonCar: function(item) {
@@ -847,27 +886,27 @@
 					this.getVolunteerOrder();
 				}
 			},
-			
+
 			//---------------------------是否存在订单---------------------------
-			checkExitOrder:function(orderArr,underwayArr,finishedArr,cancleArr,unexamineArr,examineArr){
-				var that=this;
-				if(orderArr!=""){
-					that.ExistOrder[0]=true;
+			checkExitOrder: function(orderArr, underwayArr, finishedArr, cancleArr, unexamineArr, examineArr) {
+				var that = this;
+				if (orderArr != "") {
+					that.ExistOrder[0] = true;
 				}
-				if(underwayArr!=""){
-					that.ExistOrder[1]=true;
+				if (underwayArr != "") {
+					that.ExistOrder[1] = true;
 				}
-				if(finishedArr!=""){
-					that.ExistOrder[2]=true;
+				if (finishedArr != "") {
+					that.ExistOrder[2] = true;
 				}
-				if(cancleArr!=""){
-					that.ExistOrder[3]=true;
+				if (cancleArr != "") {
+					that.ExistOrder[3] = true;
 				}
-				if(unexamineArr!=""){
-					that.ExistOrder[4]=true;
+				if (unexamineArr != "") {
+					that.ExistOrder[4] = true;
 				}
-				if(examineArr!=""){
-					that.ExistOrder[5]=true;
+				if (examineArr != "") {
+					that.ExistOrder[5] = true;
 				}
 			},
 		}
@@ -984,11 +1023,12 @@
 		margin-left: 10rpx;
 		text-align: center;
 	}
-	
-	.tipClass{ //您还没有相关订单
+
+	.tipClass {
+		//您还没有相关订单
 		width: 100%;
 		text-align: center;
 		padding-top: 500upx;
-		color:#999999;
+		color: #999999;
 	}
 </style>
