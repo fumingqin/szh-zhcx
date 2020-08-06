@@ -790,48 +790,22 @@
 						uni.showToast({
 							title: '验证通过',
 							icon: 'none',
-							duration: 3000,
+							duration: 2000,
 							mask: true
 						});
-					},1500);
+					},200);
 				} else {
-					uni.showToast({
-						title: '验证不通过',
-						icon: 'none',
-						duration: 3000,
-						mask: true
-					});
+					setTimeout(function(){
+						uni.showToast({
+							title: '验证不通过',
+							icon: 'none',
+							duration: 2000,
+							mask: true
+						});
+					},200);
 					// that.showToast('不通过');
 					// setTimeout(function(){},5000);
 				}
-				
-				
-				
-				/* uni.scanCode({
-					success: function(res) {
-						if (passengersArr.indexOf(res.result) > -1) {
-							Voice.openVoice('通过');
-							uni.showToast({
-								title: '验证通过',
-								icon: 'none',
-								duration: 2000,
-								mask: true
-							});
-						} else {
-							uni.showToast({
-								title: '验证不通过',
-								icon: 'none',
-								duration: 2000,
-								mask: true
-							});
-							// that.showToast('不通过');
-							// setTimeout(function(){},5000);
-						}
-					},
-					fail: function(res) {
-
-					}
-				}); */
 			},
 			//-------------------确认乘客上车------------------------------
 			confirmgetonCar: function(item) {
