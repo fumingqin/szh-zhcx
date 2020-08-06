@@ -16,8 +16,8 @@
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==1?'tabactive':''" @click="tabclick(1)">进行中</view>
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==2?'tabactive':''" @click="tabclick(2)">已完成</view>
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">已取消</view>
-					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==4?'tabactive':''" @click="tabclick(4)">待审核</view>
-					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==5?'tabactive':''" @click="tabclick(5)">已审核</view>
+					<!-- <view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==4?'tabactive':''" @click="tabclick(4)">待审核</view>
+					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==5?'tabactive':''" @click="tabclick(5)">已审核</view> -->
 				</view>
 			</view>
 			<scroll-view v-bind:style="{height:scrowHeight+'px'}" scroll-y=true refresher-enabled=true @refresherrefresh="refreshClick"
@@ -59,9 +59,9 @@
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
 											 type="default">确认到达</button>
 										</view>
-										<view v-if="item.orderState == '审核中'">
+										<!-- <view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
-										</view>
+										</view> -->
 										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
@@ -121,9 +121,9 @@
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
 											 type="default">确认到达</button>
 										</view>
-										<view v-if="item.orderState == '审核中'">
+										<!-- <view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
-										</view>
+										</view> -->
 										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
@@ -265,9 +265,9 @@
 												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 											</view>
 										</view>
-										<view v-if="item.orderState == '审核中'">
+										<!-- <view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
-										</view>
+										</view> -->
 										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
