@@ -786,12 +786,14 @@
 				var ret = await that.scanCode();
 				if (passengersArr.indexOf(ret.result) > -1) {
 					Voice.openVoice('通过');
-					uni.showToast({
-						title: '验证通过',
-						icon: 'none',
-						duration: 3000,
-						mask: true
-					});
+					setTimeout(function(){
+						uni.showToast({
+							title: '验证通过',
+							icon: 'none',
+							duration: 3000,
+							mask: true
+						});
+					},1500);
 				} else {
 					uni.showToast({
 						title: '验证不通过',
