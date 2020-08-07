@@ -592,13 +592,15 @@
 
 			//语音播报
 			passengerBroadcast: function() {
-				Voice.openVoice('请系好安全带，注意出行安全。');
-				Voice.openVoice('Please fasten your seat belt and pay attention to travel safety.');
+				var chinese = '请系好安全带，注意出行安全。';
+				var english = 'Please fasten your seat belt and pay attention to travel safety.'
+				Voice.openVoice(chinese + english);
 			},
 
 			arriveBroadcast: function() {
-				Voice.openVoice('目的地已到达，请携带好您的随身物品。');
-				Voice.openVoice('The destination has arrived. Please take your belongings with you.');
+				var chinese = '目的地已到达，请携带好您的随身物品。';
+				var english = 'The destination has arrived. Please take your belongings with you.'
+				Voice.openVoice(chinese + english);
 			},
 
 			formatTel: function(tel) {
