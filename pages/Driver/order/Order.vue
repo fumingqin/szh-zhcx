@@ -218,7 +218,7 @@
 			that.menuButtonHeight = menuButtonInfo.height;
 			that.menuButtonTop = menuButtonInfo.top;
 			that.loadscrowHeight();
-			that.current = option.current;
+			that.current = option.current || 0;
 		},
 		onShow() {
 			var that = this;
