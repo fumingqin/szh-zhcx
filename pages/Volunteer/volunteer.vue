@@ -153,7 +153,7 @@
 		</view>
 		<!-- 签名的弹窗 -->
 		<uni-popup ref="centerPopup" type="center">
-			<view style="font-size:40rpx;font-family:Source Han Sans SC;font-weight:400;color:#ffff00;">请手动签名!</view>
+			<view style="font-size:40rpx;font-family:Source Han Sans SC;font-weight:400;color:#ffff00;">请手动写出清晰签名!</view>
 			<view class="centerClass">
 				<canvas class='firstCanvas' canvas-id="firstCanvas" @touchmove='move' @touchstart='start($event)' @touchend='end'
 				 @touchcancel='cancel' @longtap='tap' disable-scroll='true' @error='error'>

@@ -16,8 +16,8 @@
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==1?'tabactive':''" @click="tabclick(1)">进行中</view>
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==2?'tabactive':''" @click="tabclick(2)">已完成</view>
 					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==3?'tabactive':''" @click="tabclick(3)">已取消</view>
-					<!-- <view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==4?'tabactive':''" @click="tabclick(4)">待审核</view>
-					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==5?'tabactive':''" @click="tabclick(5)">已审核</view> -->
+					<view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==4?'tabactive':''" @click="tabclick(4)">待审核</view>
+					<!-- <view style="height: 55rpx;font-weight: bold;color: #2C2D2;" :class="current==5?'tabactive':''" @click="tabclick(5)">已审核</view> -->
 				</view>
 			</view>
 			<scroll-view v-bind:style="{height:scrowHeight+'px'}" scroll-y=true refresher-enabled=true @refresherrefresh="refreshClick"
@@ -63,7 +63,7 @@
 										<!-- <view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view> -->
-										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
+										<view v-if="item.orderState == '审核中'||item.orderState == '待派车'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
@@ -126,7 +126,7 @@
 										<!-- <view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view> -->
-										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
+										<view v-if="item.orderState == '审核中'||item.orderState == '待派车'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
@@ -272,7 +272,7 @@
 										<!-- <view v-if="item.orderState == '审核中'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
 										</view> -->
-										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
+										<view v-if="item.orderState == '审核中'||item.orderState == '待派车'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
@@ -322,7 +322,7 @@
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
 											 type="default">确认到达</button>
 										</view>
-										<view v-if="item.orderState == '审核中'||item.orderState == '待派单'">
+										<view v-if="item.orderState == '审核中'||item.orderState == '待派车'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
 									</view>
@@ -486,7 +486,7 @@
 										runTime: item.orderTime, //出发时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
-										orderState: '待派单', //订单状态
+										orderState: '待派车', //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
 										passengers: item.passengers, //乘车人信息
@@ -524,7 +524,7 @@
 							};
 							// console.log(that.orderArr)
 							that.underwayArr = that.orderArr.filter(x => {
-								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过';
+								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过'&& x.orderState != '审核中';
 							});
 							that.finishedArr = that.orderArr.filter(x => {
 								return x.orderState == '已完成';
@@ -536,7 +536,7 @@
 								return x.orderState == '审核中';
 							});
 							that.examineArr = that.orderArr.filter(x => {
-								return x.orderState == '待派单';
+								return x.orderState == '待派车';
 							});
 							//检查是否存在订单
 							that.checkExitOrder(that.orderArr, that.underwayArr, that.finishedArr, that.cancleArr, that.unexamineArr,
@@ -601,7 +601,7 @@
 										runTime: item.orderTime, //出发时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
-										orderState: '待派单', //订单状态
+										orderState: '待派车', //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
 										passengers: item.passengers, //乘车人信息
@@ -639,7 +639,7 @@
 							};
 							// console.log(that.orderArr)
 							that.underwayArr = that.orderArr.filter(x => {
-								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过';
+								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过'&& x.orderState != '审核中';
 							});
 							that.finishedArr = that.orderArr.filter(x => {
 								return x.orderState == '已完成';
@@ -651,7 +651,7 @@
 								return x.orderState == '审核中';
 							});
 							that.examineArr = that.orderArr.filter(x => {
-								return x.orderState == '待派单';
+								return x.orderState == '待派车';
 							});
 							//检查是否存在订单
 							that.checkExitOrder(that.orderArr, that.underwayArr, that.finishedArr, that.cancleArr, that.unexamineArr,
