@@ -462,7 +462,7 @@
 						if (res.data.code == 200) {
 							var obj = new Object();
 							for (let item of res.data.data) {
-								if ((item.state == "examine" || item.state == "fail") && item.parentId == null) {
+								if ((item.state == "examine" || item.state == "fail"||item.state == "dispatch") && item.parentId == null) {
 									//显示父订单
 									obj = {
 										id: item.id, //订单ID
@@ -577,7 +577,7 @@
 						if (res.data.code == 200) {
 							var obj = new Object();
 							for (let item of res.data.data) {
-								if ((item.state == "examine" || item.state == "fail") && item.parentId == null) {
+								if ((item.state == "examine" || item.state == "fail"||item.state == "dispatch") && item.parentId == null) {
 									//显示父订单
 									obj = {
 										id: item.id, //订单ID
