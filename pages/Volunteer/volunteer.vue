@@ -237,6 +237,7 @@
 			let that = this;
 			that.userInfo = uni.getStorageSync('userInfo') || '';
 			uni.removeStorageSync('passengers');
+			that.getTodayDate();
 			that.getTodayDate1();
 			that.load();
 			//获得Canvas的上下文
@@ -272,7 +273,6 @@
 				//清除监听，不清除会消耗资源
 				uni.$off('expectMileage');
 			});
-			that.getTodayDate();
 		},
 		methods: {
 			// ---------------------------加载图片----------------------------
@@ -386,7 +386,6 @@
 				this.datestring = this[this.type];
 				// this.queryWeek(e.date.toString().substring(0, 3));
 				this.date = e.value;
-				
 				this.totalTime = this.formatExpectArriveTime(this.date,this.estimateTime);
 			},
 			onSelected1: function(e) { //选择
