@@ -486,7 +486,7 @@
 										runTime: item.orderTime, //出发时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
-										orderState: '待派车', //订单状态
+										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
 										passengers: item.passengers, //乘车人信息
@@ -524,7 +524,7 @@
 							};
 							// console.log(that.orderArr)
 							that.underwayArr = that.orderArr.filter(x => {
-								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过'&& x.orderState != '审核中';
+								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过' && x.orderState != '审核中';
 							});
 							that.finishedArr = that.orderArr.filter(x => {
 								return x.orderState == '已完成';
@@ -601,7 +601,7 @@
 										runTime: item.orderTime, //出发时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
-										orderState: '待派车', //订单状态
+										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
 										passengers: item.passengers, //乘车人信息
@@ -639,7 +639,7 @@
 							};
 							// console.log(that.orderArr)
 							that.underwayArr = that.orderArr.filter(x => {
-								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过'&& x.orderState != '审核中';
+								return x.orderState != '已完成' && x.orderState != '已取消' && x.orderState != '未通过' && x.orderState != '审核中';
 							});
 							that.finishedArr = that.orderArr.filter(x => {
 								return x.orderState == '已完成';
@@ -694,7 +694,7 @@
 									orderId: orderNumber,
 								},
 								success(res) {
-									// console.log(res)
+									console.log(res)
 									if (res.data.code == 200) {
 										uni.showToast({
 											title: "取消成功",
@@ -725,6 +725,9 @@
 						break;
 					case 'examine':
 						return '审核中';
+						break;
+					case 'dispatch':
+						return '待派车';
 						break;
 					case 'waiting':
 						return '待接单';
@@ -786,23 +789,23 @@
 				var ret = await that.scanCode();
 				if (passengersArr.indexOf(ret.result) > -1) {
 					Voice.openVoice('通过');
-					setTimeout(function(){
+					setTimeout(function() {
 						uni.showToast({
 							title: '验证通过',
 							icon: 'none',
 							duration: 2000,
 							mask: true
 						});
-					},200);
+					}, 200);
 				} else {
-					setTimeout(function(){
+					setTimeout(function() {
 						uni.showToast({
 							title: '验证不通过',
 							icon: 'none',
 							duration: 2000,
 							mask: true
 						});
-					},200);
+					}, 200);
 					// that.showToast('不通过');
 					// setTimeout(function(){},5000);
 				}
