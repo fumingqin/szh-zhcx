@@ -8,8 +8,8 @@
 		</view>
 		<view style="margin-top: -80rpx;z-index: 1;position: relative;">
 			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 880rpx;">
-				<scroll-view style="height: 850rpx;" :scroll-y='true'>
-					<view v-if="nextOperation==0">
+				<scroll-view style="height: 880rpx;" :scroll-y='true' v-if="nextOperation==0">
+					<view >
 						<view>
 							<view>
 								<text class="titleFont">起点</text>
@@ -41,9 +41,9 @@
 
 						<view v-if="estimateState==1">
 							<view>
-								<view style="padding-top: 20rpx ;">
+								<!-- <view style="padding-top: 20rpx ;">
 									<text class="titleFont">预计里程和时间</text>
-								</view>
+								</view> -->
 								<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;">
 									<text>预计里程:</text>
 									<text style="color: #007AFF;">{{estimateMileage}}公里</text>
@@ -51,12 +51,12 @@
 									<text style="color: #007AFF;">{{estimateTime}}分钟</text>
 								</view>
 							</view>
-							<view>
-								<view style="padding-top: 20rpx ;">
-									<text class="titleFont">预计到达时间</text>
+							<view style="display: flex;padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+								<view>
+									<text>预计到达时间:</text>
 								</view>
-								<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-									<text>{{totalTime}}</text>
+								<view style="margin-left: 30rpx;">
+									<text style="color: #007AFF;">{{totalTime}}</text>
 								</view>
 							</view>
 						</view>
@@ -85,72 +85,68 @@
 							 :begin-text="'入住'" :end-text="'离店'" :show-seconds="true" @confirm="onSelected1" @cancel="onCancle1" />
 						</view>
 
-						<view style="margin-top: 40rpx;">
-							<button @click="nextButton" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
-								<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">下一步</text>
-							</button>
-						</view>
 					</view>
-					<!-- ------------------下一步----------------------- -->
-					<view v-if="nextOperation==1">
-						<view>
-							<text @click="backButton" style="font-size:34rpx;font-family:Source Han Sans SC;font-weight:400;color:#55aaff;">点击返回上一步</text>
-						</view>
-						
-						<view>
-							<view style="padding-top: 20rpx ;">
-								<text class="titleFont">人数</text>
-							</view>
-							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
-								<input class="contentFont" v-model="people" type="number" />
-								<text style="margin-left: 124rpx;">人</text>
-							</view>
-						</view>
-
-						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
-							<text>是否允许拼车</text>
-							<switch style="margin-left: 280rpx;" :checked="isCarpool" color="#00aa00" @change="switchChange" />
-						</view>
-
-						<view>
-							<view style="padding-top: 20rpx ;">
-								<text class="titleFont">乘车原因</text>
-							</view>
-							<view style="display: flex;flex-wrap: wrap;">
-								<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 35rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
-									<text style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;">{{item}}</text>
-								</view>
-							</view>
-							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
-								<input class="contentFont" v-model="remark" placeholder="请选择或填写原因" />
-							</view>
-						</view>
-
-						<view>
-							<view style="padding-top: 20rpx ;">
-								<text class="titleFont">乘车人信息</text>
-							</view>
-							<view style="display: flex;">
-								<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
-									<input v-model="passengerMessage" :disabled="true" class="contentFont" />
-									<view style="margin-left: 106rpx;" @click="toAddMessage">
-										<uni-icons type="plus" size="34"></uni-icons>
-									</view>
-								</view>
-							</view>
-						</view>
-
-						<view style="margin-top: 40rpx;">
-							<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
-								<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
-							</button>
-						</view>
-						
-						
-					</view>
-
-
 				</scroll-view>
+				<view v-if="nextOperation==0" style="margin-top: 100rpx;">
+					<button @click="nextButton" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
+						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">下一步</text>
+					</button>
+				</view>
+				<!-- ------------------下一步----------------------- -->
+				<view v-if="nextOperation==1">
+					<view>
+						<text @click="backButton" style="font-size:34rpx;font-family:Source Han Sans SC;font-weight:400;color:#55aaff;">＜返回上一步</text>
+					</view>
+
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">人数</text>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
+							<input class="contentFont" v-model="people" type="number" />
+							<text style="margin-left: 124rpx;">人</text>
+						</view>
+					</view>
+
+					<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
+						<text>是否允许拼车</text>
+						<switch style="margin-left: 280rpx;" :checked="isCarpool" color="#00aa00" @change="switchChange" />
+					</view>
+
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">乘车原因</text>
+						</view>
+						<view style="display: flex;flex-wrap: wrap;">
+							<view v-for="(item,index) in byCarArr" :key='index' @click="thisReason(item)" style="margin-bottom: 15rpx;margin-right: 35rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
+								<text style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;">{{item}}</text>
+							</view>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
+							<input class="contentFont" v-model="remark" placeholder="请选择或填写原因" />
+						</view>
+					</view>
+
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">乘车人信息</text>
+						</view>
+						<view style="display: flex;">
+							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;justify-content: space-between;">
+								<input v-model="passengerMessage" :disabled="true" class="contentFont" />
+								<view style="margin-left: 106rpx;" @click="toAddMessage">
+									<uni-icons type="plus" size="34"></uni-icons>
+								</view>
+							</view>
+						</view>
+					</view>
+
+					<view style="margin-top: 40rpx;">
+						<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
+							<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
+						</button>
+					</view>
+				</view>
 
 			</view>
 		</view>
@@ -197,8 +193,8 @@
 				],
 				datestring: '',
 				datestring1: '',
-				date: '',
-				date1: '',
+				date: '',//出发时间
+				date1: '',//返程时间
 				Week: '',
 				Week1: '',
 				value: '',
@@ -279,6 +275,30 @@
 				}
 				//清除监听，不清除会消耗资源
 				uni.$off('expectMileage');
+			});
+			uni.getStorage({ //获取起点
+				key: "StartPoint",
+				success: function(res) {
+					that.startSiteName = res.data.addressName;
+					that.startLonLat = res.data.lng + "," + res.data.lat;
+					that.startLon = res.data.lng;
+					that.startLat = res.data.lat;
+					that.startlocation = res.data;
+					console.log(res.data);
+					uni.removeStorageSync('StartPoint');
+				}
+			});
+			uni.getStorage({ //获取终点
+				key: "EndPoint",
+				success: function(res) {
+					that.endSiteName = res.data.addressName;
+					that.endLonLat = res.data.lng + "," + res.data.lat;
+					that.endLon = res.data.lng;
+					that.endLat = res.data.lat;
+					that.endlocation = res.data;
+					that.destinationArea = res.data.district; //目标区域
+				    uni.removeStorageSync('EndPoint');
+				}
 			});
 		},
 		methods: {
@@ -450,13 +470,15 @@
 					that.showToast('请选择起点');
 				} else if (that.endSiteName === '请选择终点') {
 					that.showToast('请选择终点');
-				}else{
-					that.nextOperation=1;
+				} else if(that.date>that.date1){
+					that.showToast('返程时间不能小于出发时间');
+				}else {
+					that.nextOperation = 1;
 				}
 			},
 			backButton: function() {
 				let that = this;
-				that.nextOperation=0;
+				that.nextOperation = 0;
 			},
 			isVerify: function() {
 				let that = this;

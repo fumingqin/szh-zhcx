@@ -1,11 +1,11 @@
 <template>
 	<view>
 		<!-- 顶部搜索框 -->
-		<!-- <view class="topSerchView">
+		<view class="topSerchView">
 			<view class="SearchBar" elevation='5px' style="">
-				<input class="addressInput" @input="onInput" placeholder="请输入关键字搜索" />
+				<input class="addressInput" placeholder="请前往地图选择站点或在下面列表选择站点 >" @click="selectInitial(stationType)"/>
 			</view>
-		</view> -->
+		</view>
 		<!-- 搜索列表 -->
 		<view class="stationList" :style="{ 'height':scrollHeight }" v-if="isShowList">
 			<block v-for="(item,index) in keywordList" :key="index">
@@ -258,6 +258,15 @@
 				});
 				return distinctArr
 			},
+			//选择起点
+			selectInitial: function(name) {
+				var that = this;
+					uni.navigateTo({
+						url: "./MapIndex?name=" + name
+					})
+				
+			},
+			
 			
 		}
 	}

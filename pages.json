@@ -145,6 +145,14 @@
             "path" : "pages/Volunteer/examineOrder",
             "style" : {}
         }
+        ,{
+            "path" : "pages/Volunteer/MapIndex",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/Volunteer/MapSearch",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
