@@ -78,6 +78,10 @@
 				mapStatus: 1, // 控制选择地址时 地图不加载附近列表
 				mapCtx: '',
 				Name: '',
+				startLon:'',
+				startLat:'',
+				endLon:'',
+				endLat:'',
 			}
 		},
 		onNavigationBarButtonTap() {
@@ -94,6 +98,7 @@
 				this.Name = option.name;
 			}
 			let that = this;
+			that.getBusStationList();
 			uni.getLocation({
 				type: 'gcj02', // 返回国测局坐标
 				geocode: true,
@@ -305,7 +310,67 @@
 				// })
 
 				// console.log(a)
-			}
+			},
+			//-------------------------获取站点列表数据-------------------------
+			getBusStationList(e) {
+				var that=this;
+				uni.showLoading();
+				that.mainArray=[];
+				if(that.startSiteName === '请选择起点'){
+					that.startSiteName='';
+				}
+				uni.request({
+					url:that.$volunteer.Interface.getlines.value,
+					method:that.$volunteer.Interface.getlines.method,
+					data:{
+						lineType:e,
+						pointType:that.pointType,
+						startName:that.startSiteName,
+					},
+					success: (res) => {
+						console.log(res)
+						let data = res.data.data;
+						uni.hideLoading();
+						// that.startLon = data.startLng; //起点
+						// that.startLat = data.startLat;
+						// that.endLon = data.endLng; //终点
+						// that.endLat = data.endLat;
+						var i=0;
+						for(i;i<data.length;i++){
+						that.setMarker(i, data[i].startLon, data[i].startLat, '../../static/Volunteer/Start.png');	
+						}
+						// that.setMarker(1, that.startLon, that.startLat, '../../../static/Volunteer/Start.png');
+						// that.setMarker(2, that.endLon, that.endLat, '../../../static/Volunteer/Start.png');
+					},
+					fail(res) {
+						uni.hideLoading();
+					}
+				})
+			},
+			setMarker: function(id, lon, lat, iconPath) {
+				var width = 20;
+				var height = 20;
+				// if(id==3){
+				// 	var width = 40;
+				// 	var height = 40;
+				// }
+				//描绘点的方法
+				var that = this;
+				var marker = new Object();
+				//画终点经纬度
+				marker = {
+					id: id,
+					latitude: lat,
+					longitude: lon,
+					iconPath: iconPath,
+					width: width,
+					height: height
+				};
+				var json = JSON.stringify(that.markers);
+				var arr = JSON.parse(json);
+				arr.push(marker);
+				that.markers = arr;
+			},
 		}
 	}
 </script>
