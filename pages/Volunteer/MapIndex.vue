@@ -22,7 +22,7 @@
 			</view> -->
 		</view>
 		<map id='map' :scale='map.scale' show-location="true" :longitude='map.longitude' :latitude='map.latitude'
-		 :width='map.width' :height='map.height' :controls='map.controls' :markers='map.markers' @regionchange='mapChange'
+		 :width='map.width' :height='map.height' :controls='map.controls' :markers='markers' @regionchange='mapChange'
 		 :style="{height:mapHeight}" :enable-overlooking="false" :enable-satellite="false" :enable-3D="false">
 			<!-- <cover-view class='icon-position' style="margin-top: 100px;"> -->
 			<cover-image src="../../static/Volunteer/icon_position.png" class="icon-img"></cover-image>
@@ -59,8 +59,8 @@
 				detail: '',
 				mapHeight: '',
 				map: {
-					longitude: 113.76927057974245,
-					latitude: 34.76670519464811,
+					longitude: 118.607062,
+					latitude: 24.865797,
 					showLocation: true,
 					width: 40,
 					height: 40,
@@ -82,6 +82,7 @@
 				startLat:'',
 				endLon:'',
 				endLat:'',
+				markers:[],
 			}
 		},
 		onNavigationBarButtonTap() {
@@ -329,15 +330,14 @@
 					},
 					success: (res) => {
 						console.log(res)
-						let data = res.data.data;
+						let data = res.data.data.data;
 						uni.hideLoading();
 						// that.startLon = data.startLng; //起点
 						// that.startLat = data.startLat;
 						// that.endLon = data.endLng; //终点
 						// that.endLat = data.endLat;
-						var i=0;
-						for(i;i<data.length;i++){
-						that.setMarker(i, data[i].startLon, data[i].startLat, '../../static/Volunteer/Start.png');	
+						for(var i = 0; i < data.length; i++){
+							that.setMarker(i, data[i].startLng, data[i].startLat, '../../static/Volunteer/Start.png');	
 						}
 						// that.setMarker(1, that.startLon, that.startLat, '../../../static/Volunteer/Start.png');
 						// that.setMarker(2, that.endLon, that.endLat, '../../../static/Volunteer/Start.png');
