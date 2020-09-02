@@ -262,9 +262,8 @@
 			selectInitial: function(name) {
 				var that = this;
 					uni.navigateTo({
-						url: "./MapIndex?name=" + name
+						url: "./MapIndex?name=" + name +'&startSiteName='+that.startSiteName
 					})
-				
 			},
 			
 			

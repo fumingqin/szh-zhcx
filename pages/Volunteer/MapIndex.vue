@@ -83,6 +83,7 @@
 				endLon:'',
 				endLat:'',
 				markers:[],
+				startSiteName:'',//起点名称
 			}
 		},
 		onNavigationBarButtonTap() {
@@ -100,6 +101,7 @@
 			}
 			let that = this;
 			that.getBusStationList();
+			that.startSiteName = option.startSiteName || '';
 			uni.getLocation({
 				type: 'gcj02', // 返回国测局坐标
 				geocode: true,
@@ -320,6 +322,7 @@
 				if(that.startSiteName === '请选择起点'){
 					that.startSiteName='';
 				}
+				console.log(that.startSiteName);
 				uni.request({
 					url:that.$volunteer.Interface.getlines.value,
 					method:that.$volunteer.Interface.getlines.method,
@@ -332,15 +335,13 @@
 						console.log(res)
 						let data = res.data.data.data;
 						uni.hideLoading();
-						// that.startLon = data.startLng; //起点
-						// that.startLat = data.startLat;
-						// that.endLon = data.endLng; //终点
-						// that.endLat = data.endLat;
-						for(var i = 0; i < data.length; i++){
-							that.setMarker(i, data[i].startLng, data[i].startLat, '../../static/Volunteer/Start.png');	
+						if (this.Name == "qidian") {
+							for(var i = 0; i < data.length; i++){
+								that.setMarker(i, data[i].startLng, data[i].startLat, '../../static/Volunteer/house.png');	
+							}
+						}else{
+							
 						}
-						// that.setMarker(1, that.startLon, that.startLat, '../../../static/Volunteer/Start.png');
-						// that.setMarker(2, that.endLon, that.endLat, '../../../static/Volunteer/Start.png');
 					},
 					fail(res) {
 						uni.hideLoading();
@@ -348,8 +349,8 @@
 				})
 			},
 			setMarker: function(id, lon, lat, iconPath) {
-				var width = 20;
-				var height = 20;
+				var width = 50;
+				var height = 50;
 				// if(id==3){
 				// 	var width = 40;
 				// 	var height = 40;
