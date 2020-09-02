@@ -100,8 +100,8 @@
 				this.Name = option.name;
 			}
 			let that = this;
-			that.getBusStationList();
 			that.startSiteName = option.startSiteName || '';
+			that.getBusStationList();
 			uni.getLocation({
 				type: 'gcj02', // 返回国测局坐标
 				geocode: true,
@@ -315,7 +315,7 @@
 				// console.log(a)
 			},
 			//-------------------------获取站点列表数据-------------------------
-			getBusStationList(e) {
+			getBusStationList() {
 				var that=this;
 				uni.showLoading();
 				that.mainArray=[];
@@ -327,8 +327,8 @@
 					url:that.$volunteer.Interface.getlines.value,
 					method:that.$volunteer.Interface.getlines.method,
 					data:{
-						lineType:e,
-						pointType:that.pointType,
+						lineType:'',
+						pointType:'',
 						startName:that.startSiteName,
 					},
 					success: (res) => {
@@ -340,7 +340,12 @@
 								that.setMarker(i, data[i].startLng, data[i].startLat, '../../static/Volunteer/house.png');	
 							}
 						}else{
-							
+							var endList=data.filter(item => {
+								return item.startName == that.startSiteName;
+							})
+							for(var i = 0; i < endList.length; i++){
+								that.setMarker(i, endList[i].endLng, endList[i].endLat, '../../static/Volunteer/house.png');	
+							}
 						}
 					},
 					fail(res) {
