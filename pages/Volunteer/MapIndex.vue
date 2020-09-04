@@ -85,7 +85,8 @@
 				markers:[],
 				startSiteName:'',//起点名称
 				
-				stationList:[],	//站点列表
+				stationList:[],	//所有站点列表
+				endList:[], //终点列表
 			}
 		},
 		onNavigationBarButtonTap() {
@@ -345,11 +346,11 @@
 								that.setMarker(i, this.stationList[i].startLng, this.stationList[i].startLat, '../../static/Volunteer/house.png',this.stationList[i].startName);	
 							}
 						}else{
-							var endList=this.stationList.filter(item => {
+							this.endList=this.stationList.filter(item => {
 								return item.startName == that.startSiteName;
 							})
-							for(var i = 0; i < endList.length; i++){
-								that.setMarker(i, endList[i].endLng, endList[i].endLat, '../../static/Volunteer/house.png',this.stationList[i].endName);	
+							for(var i = 0; i < this.endList.length; i++){
+								that.setMarker(i, this.endList[i].endLng, this.endList[i].endLat, '../../static/Volunteer/house.png',this.endList[i].endName);	
 							}
 						}
 					},
@@ -410,7 +411,7 @@
 				if (this.Name == "zhongdian") {
 					uni.setStorage({
 						key: "EndPoint",
-						data: this.stationList[e.detail.markerId].endName,
+						data: this.endList[e.detail.markerId].endName,
 						success() {
 							uni.navigateBack({
 								delta: 2
