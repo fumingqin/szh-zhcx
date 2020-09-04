@@ -279,24 +279,15 @@
 			uni.getStorage({ //获取起点
 				key: "StartPoint",
 				success: function(res) {
-					that.startSiteName = res.data.addressName;
-					that.startLonLat = res.data.lng + "," + res.data.lat;
-					that.startLon = res.data.lng;
-					that.startLat = res.data.lat;
-					that.startlocation = res.data;
-					console.log(res.data);
+					console.log(res);
+					that.startSiteName = res.data;				
 					uni.removeStorageSync('StartPoint');
 				}
 			});
 			uni.getStorage({ //获取终点
 				key: "EndPoint",
 				success: function(res) {
-					that.endSiteName = res.data.addressName;
-					that.endLonLat = res.data.lng + "," + res.data.lat;
-					that.endLon = res.data.lng;
-					that.endLat = res.data.lat;
-					that.endlocation = res.data;
-					that.destinationArea = res.data.district; //目标区域
+					that.endSiteName = res.data;
 				    uni.removeStorageSync('EndPoint');
 				}
 			});

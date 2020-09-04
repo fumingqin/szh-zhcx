@@ -23,7 +23,7 @@
 		</view>
 		<map id='map' :scale='map.scale' show-location="true" :longitude='map.longitude' :latitude='map.latitude'
 		 :width='map.width' :height='map.height' :controls='map.controls' :markers='markers' @regionchange='mapChange'
-		 :style="{height:mapHeight}" :enable-overlooking="false" :enable-satellite="false" :enable-3D="false" @markertap="ss">
+		 :style="{height:mapHeight}" :enable-overlooking="false" :enable-satellite="false" :enable-3D="false" @markertap="getStationName">
 			<!-- <cover-view class='icon-position' style="margin-top: 100px;"> -->
 			<cover-image src="../../static/Volunteer/icon_position.png" class="icon-img"></cover-image>
 			<!-- </cover-view> -->
@@ -84,6 +84,8 @@
 				endLat:'',
 				markers:[],
 				startSiteName:'',//起点名称
+				
+				stationList:[],	//站点列表
 			}
 		},
 		onNavigationBarButtonTap() {
@@ -336,18 +338,18 @@
 					},
 					success: (res) => {
 						console.log(res)
-						let data = res.data.data.data;
+						this.stationList = res.data.data.data;
 						uni.hideLoading();
 						if (this.Name == "qidian") {
-							for(var i = 0; i < data.length; i++){
-								that.setMarker(i, data[i].startLng, data[i].startLat, '../../static/Volunteer/house.png');	
+							for(var i = 0; i < this.stationList.length; i++){
+								that.setMarker(i, this.stationList[i].startLng, this.stationList[i].startLat, '../../static/Volunteer/house.png',this.stationList[i].startName);	
 							}
 						}else{
-							var endList=data.filter(item => {
+							var endList=this.stationList.filter(item => {
 								return item.startName == that.startSiteName;
 							})
 							for(var i = 0; i < endList.length; i++){
-								that.setMarker(i, endList[i].endLng, endList[i].endLat, '../../static/Volunteer/house.png');	
+								that.setMarker(i, endList[i].endLng, endList[i].endLat, '../../static/Volunteer/house.png',this.stationList[i].endName);	
 							}
 						}
 					},
@@ -356,7 +358,7 @@
 					}
 				})
 			},
-			setMarker: function(id, lon, lat, iconPath) {
+			setMarker: function(id, lon, lat, iconPath,name) {
 				var width = 50;
 				var height = 50;
 				// if(id==3){
@@ -375,7 +377,7 @@
 					width: width,
 					height: height,
 					callout: {
-						content: '站点',
+						content: name,
 						color: '#000000',
 						fontSize: 10,
 						borderRadius: 4,
@@ -390,6 +392,32 @@
 				var arr = JSON.parse(json);
 				arr.push(marker);
 				that.markers = arr;
+			},
+			
+			//-----------------------------点击图标获取相应的站点名称-----------------------------
+			getStationName(e){
+				if (this.Name == "qidian") {
+					uni.setStorage({
+						key: "StartPoint",
+						data: this.stationList[e.detail.markerId].startName,
+						success() {
+							uni.navigateBack({
+								delta: 2
+							})
+						}
+					})
+				}
+				if (this.Name == "zhongdian") {
+					uni.setStorage({
+						key: "EndPoint",
+						data: this.stationList[e.detail.markerId].endName,
+						success() {
+							uni.navigateBack({
+								delta: 2
+							})
+						}
+					})
+				}
 			},
 		}
 	}
