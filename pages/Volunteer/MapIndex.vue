@@ -23,12 +23,12 @@
 		</view>
 		<map id='map' :scale='map.scale' show-location="true" :longitude='map.longitude' :latitude='map.latitude'
 		 :width='map.width' :height='map.height' :controls='map.controls' :markers='markers' @regionchange='mapChange'
-		 :style="{height:mapHeight}" :enable-overlooking="false" :enable-satellite="false" :enable-3D="false">
+		 :style="{height:mapHeight}" :enable-overlooking="false" :enable-satellite="false" :enable-3D="false" @markertap="ss">
 			<!-- <cover-view class='icon-position' style="margin-top: 100px;"> -->
 			<cover-image src="../../static/Volunteer/icon_position.png" class="icon-img"></cover-image>
 			<!-- </cover-view> -->
 		</map>
-		<view class='footer bg-ff font-26'>
+		<!-- <view class='footer bg-ff font-26'>
 			<scroll-view scroll-y class='scroll' :scroll-top='scrollTop'>
 				<view class="">
 					<view class='padding border-b position-r' v-for='(item, index) in list' :key='index' @click='bindAddress(index)'>
@@ -39,7 +39,7 @@
 				</view>
 
 			</scroll-view>
-		</view>
+		</view> -->
 	</view>
 </template>
 <script>
@@ -57,7 +57,7 @@
 		data() {
 			return {
 				detail: '',
-				mapHeight: '',
+				mapHeight: '1100rpx',
 				map: {
 					longitude: 118.607062,
 					latitude: 24.865797,
@@ -116,11 +116,11 @@
 					})
 				}
 			});
-			uni.getSystemInfo({
-				success(res) {
-					that.mapHeight = res.windowHeight - (res.windowWidth*120)/750 - 210 + 'px';
-				}
-			})
+			// uni.getSystemInfo({
+			// 	success(res) {
+			// 		that.mapHeight = res.windowHeight - (res.windowWidth*120)/750 - 210 + 'px';
+			// 	}
+			// })
 			// this.getWidthHeight(e => {
 			// 	console.log(e);
 			//   map.controls[0].position.top = e.height - 45
@@ -133,13 +133,16 @@
 		},
 		mounted() {
 			let that = this
-			uni.getSystemInfo({
-				success(res) {
-					that.mapHeight = res.windowHeight - (res.windowWidth*120)/750 - 210 + 'px';
-				}
-			})
+			// uni.getSystemInfo({
+			// 	success(res) {
+			// 		that.mapHeight = res.windowHeight - (res.windowWidth*120)/750 - 210 + 'px';
+			// 	}
+			// })
 		},
 		methods: {
+			ss:function(e){
+				console.log(e);
+			},
 			getAddress() {
 				let that = this
 				uni.getLocation({
@@ -370,7 +373,18 @@
 					longitude: lon,
 					iconPath: iconPath,
 					width: width,
-					height: height
+					height: height,
+					callout: {
+						content: '站点',
+						color: '#000000',
+						fontSize: 10,
+						borderRadius: 4,
+						borderWidth: 1,
+						borderColor: '#333300',
+						bgColor: '#FFFFFF',
+						padding: '5',
+						display: 'ALWAYS'
+					}
 				};
 				var json = JSON.stringify(that.markers);
 				var arr = JSON.parse(json);
@@ -645,7 +659,7 @@
 	.map,
 	map {
 		width: 750rpx;
-		// height: 424px;
+		height: 1100rpx;
 		position: absolute;
 		left: 0;
 		top: 120rpx;

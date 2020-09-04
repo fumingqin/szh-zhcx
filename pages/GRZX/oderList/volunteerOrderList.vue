@@ -42,7 +42,11 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
+										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">返程时间：{{formatTime(item.returnTime)}}</view>
+										<view style="margin-top: 10rpx;display: flex;">
+											<view>可乘人数：{{item.peoperNumber}}人</view>
+											<view style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+										</view>
 										<view v-if="item.orderState == '未通过'" style="margin-top: 10rpx;">未通过原因：{{item.reason}}</view>
 									</view>
 									<view class="btnarea">
@@ -106,7 +110,11 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
+										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">返程时间：{{formatTime(item.returnTime)}}</view>
+										<view style="margin-top: 10rpx;display: flex;">
+											<view>可乘人数：{{item.peoperNumber}}人</view>
+											<view style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+										</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -162,7 +170,11 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
+										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">返程时间：{{formatTime(item.returnTime)}}</view>
+										<view style="margin-top: 10rpx;display: flex;">
+											<view>可乘人数：{{item.peoperNumber}}人</view>
+											<view style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+										</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -206,7 +218,11 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
+										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">返程时间：{{formatTime(item.returnTime)}}</view>
+										<view style="margin-top: 10rpx;display: flex;">
+											<view>可乘人数：{{item.peoperNumber}}人</view>
+											<view style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+										</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -253,7 +269,11 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
+										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">返程时间：{{formatTime(item.returnTime)}}</view>
+										<view style="margin-top: 10rpx;display: flex;">
+											<view>可乘人数：{{item.peoperNumber}}人</view>
+											<view style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+										</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -305,7 +325,11 @@
 										<view style="margin-top: 10rpx;">目的地：{{item.endAddress}}</view>
 										<!-- <view style="margin-top: 10rpx;">下单时间：{{formatTime(item.orderTime)}}</view> -->
 										<view style="margin-top: 10rpx;">出发时间：{{formatTime(item.runTime)}}</view>
-										<view style="margin-top: 10rpx;">乘车人数：{{item.peoperNumber}}人</view>
+										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">返程时间：{{formatTime(item.returnTime)}}</view>
+										<view style="margin-top: 10rpx;display: flex;">
+											<view>可乘人数：{{item.peoperNumber}}人</view>
+											<view style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+										</view>
 									</view>
 									<view class="btnarea">
 										<view v-if="item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">
@@ -469,13 +493,16 @@
 										title: item.line.name, //线路名称
 										//orderTime: item.createTime, //订单时间
 										runTime: item.orderTime, //出发时间
+										returnTime:item.returnTime,//返程时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
-										peoperNumber: item.peoperNumber, //乘车人数
+										peoperNumber: item.peoperNumber, //可乘人数
+										realPeopleNumber: item.realPeopleNumber,//用车人数
 										reason: item.failReason, //未通过原因
 										passengers: item.passengers, //乘车人信息
+										isReturn:item.isReturn,//是否往返
 									};
 									that.orderArr.push(obj);
 								} else if (item.state == "waiting" && item.peoperNumber > 0 && item.parentId == null) {
@@ -484,12 +511,15 @@
 										id: item.id, //订单ID
 										title: item.line.name, //线路名称
 										runTime: item.orderTime, //出发时间
+										returnTime:item.returnTime,//返程时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
+										isReturn:item.isReturn,//是否往返
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId != null) {
@@ -498,12 +528,15 @@
 										id: item.id, //订单ID
 										title: item.line.name, //线路名称
 										runTime: item.orderTime, //出发时间
+										returnTime:item.returnTime,//返程时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
+										isReturn:item.isReturn,//是否往返
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId == null && item.state == 'cancel') {
@@ -512,12 +545,15 @@
 										id: item.id, //订单ID
 										title: item.line.name, //线路名称
 										runTime: item.orderTime, //出发时间
+										returnTime:item.returnTime,//返程时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
+										isReturn:item.isReturn,//是否往返
 									};
 									that.orderArr.push(obj);
 								}
@@ -584,13 +620,16 @@
 										title: item.line.name, //线路名称
 										//orderTime: item.createTime, //订单时间
 										runTime: item.orderTime, //出发时间
+										returnTime:item.returnTime,//返程时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										realPeopleNumber: item.realPeopleNumber,//用车人数
 										reason: item.failReason, //未通过原因
 										passengers: item.passengers, //乘车人信息
+										isReturn:item.isReturn,//是否往返
 									};
 									that.orderArr.push(obj);
 								} else if (item.state == "waiting" && item.peoperNumber > 0 && item.parentId == null) {
@@ -599,12 +638,15 @@
 										id: item.id, //订单ID
 										title: item.line.name, //线路名称
 										runTime: item.orderTime, //出发时间
+										returnTime:item.returnTime,//返程时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
+										isReturn:item.isReturn,//是否往返
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId != null) {
@@ -613,12 +655,15 @@
 										id: item.id, //订单ID
 										title: item.line.name, //线路名称
 										runTime: item.orderTime, //出发时间
+										returnTime:item.returnTime,//返程时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
+										isReturn:item.isReturn,//是否往返
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId == null && item.state == 'cancel') {
@@ -627,12 +672,15 @@
 										id: item.id, //订单ID
 										title: item.line.name, //线路名称
 										runTime: item.orderTime, //出发时间
+										returnTime:item.returnTime,//返程时间
 										endAddress: item.line.endName, //目的地
 										startAddress: item.line.startName, //出发点
 										orderState: that.formatState(item.state), //订单状态
 										state: item.state, //订单状态
 										peoperNumber: item.peoperNumber, //乘车人数
+										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
+										isReturn:item.isReturn,//是否往返
 									};
 									that.orderArr.push(obj);
 								}
@@ -768,8 +816,12 @@
 				// } else {
 				// 	return dateTime;
 				// }
-				var dateTime = time.substring(0, 16);
-				return dateTime;
+				if(time==null){
+					return time;
+				}else{
+					var dateTime = time.substring(0, 16);
+					return dateTime;
+				}
 			},
 			//-------------------扫码验证------------------------------
 
