@@ -57,7 +57,7 @@
 		data() {
 			return {
 				detail: '',
-				mapHeight: '1100rpx',
+				mapHeight: '1500rpx',
 				map: {
 					longitude: 118.607062,
 					latitude: 24.865797,

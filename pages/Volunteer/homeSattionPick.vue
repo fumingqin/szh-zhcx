@@ -3,7 +3,8 @@
 		<!-- 顶部搜索框 -->
 		<view class="topSerchView">
 			<view class="SearchBar" elevation='5px' style="">
-				<input class="addressInput" placeholder="请前往地图选择站点或在下面列表选择站点 >" @click="selectInitial(stationType)"/>
+				<view class="addressInput"  @click="selectInitial(stationType)">请前往地图选择站点或在下面列表选择站点 ></view>
+				<!-- <input class="addressInput" placeholder="请前往地图选择站点或在下面列表选择站点 >" @click="selectInitial(stationType)"/> -->
 			</view>
 		</view>
 		<!-- 搜索列表 -->
