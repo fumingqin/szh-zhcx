@@ -33,6 +33,10 @@
 					<text class="fontClass" >{{formatOrderTime(item.orderTime)}}</text>
 				</view>
 				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;margin-top: 0;">
+					<text class="fontClass" style="width:140rpx;">是否往返:</text>
+					<text class="fontClass" >{{formatIsReturn(item.isReturn)}}</text>
+				</view>
+				<view style="margin: 20rpx 44rpx;display: flex;flex-direction: row;margin-top: 0;">
 					<text class="fontClass" style="width:140rpx;">线路名称:</text>
 					<text class="fontClass" >{{item.line.name}}</text>
 				</view>
@@ -62,6 +66,16 @@
 			</view>
 			
 		</scroll-view>
+		<view style="position: fixed;bottom: 30rpx;left: 0;right: 0;width: 750rpx;">
+			<view style="display: flex;flex-direction: row;border:solid 1px #FFFFFF;margin: 0 25rpx;">
+				<view @click="toPersonal" style="width: 346rpx;text-align: center;border-right: 4px solid #FFFFFF;background-color: #0073CE;padding: 20rpx 0;">
+					<text style="color: #FFFFFF;">个人中心</text>
+				</view>
+				<view @click="toOrderList" style="width: 346rpx;text-align: center;background-color: #0073CE;padding: 20rpx 0;">
+					<text style="color: #FFFFFF;">订单列表</text>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -232,6 +246,9 @@
 			},
 			formatOrderTime:function(time){
 				return time.substring(0,time.length-3);
+			},
+			formatIsReturn:function(isReturn){
+				return isReturn == null ? '否':'是';
 			},
 			toOrderList:function(){
 				uni.navigateTo({
