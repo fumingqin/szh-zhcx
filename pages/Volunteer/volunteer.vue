@@ -76,7 +76,7 @@
 
 						<view v-if="orderType==1">
 							<view style="padding-top: 20rpx ;">
-								<text class="titleFont">返程时间</text>
+								<text style="color: #ff0000;">请在下面选择返程时间</text>
 							</view>
 							<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;">
 								<text style="letter-spacing:1px" @click="onShowDatePicker1('datetime')">{{datestring1}}</text>
