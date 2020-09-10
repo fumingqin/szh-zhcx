@@ -40,6 +40,17 @@
 					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">实际里程：{{estimateMileage}}公里</text>
 					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">用车时间：{{useTime}}分钟</text>
 				</view>
+				
+				<view style="background-color: #FFFFFF;justify-content: space-between;padding: 20rpx;margin-top: 20rpx;border-radius: 20upx;box-shadow:0rpx 6rpx 20rpx 0rpx rgba(231,231,231,0.53);">
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">上车点：{{startName}}</text>
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;margin-top: 10rpx;">目的地：{{endName}}</text>
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;margin-top: 10rpx;">出发时间：{{orderTime}}</text>
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;margin-top: 10rpx;">返程时间：{{returnTime}}</text>
+					<view style="flex-direction: row;margin-top: 10rpx;">
+						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">可乘人数：{{peoperNumber}}人</text>
+						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;margin-left: 40rpx;">用车人数：{{realPeopleNumber}}人</text>
+					</view>
+				</view>
 
 			</view>
 		</scroll-view>
@@ -62,7 +73,7 @@
 				polyline: [],
 				markers: [],
 				mapHeight: '',
-				viewHeight: '220px',
+				viewHeight: '350px',
 				orderNumber: '',
 				driverName: '',
 				driverPhone: '',
@@ -76,6 +87,12 @@
 				timeId: 0, //定时器的id
 				estimateMileage: '', //预计里程
 				useTime: '', //用车时间
+				orderTime: '', 
+				returnTime: '', 
+				startName: '', 
+				endName: '', 
+				peoperNumber: '', 
+				realPeopleNumber: '', 
 			}
 		},
 		onLoad(option) {
@@ -131,6 +148,12 @@
 							var num = parseFloat(data.line.expectMileage);
 							that.estimateMileage=num.toFixed(1);//预计里程
 							that.useTime=data.useTime;//用车时间
+							that.orderTime=data.orderTime, //出发时间
+							that.returnTime=data.returnTime,//返程时间
+							that.endName=data.line.endName, //目的地
+							that.startName=data.line.startName, //出发点
+							that.peoperNumber=data.peoperNumber, //可乘人数
+							that.realPeopleNumber=data.realPeopleNumber,//用车人数
 							that.setMarker(1, that.startLon, that.startLat, '../../../static/Volunteer/Start.png');
 							that.setMarker(2, that.endLon, that.endLat, '../../../static/Volunteer/End.png');
 							that.setMarker(3, that.cartLon, that.cartLat, '../../../static/Volunteer/Car.png');
