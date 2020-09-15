@@ -36,6 +36,22 @@
 					</view>
 				</view>
 
+				<view style="flex-direction: row;background-color: #FFFFFF;justify-content: space-between;align-items: center;padding: 20rpx;margin-top: 20rpx;border-radius: 20upx;box-shadow:0rpx 6rpx 20rpx 0rpx rgba(231,231,231,0.53);">
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">实际里程：{{estimateMileage}}公里</text>
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">用车时间：{{useTime}}分钟</text>
+				</view>
+				
+				<view style="background-color: #FFFFFF;justify-content: space-between;padding: 20rpx;margin-top: 20rpx;border-radius: 20upx;box-shadow:0rpx 6rpx 20rpx 0rpx rgba(231,231,231,0.53);">
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">上车点：{{startName}}</text>
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;margin-top: 10rpx;">目的地：{{endName}}</text>
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;margin-top: 10rpx;">出发时间：{{orderTime}}</text>
+					<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;margin-top: 10rpx;">返程时间：{{returnTime}}</text>
+					<view style="flex-direction: row;margin-top: 10rpx;">
+						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;">可乘人数：{{peoperNumber}}人</text>
+						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#2C2D2D;margin-left: 40rpx;">用车人数：{{realPeopleNumber}}人</text>
+					</view>
+				</view>
+
 			</view>
 		</scroll-view>
 	</view>
@@ -57,7 +73,7 @@
 				polyline: [],
 				markers: [],
 				mapHeight: '',
-				viewHeight: '170px',
+				viewHeight: '350px',
 				orderNumber: '',
 				driverName: '',
 				driverPhone: '',
@@ -67,8 +83,16 @@
 				endLon: "", //结束
 				endLat: "",
 				cartLon: "", //车辆经度
-				cartLat: "",//车辆纬度
+				cartLat: "", //车辆纬度
 				timeId: 0, //定时器的id
+				estimateMileage: '', //预计里程
+				useTime: '', //用车时间
+				orderTime: '', 
+				returnTime: '', 
+				startName: '', 
+				endName: '', 
+				peoperNumber: '', 
+				realPeopleNumber: '', 
 			}
 		},
 		onLoad(option) {
@@ -86,8 +110,7 @@
 		onUnload() {
 			clearInterval(this.timeId); //清除定时器
 		},
-		onShow() {
-		},
+		onShow() {},
 		mounted() {
 			let that = this;
 			uni.getSystemInfo({
@@ -111,19 +134,26 @@
 					success(res) {
 						let data = res.data.data;
 						if (res.data.code == 200) {
-							that.markers=[];
+							that.markers = [];
 							console.log(res.data)
-							console.log(that.cartLon);
-							console.log(that.cartLat);
 							that.startLon = data.line.startLng; //起点
 							that.startLat = data.line.startLat;
 							that.endLon = data.line.endLng; //终点
 							that.endLat = data.line.endLat;
-							that.cartLon=data.car.lon;//车辆经纬度
-							that.cartLat=data.car.lat;
+							that.cartLon = data.car.lon; //车辆经纬度
+							that.cartLat = data.car.lat;
 							that.driverName = data.driver.name;
 							that.vehicleNumber = data.car.licensePlate; //车牌号
 							that.driverPhone = data.driver.tel; //司机电话
+							var num = parseFloat(data.line.expectMileage);
+							that.estimateMileage=num.toFixed(1);//预计里程
+							that.useTime=data.useTime;//用车时间
+							that.orderTime=data.orderTime, //出发时间
+							that.returnTime=data.returnTime,//返程时间
+							that.endName=data.line.endName, //目的地
+							that.startName=data.line.startName, //出发点
+							that.peoperNumber=data.peoperNumber, //可乘人数
+							that.realPeopleNumber=data.realPeopleNumber,//用车人数
 							that.setMarker(1, that.startLon, that.startLat, '../../../static/Volunteer/Start.png');
 							that.setMarker(2, that.endLon, that.endLat, '../../../static/Volunteer/End.png');
 							that.setMarker(3, that.cartLon, that.cartLat, '../../../static/Volunteer/Car.png');
@@ -155,9 +185,9 @@
 				uni.navigateBack({});
 			},
 			setMarker: function(id, lon, lat, iconPath) {
-				var width = 20;
-				var height = 20;
-				if(id==3){
+				var width = 30;
+				var height = 30;
+				if (id == 3) {
 					var width = 40;
 					var height = 40;
 				}
@@ -185,14 +215,14 @@
 				//路径规划
 				var that = this;
 				uni.request({
-					url:$taxi.Interface.track.value,
+					url: $taxi.Interface.track.value,
 					method: $taxi.Interface.track.method,
 					data: {
-						orderId:that.orderNumber
+						orderId: that.orderNumber
 					},
 					success: function(res) {
 						let data = res.data.data;
-						if(res.data.code===200){
+						if (res.data.code === 200) {
 							for (let i of data) {
 								var obj = {
 									longitude: i.lng,
@@ -211,9 +241,9 @@
 					},
 				});
 			},
-			formatTel:function(tel){
+			formatTel: function(tel) {
 				//substring()，第一个数字包括，第二个数字不包括
-				return tel.substring(0,3) + '****' + tel.substring(7,tel.length);
+				return tel.substring(0, 3) + '****' + tel.substring(7, tel.length);
 			},
 		}
 	}
