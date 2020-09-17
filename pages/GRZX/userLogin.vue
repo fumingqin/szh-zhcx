@@ -286,6 +286,13 @@
 								icon:'none',
 							})
 						}
+					},fail: () => {
+						uni.showToast({
+							title:'网络连接失败',
+							icon:'none',
+						})
+					},complete: () =>{
+						uni.hideLoading();
 					}
 				})
 			},
