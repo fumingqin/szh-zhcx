@@ -292,7 +292,9 @@
 							icon:'none',
 						})
 					},complete: () =>{
-						uni.hideLoading();
+						setTimeout(function(){
+							uni.hideLoading();
+						},2000)
 					}
 				})
 			},
