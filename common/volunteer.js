@@ -1,4 +1,5 @@
-const Url = 'https://qzcln.com:10022'; //https请求
+// const Url = 'https://qzcln.com:10022'; //https请求
+const Url = 'https://115.239.255.95:10022'; //https请求
 
 const Interface={
 	getlines:{
