@@ -1,5 +1,5 @@
 // const Url = 'https://qzcln.com:10022'; //https请求
-const Url = 'https://xmjdt.cn:10022'; //https请求
+const Url = 'https://36.148.9.1:10022'; //https请求
 
 const Interface={
 	getlines:{
