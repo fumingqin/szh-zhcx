@@ -1,5 +1,5 @@
 // const Url = 'http://36.148.9.1:10022'; //http请求
-const Url = 'https://115.239.255.95:10022'; //https请求
+const Url = 'https://xmjdt.cn:10022'; //https请求
 
 const Interface={
 	login:{
