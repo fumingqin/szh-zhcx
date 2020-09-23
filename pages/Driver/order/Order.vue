@@ -38,8 +38,10 @@
 									</view>
 									
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
+										<view>订单类型：{{formatOrderType(item.isReturn)}}</view>
 										<view>订单号：{{item.no}}</view>
 										<view>上车时间：{{formatOrderTime(item.orderTime)}}</view>
+										<view v-if="item.isReturn==='往'">返回时间：{{formatOrderTime(item.returnTime)}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
 										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
@@ -283,6 +285,7 @@
 					},
 					success: function(res) {
 						uni.hideLoading();
+						console.log(res);
 						let data = res.data.data;
 						if (res.data.code===200) {
 							that.orderArr = [];
@@ -452,6 +455,9 @@
 				}
 			},
 			formatOrderTime:function(time){
+				if(time == null){
+					return '';
+				}
 				return time.substring(0,time.length - 3);
 			},
 			
@@ -473,6 +479,13 @@
 					}
 				}
 				return ret;
+			},
+			formatOrderType:function(isReturn){
+				if(isReturn == null){
+					return '单程'
+				}else{
+					return '往返'
+				}
 			}
 		}
 	}
