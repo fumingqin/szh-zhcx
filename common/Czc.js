@@ -2,7 +2,7 @@
 // 示例
 
 //接口域名
-const Url = 'https://36.148.9.1:10022';//许接口地址
+const Url = 'https://szy.qzcln.com';//许接口地址
 const Url1 = 'https://szh.ipin8.com:3507';//叶接口地址
 //接口对象
 const Interface = {
