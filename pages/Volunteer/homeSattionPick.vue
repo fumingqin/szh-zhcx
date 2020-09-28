@@ -247,6 +247,11 @@
 			swiperChange(e){
 				let index=e.detail.current;
 				this.leftIndex=Number(index);
+				if(e.detail.current==0){
+					this.getBusStationList('hotel');
+				}else{
+					this.getBusStationList('venue');
+				}
 			},
 			//-------------------------数组去重-------------------------
 			arrayDistinct: function(array) {
