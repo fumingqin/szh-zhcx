@@ -348,7 +348,7 @@
 									img = '../../static/Volunteer/house.png';
 								}
 								else if(this.stationList[i].startType=="1"){
-									img = '../../static/Volunteer/venue.png';
+									img = '../../static/Volunteer/hospital.png';
 								}
 								else if(this.stationList[i].startType=="2"){
 									img = '../../static/Volunteer/venue.png';
@@ -362,7 +362,7 @@
 								else if(this.stationList[i].startType=="5"){
 									img = '../../static/Volunteer/venue.png';
 								}
-								that.setMarker(i, this.stationList[i].startLng, this.stationList[i].startLat, img ,this.stationList[i].startName);
+								that.setMarker(i, this.stationList[i].startLng, this.stationList[i].startLat, img ,this.stationList[i].startName,this.stationList[i].startType);
 							}
 						}else{
 							this.endList=this.stationList.filter(item => {
@@ -379,7 +379,7 @@
 									img = '../../static/Volunteer/venue.png';
 								}
 								else if(this.endList[i].endType=="3"){
-									img = '../../static/Volunteer/venue.png';;
+									img = '../../static/Volunteer/venue.png';
 								}
 								else if(this.endList[i].endType=="4"){
 									img = '../../static/Volunteer/venue.png';
@@ -387,7 +387,7 @@
 								else if(this.endList[i].endType=="5"){
 									img = '../../static/Volunteer/venue.png';
 								}
-								that.setMarker(i, this.endList[i].endLng, this.endList[i].endLat, img,this.endList[i].endName);
+								that.setMarker(i, this.endList[i].endLng, this.endList[i].endLat, img,this.endList[i].endName,this.endList[i].endType);
 							}
 						}
 					},
@@ -396,10 +396,10 @@
 					}
 				})
 			},
-			setMarker: function(id, lon, lat, iconPath,name) {
-				var width = 50;
-				var height = 50;
-				// if(id==3){
+			setMarker: function(id, lon, lat, iconPath,name,type) {
+				var width = 40;
+				var height = 40;
+				// if(type=="3" || type=="4"){
 				// 	var width = 40;
 				// 	var height = 40;
 				// }
