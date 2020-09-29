@@ -348,13 +348,13 @@
 									img = '../../static/Volunteer/house.png';
 								}
 								else if(this.stationList[i].startType=="1"){
-									img = '../../static/Volunteer/hospital.png';
+									img = '../../static/Volunteer/venue.png';
 								}
 								else if(this.stationList[i].startType=="2"){
-									img = '../../static/Volunteer/venue.png';
+									img = '../../static/Volunteer/hospital.png';
 								}
 								else if(this.stationList[i].startType=="3"){
-									img = '../../static/Volunteer/venue.png';
+									img = '../../static/Volunteer/trafficLight.png';
 								}
 								else if(this.stationList[i].startType=="4"){
 									img = '../../static/Volunteer/venue.png';
@@ -376,10 +376,10 @@
 									img = '../../static/Volunteer/venue.png';
 								}
 								else if(this.endList[i].endType=="2"){
-									img = '../../static/Volunteer/venue.png';
+									img = '../../static/Volunteer/hospital.png';
 								}
 								else if(this.endList[i].endType=="3"){
-									img = '../../static/Volunteer/venue.png';
+									img = '../../static/Volunteer/trafficLight.png';
 								}
 								else if(this.endList[i].endType=="4"){
 									img = '../../static/Volunteer/venue.png';
@@ -397,12 +397,12 @@
 				})
 			},
 			setMarker: function(id, lon, lat, iconPath,name,type) {
-				var width = 40;
-				var height = 40;
-				// if(type=="3" || type=="4"){
-				// 	var width = 40;
-				// 	var height = 40;
-				// }
+				var width = 45;
+				var height = 45;
+				if(type=="2" || type=="3"){
+					var width = 40;
+					var height = 40;
+				}
 				//描绘点的方法
 				var that = this;
 				var marker = new Object();
