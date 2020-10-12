@@ -291,6 +291,8 @@
 				    uni.removeStorageSync('EndPoint');
 				}
 			});
+			that.getTodayDate();
+			that.getTodayDate1();
 		},
 		methods: {
 			// ---------------------------加载图片----------------------------
