@@ -64,9 +64,9 @@
 											<button @click="confirmGetToDestination(item)" style="background-color: #FC4646;color: #FFF;width: auto;"
 											 type="default">确认到达</button>
 										</view>
-										<!-- <view v-if="item.orderState == '审核中'">
+										<view v-if="item.orderState == '审核中'&& userInfo.isManager=='是'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
-										</view> -->
+										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待派车'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
@@ -289,9 +289,9 @@
 												<button @click="confirmgetonCar(item)" style="width: auto;background-color: #FC4646;color: #FFF;" type="default">确认上车</button>
 											</view>
 										</view>
-										<!-- <view v-if="item.orderState == '审核中'">
+										<view v-if="item.orderState == '审核中'&& userInfo.isManager=='是'">
 											<button @click="examine(item)" style="width: auto;" type="default">审核</button>
-										</view> -->
+										</view>
 										<view v-if="item.orderState == '审核中'||item.orderState == '待派车'">
 											<button @click="cancelOrder(item.id)" style="width: auto;" type="default">取消订单</button>
 										</view>
@@ -503,6 +503,7 @@
 										reason: item.failReason, //未通过原因
 										passengers: item.passengers, //乘车人信息
 										isReturn:item.isReturn,//是否往返
+										signaturePhoto:item.signaturePhoto,
 									};
 									that.orderArr.push(obj);
 								} else if (item.state == "waiting" && item.peoperNumber > 0 && item.parentId == null) {
@@ -520,6 +521,7 @@
 										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
 										isReturn:item.isReturn,//是否往返
+										signaturePhoto:item.signaturePhoto,
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId != null) {
@@ -537,6 +539,7 @@
 										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
 										isReturn:item.isReturn,//是否往返
+										signaturePhoto:item.signaturePhoto,
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId == null && item.state == 'cancel') {
@@ -554,6 +557,7 @@
 										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
 										isReturn:item.isReturn,//是否往返
+										signaturePhoto:item.signaturePhoto,
 									};
 									that.orderArr.push(obj);
 								}
@@ -630,6 +634,7 @@
 										reason: item.failReason, //未通过原因
 										passengers: item.passengers, //乘车人信息
 										isReturn:item.isReturn,//是否往返
+										signaturePhoto:item.signaturePhoto,
 									};
 									that.orderArr.push(obj);
 								} else if (item.state == "waiting" && item.peoperNumber > 0 && item.parentId == null) {
@@ -647,6 +652,7 @@
 										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
 										isReturn:item.isReturn,//是否往返
+										signaturePhoto:item.signaturePhoto,
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId != null) {
@@ -664,6 +670,7 @@
 										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
 										isReturn:item.isReturn,//是否往返
+										signaturePhoto:item.signaturePhoto,
 									};
 									that.orderArr.push(obj);
 								} else if (item.parentId == null && item.state == 'cancel') {
@@ -681,6 +688,7 @@
 										realPeopleNumber: item.realPeopleNumber,//用车人数
 										passengers: item.passengers, //乘车人信息
 										isReturn:item.isReturn,//是否往返
+										signaturePhoto:item.signaturePhoto,
 									};
 									that.orderArr.push(obj);
 								}
@@ -722,7 +730,8 @@
 				});
 			},
 			//--------------------订单审核--------------------------
-			examine: function() {
+			examine: function(item) {
+				uni.setStorageSync('orderDetail',item);
 				uni.navigateTo({
 					url: '../../Volunteer/examineOrder',
 				});
