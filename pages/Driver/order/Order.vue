@@ -41,7 +41,7 @@
 										<view>订单类型：{{formatOrderType(item.isReturn)}}</view>
 										<view>订单号：{{item.no}}</view>
 										<view>预计上车时间：{{formatOrderTime(item.orderTime)}}</view>
-										<view>实际上车时间：{{item.dispatchTime}}</view>
+										<view>实际上车时间：{{formatDispatchTime(item.dispatchTime)}}</view>
 										<view v-if="item.isReturn==='往'">返回时间：{{formatOrderTime(item.returnTime)}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
@@ -89,7 +89,7 @@
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
 										<view>预计上车时间：{{formatOrderTime(item.orderTime)}}</view>
-										<view>实际上车时间：{{item.dispatchTime}}</view>
+										<view>实际上车时间：{{formatDispatchTime(item.dispatchTime)}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
 										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
@@ -137,7 +137,7 @@
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
 										<view>预计上车时间：{{formatOrderTime(item.orderTime)}}</view>
-										<view>实际上车时间：{{item.dispatchTime}}</view>
+										<view>实际上车时间：{{formatDispatchTime(item.dispatchTime)}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
 										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
@@ -174,7 +174,7 @@
 									<view style="padding-left: 50rpx;padding-top: 10rpx;" class="orderstatus">
 										<view>订单号：{{item.no}}</view>
 										<view>预计上车时间：{{formatOrderTime(item.orderTime)}}</view>
-										<view>实际上车时间：{{item.dispatchTime}}</view>
+										<view>实际上车时间：{{formatDispatchTime(item.dispatchTime)}}</view>
 										<view>起点：{{item.line.startName}}</view>
 										<view>终点：{{item.line.endName}}</view>
 										<view v-show="item.state === 'arrive'">用时：{{costTime(item.orderTime,item.overTime)}}</view>
@@ -463,6 +463,13 @@
 					return '';
 				}
 				return time.substring(0,time.length - 3);
+			},
+			
+			formatDispatchTime:function(time){
+				if(time == null){
+					return '';
+				}
+				return time;
 			},
 			
 			//时间差值计算
