@@ -228,6 +228,7 @@
 					},
 					method:that.$Grzx.Interface.login.method,
 					success(res) {
+						console.log(res);
 						if(res.data.code===200){
 							uni.hideLoading();
 							uni.showToast({
@@ -274,6 +275,7 @@
 									type:'志愿者',			//用户类型
 									password:password,		//密码	
 									expireTime:expireTime,	//登录过期时间
+									isManager:data.isManager,//是否为领导，是就是是，其他为不是。
 								}
 								uni.setStorageSync('userInfo',volunteerList)
 								uni.redirectTo({

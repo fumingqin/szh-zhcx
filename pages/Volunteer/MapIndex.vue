@@ -341,24 +341,53 @@
 						console.log(res)
 						this.stationList = res.data.data.data;
 						uni.hideLoading();
+						var img = '';
 						if (this.Name == "qidian") {
 							for(var i = 0; i < this.stationList.length; i++){
-								if(this.stationList[i].startType=="hotel"){
-									that.setMarker(i, this.stationList[i].startLng, this.stationList[i].startLat, '../../static/Volunteer/house.png',this.stationList[i].startName);
-								}else{
-									that.setMarker(i, this.stationList[i].startLng, this.stationList[i].startLat, '../../static/Volunteer/venue.png',this.stationList[i].startName);
+								if(this.stationList[i].startType=="0"){
+									img = '../../static/Volunteer/house.png';
 								}
+								else if(this.stationList[i].startType=="1"){
+									img = '../../static/Volunteer/venue.png';
+								}
+								else if(this.stationList[i].startType=="2"){
+									img = '../../static/Volunteer/hospital.png';
+								}
+								else if(this.stationList[i].startType=="3"){
+									img = '../../static/Volunteer/trafficLight.png';
+								}
+								else if(this.stationList[i].startType=="4"){
+									img = '../../static/Volunteer/venue.png';
+								}
+								else if(this.stationList[i].startType=="5"){
+									img = '../../static/Volunteer/venue.png';
+								}
+								that.setMarker(i, this.stationList[i].startLng, this.stationList[i].startLat, img ,this.stationList[i].startName,this.stationList[i].startType);
 							}
 						}else{
 							this.endList=this.stationList.filter(item => {
 								return item.startName == that.startSiteName;
 							})
 							for(var i = 0; i < this.endList.length; i++){
-								if(this.endList[i].endType=="hotel"){
-									that.setMarker(i, this.endList[i].endLng, this.endList[i].endLat, '../../static/Volunteer/house.png',this.endList[i].endName);
-								}else{
-									that.setMarker(i, this.endList[i].endLng, this.endList[i].endLat, '../../static/Volunteer/venue.png',this.endList[i].endName);
+								if(this.endList[i].endType=="0"){
+									img = '../../static/Volunteer/house.png';
 								}
+								else if(this.endList[i].endType=="1"){
+									img = '../../static/Volunteer/venue.png';
+								}
+								else if(this.endList[i].endType=="2"){
+									img = '../../static/Volunteer/hospital.png';
+								}
+								else if(this.endList[i].endType=="3"){
+									img = '../../static/Volunteer/trafficLight.png';
+								}
+								else if(this.endList[i].endType=="4"){
+									img = '../../static/Volunteer/venue.png';
+								}
+								else if(this.endList[i].endType=="5"){
+									img = '../../static/Volunteer/venue.png';
+								}
+								that.setMarker(i, this.endList[i].endLng, this.endList[i].endLat, img,this.endList[i].endName,this.endList[i].endType);
 							}
 						}
 					},
@@ -367,13 +396,13 @@
 					}
 				})
 			},
-			setMarker: function(id, lon, lat, iconPath,name) {
-				var width = 50;
-				var height = 50;
-				// if(id==3){
-				// 	var width = 40;
-				// 	var height = 40;
-				// }
+			setMarker: function(id, lon, lat, iconPath,name,type) {
+				var width = 45;
+				var height = 45;
+				if(type=="2" || type=="3"){
+					var width = 40;
+					var height = 40;
+				}
 				//描绘点的方法
 				var that = this;
 				var marker = new Object();

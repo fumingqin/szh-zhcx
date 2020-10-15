@@ -57,7 +57,7 @@
 		data() {
 			return {
 				scrollHeight:'500px',
-				stationArray:['酒店','场馆'],
+				stationArray:['酒店','场馆','医院','红绿灯','关键政点','其他'],
 				leftArray:[],
 				mainArray:[],
 				leftIndex:0,
@@ -78,11 +78,11 @@
 			that.startSiteName = param.startSiteName || '';
 			that.pointType = param.pointType || '';
 			//获取站点列表
-			that.getBusStationList('hotel');
+			that.getBusStationList(0);
 			/* 设置当前滚动容器的高，若非窗口的高度，请自行修改 */
 			uni.getSystemInfo({
 				success:(res)=>{
-					this.scrollHeight=`${res.windowHeight}px`;
+					this.scrollHeight=`${res.windowHeight-80}px`;
 				}
 			});
 		},
@@ -106,17 +106,17 @@
 					success: (res) => {
 						console.log(res)
 						uni.hideLoading();
-						that.expectDuration=res.data.data.data[0].expectDuration;
-						that.expectMileage=res.data.data.data[0].expectMileage;
-						uni.$emit('expectDuration', {
-						    data: that.expectDuration
-						});
-						uni.$emit('expectMileage', {
-						    data: that.expectMileage
-						});
-						// console.log(that.expectDuration);
 						var array=[];
-						if (res.data.length != 0) {
+						if (res.data.data.data.length > 0) {
+							that.expectDuration=res.data.data.data[0].expectDuration;
+							that.expectMileage=res.data.data.data[0].expectMileage;
+							uni.$emit('expectDuration', {
+								data: that.expectDuration
+							});
+							uni.$emit('expectMileage', {
+								data: that.expectMileage
+							});
+							// console.log(that.expectDuration);
 							if(that.pointType === 'start'){
 								for (var j = 0; j < res.data.data.data.length;j++) {
 									var countysArray = {
@@ -237,21 +237,23 @@
 			leftTap(e){
 				let index=e.currentTarget.dataset.index;
 				this.leftIndex=Number(index);
-				if(e.currentTarget.dataset.index==0){
-					this.getBusStationList('hotel');
-				}else{
-					this.getBusStationList('venue');
-				}
+				// if(e.currentTarget.dataset.index==0){
+				// 	this.getBusStationList('hotel');
+				// }else{
+				// 	this.getBusStationList('venue');
+				// }
+				this.getBusStationList(e.currentTarget.dataset.index);
 			},
 			/* 轮播图切换 */
 			swiperChange(e){
 				let index=e.detail.current;
 				this.leftIndex=Number(index);
-				if(e.detail.current==0){
-					this.getBusStationList('hotel');
-				}else{
-					this.getBusStationList('venue');
-				}
+				// if(e.detail.current==0){
+				// 	this.getBusStationList('hotel');
+				// }else{
+				// 	this.getBusStationList('venue');
+				// }
+				this.getBusStationList(e.detail.current);
 			},
 			//-------------------------数组去重-------------------------
 			arrayDistinct: function(array) {

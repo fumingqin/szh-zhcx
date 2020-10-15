@@ -32,6 +32,12 @@ const Interface={
 		method:'GET',
 		pages: [],
 	},
+	examine:{
+		value:Url+'/api/volunteer/examine',
+		name:'志愿者审核',
+		method:'GET',
+		pages: [],
+	},
 }
 const GetImage={
 	url:'https://zntc.145u.net:9099/api/zhcx/getImage',

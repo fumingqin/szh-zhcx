@@ -262,6 +262,8 @@
 			uni.$on('expectDuration', function(data) {
 				// data即为传过来的值
 				that.estimateTime = data.data;
+				that.getTodayDate();
+				that.getTodayDate1();
 				//清除监听，不清除会消耗资源
 				uni.$off('expectDuration');
 			});
@@ -291,6 +293,7 @@
 				    uni.removeStorageSync('EndPoint');
 				}
 			});
+			
 		},
 		methods: {
 			// ---------------------------加载图片----------------------------
@@ -463,6 +466,8 @@
 					that.showToast('请选择终点');
 				} else if(that.date>that.date1){
 					that.showToast('返程时间不能小于出发时间');
+				}else if(that.totalTime>that.date1){
+					that.showToast('返程时间不能小于预计到达时间');
 				}else {
 					that.nextOperation = 1;
 				}
@@ -636,6 +641,7 @@
 				} else if (that.orderType == 1) {
 					that.orderType = '往返';
 				}
+				console.log(that.date,that.date1);
 				uni.request({
 					url: that.$volunteer.Interface.placeorder.value,
 					method: that.$volunteer.Interface.placeorder.method,
