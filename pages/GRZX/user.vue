@@ -75,12 +75,12 @@
 
 		<view class="serviceBox">
 			<text class="moreClass">更多服务</text>
-			<view class="boxClass marginTop" @click="phoneClick" hover-class="btn_Click">
+			<!-- <view class="boxClass marginTop" @click="phoneClick" hover-class="btn_Click">
 				<image src="../../static/GRZX/tubiao_kefu.png" class="iconClass2"></image>
 				<text class="fontStyle">电话客服</text>
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
-			</view>
-			<view class="boxClass borderTop">
+			</view> -->
+			<view class="boxClass marginTop">
 				<image src="../../static/GRZX/tubiao_kefu.png" class="iconClass2"></image>
 				<button open-type="contact" class="contactClass">在线客服</button>
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
