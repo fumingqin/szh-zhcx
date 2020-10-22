@@ -276,6 +276,7 @@
 									password:password,		//密码	
 									expireTime:expireTime,	//登录过期时间
 									isManager:data.isManager,//是否为领导，是就是是，其他为不是。
+									isTotalManager:data.isTotalManager,//是否为最高权限领导，是就是是，其他为不是。
 								}
 								uni.setStorageSync('userInfo',volunteerList)
 								uni.redirectTo({

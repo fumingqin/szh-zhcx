@@ -3,7 +3,7 @@
 		<!-- 顶部搜索框 -->
 		<view class="topSerchView">
 			<view class="SearchBar" elevation='5px' style="">
-				<view class="addressInput"  @click="selectInitial(stationType)">请前往地图选择站点或在下面列表选择站点 ></view>
+				<view class="addressInput" @click="selectInitial(stationType)">请前往地图选择站点或在下面列表选择站点 ></view>
 				<!-- <input class="addressInput" placeholder="请前往地图选择站点或在下面列表选择站点 >" @click="selectInitial(stationType)"/> -->
 			</view>
 		</view>
@@ -20,22 +20,16 @@
 			<!-- 左边的列表 -->
 			<view class="left">
 				<scroll-view scroll-y="true" :style="{ 'height':scrollHeight }">
-					<view class="item" 
-						v-for="(item,index) in stationArray"
-						:key="index" 
-						:class="{ 'active':index==leftIndex }" 
-						:data-index="index"
-						@tap="leftTap"
-					>{{item}}</view>
-		        </scroll-view>
+					<view class="item" v-for="(item,index) in stationArray" :key="index" :class="{ 'active':index==leftIndex }"
+					 :data-index="index" @tap="leftTap">{{item}}</view>
+				</scroll-view>
 			</view>
 			<!-- 右边的列表 -->
 			<view class="main" v-if="isShowAllList">
-				<swiper class="swiper" :style="{ 'height':scrollHeight }" 
-					:current="leftIndex" @change="swiperChange"
-					 vertical="true" duration="300">
-					<swiper-item v-for="(item,index) in stationArray" :key="index">
-						<scroll-view  scroll-y="true" :style="{ 'height':scrollHeight }">
+				<swiper class="swiper swiper-no-swiping" :style="{ 'height':scrollHeight }" :current="leftIndex" @change="swiperChange" vertical="true"
+				 duration="300">
+					<swiper-item v-for="(item,index) in stationArray" :key="index" catchtouchmove="catchTouchMove">
+						<scroll-view scroll-y="true" :style="{ 'height':scrollHeight }">
 							<view class="item">
 								<view class="goods" v-for="(item2,index2) in mainArray" :key="index2" @tap="detailStationTap(item2)">
 									<view>
@@ -56,22 +50,22 @@
 	export default {
 		data() {
 			return {
-				scrollHeight:'500px',
-				stationArray:['酒店','场馆','医院','红绿灯','关键政点','其他'],
-				leftArray:[],
-				mainArray:[],
-				leftIndex:0,
+				scrollHeight: '500px',
+				stationArray: ['酒店', '场馆', '医院', '红绿灯', '关键政点', '其他'],
+				leftArray: [],
+				mainArray: [],
+				leftIndex: 0,
 				keywordList: [],
-				isShowAllList:true,//是否显示联动列表
-				isShowList:false,//是否显示站点列表
-				stationType:'',//判断上个页面点击的是上车点还是下车点
-				startSiteName:'',
-				pointType:'',
-				expectDuration:'',//预计时间
-				expectMileage:'',//预计里程
+				isShowAllList: true, //是否显示联动列表
+				isShowList: false, //是否显示站点列表
+				stationType: '', //判断上个页面点击的是上车点还是下车点
+				startSiteName: '',
+				pointType: '',
+				expectDuration: '', //预计时间
+				expectMileage: '', //预计里程
 			}
 		},
-		onLoad(param){
+		onLoad(param) {
 			var that = this;
 			// console.log(param);
 			that.stationType = param.station;
@@ -81,35 +75,38 @@
 			that.getBusStationList(0);
 			/* 设置当前滚动容器的高，若非窗口的高度，请自行修改 */
 			uni.getSystemInfo({
-				success:(res)=>{
-					this.scrollHeight=`${res.windowHeight-80}px`;
+				success: (res) => {
+					this.scrollHeight = `${res.windowHeight-80}px`;
 				}
 			});
 		},
 		methods: {
+			catchTouchMove:function(){
+			  return false;
+			 },
 			//-------------------------获取站点列表数据-------------------------
 			getBusStationList(e) {
-				var that=this;
+				var that = this;
 				uni.showLoading();
-				that.mainArray=[];
-				if(that.startSiteName === '请选择起点'){
-					that.startSiteName='';
+				that.mainArray = [];
+				if (that.startSiteName === '请选择起点') {
+					that.startSiteName = '';
 				}
 				uni.request({
-					url:that.$volunteer.Interface.getlines.value,
-					method:that.$volunteer.Interface.getlines.method,
-					data:{
-						lineType:e,
-						pointType:that.pointType,
-						startName:that.startSiteName,
+					url: that.$volunteer.Interface.getlines.value,
+					method: that.$volunteer.Interface.getlines.method,
+					data: {
+						lineType: e,
+						pointType: that.pointType,
+						startName: that.startSiteName,
 					},
 					success: (res) => {
 						console.log(res)
 						uni.hideLoading();
-						var array=[];
+						var array = [];
 						if (res.data.data.data.length > 0) {
-							that.expectDuration=res.data.data.data[0].expectDuration;
-							that.expectMileage=res.data.data.data[0].expectMileage;
+							that.expectDuration = res.data.data.data[0].expectDuration;
+							that.expectMileage = res.data.data.data[0].expectMileage;
 							uni.$emit('expectDuration', {
 								data: that.expectDuration
 							});
@@ -117,25 +114,25 @@
 								data: that.expectMileage
 							});
 							// console.log(that.expectDuration);
-							if(that.pointType === 'start'){
-								for (var j = 0; j < res.data.data.data.length;j++) {
+							if (that.pointType === 'start') {
+								for (var j = 0; j < res.data.data.data.length; j++) {
 									var countysArray = {
-										countys : res.data.data.data[j].startName
+										countys: res.data.data.data[j].startName
 									}
 									array.push(countysArray);
 								}
-								console.log(array,'array')
-								that.mainArray=that.arrayDistinct(array);
-							}else if (that.pointType === 'end'){
-								for (var j = 0; j < res.data.data.data.length;j++) {
+								console.log(array, 'array')
+								that.mainArray = that.arrayDistinct(array);
+							} else if (that.pointType === 'end') {
+								for (var j = 0; j < res.data.data.data.length; j++) {
 									var countysArray = {
-										countys : res.data.data.data[j].endName
+										countys: res.data.data.data[j].endName
 									}
 									array.push(countysArray);
 								}
-								that.mainArray=that.arrayDistinct(array);
+								that.mainArray = that.arrayDistinct(array);
 							}
-								
+
 						}
 					},
 					fail(res) {
@@ -144,8 +141,8 @@
 				})
 			},
 			//-------------------------监听输入-------------------------
-			onInput(event){
-				var keyword = event.detail?event.detail.value:event;
+			onInput(event) {
+				var keyword = event.detail ? event.detail.value : event;
 				if (!keyword) {
 					this.keywordList = [];
 					this.isShowList = false;
@@ -157,12 +154,12 @@
 				//以下示例截取淘宝的关键字，请替换成你的接口
 				uni.showLoading();
 				uni.request({
-					url:$KyInterface.KyInterface.Ky_GetSatartSite.Url,
-					method:$KyInterface.KyInterface.Ky_GetSatartSite.method,
-					header:$KyInterface.KyInterface.Ky_GetSatartSite.header,
-					data:{
-						systemName:'泉运公司综合出行',
-						keyword:keyword
+					url: $KyInterface.KyInterface.Ky_GetSatartSite.Url,
+					method: $KyInterface.KyInterface.Ky_GetSatartSite.method,
+					header: $KyInterface.KyInterface.Ky_GetSatartSite.header,
+					data: {
+						systemName: '泉运公司综合出行',
+						keyword: keyword
 					},
 					success: (res) => {
 						uni.hideLoading();
@@ -194,49 +191,49 @@
 				return keywordArr;
 			},
 			//-------------------------点击下拉站点-------------------------
-			itemClick(index){
+			itemClick(index) {
 				var that = this;
 				//获取点击选项的文字
 				var key = this.keywordList[index].keyword;
-				
+
 				if (that.stationType == 'qidian') {
 					//当前是上车点
 					uni.$emit('startstaionChange', {
-					    data: key
+						data: key
 					});
-					uni.navigateBack({ });
-				}else if(that.stationType == 'zhongdian') {
+					uni.navigateBack({});
+				} else if (that.stationType == 'zhongdian') {
 					//当前是下车点
 					uni.$emit('endStaionChange', {
-					    data: key
+						data: key
 					});
-					uni.navigateBack({ });
+					uni.navigateBack({});
 				}
 			},
 			//-------------------------点击站点-------------------------
-			detailStationTap(item){
+			detailStationTap(item) {
 				// console.log(item.countys);
 				var that = this;
 				if (that.stationType == 'qidian') {
 					//当前是上车点
 					uni.$emit('startstaionChange', {
-					    data: item.countys
+						data: item.countys
 					});
-					uni.navigateBack({ });
-				}else if(that.stationType == 'zhongdian') {
+					uni.navigateBack({});
+				} else if (that.stationType == 'zhongdian') {
 					//当前是下车点
 					uni.$emit('endStaionChange', {
-					    data: item.countys
+						data: item.countys
 					});
-					uni.navigateBack({ });
+					uni.navigateBack({});
 				}
-				
+
 			},
-			
+
 			//-------------------------左侧导航点击-------------------------
-			leftTap(e){
-				let index=e.currentTarget.dataset.index;
-				this.leftIndex=Number(index);
+			leftTap(e) {
+				let index = e.currentTarget.dataset.index;
+				this.leftIndex = Number(index);
 				// if(e.currentTarget.dataset.index==0){
 				// 	this.getBusStationList('hotel');
 				// }else{
@@ -245,9 +242,9 @@
 				this.getBusStationList(e.currentTarget.dataset.index);
 			},
 			/* 轮播图切换 */
-			swiperChange(e){
-				let index=e.detail.current;
-				this.leftIndex=Number(index);
+			swiperChange(e) {
+				let index = e.detail.current;
+				this.leftIndex = Number(index);
 				// if(e.detail.current==0){
 				// 	this.getBusStationList('hotel');
 				// }else{
@@ -257,24 +254,24 @@
 			},
 			//-------------------------数组去重-------------------------
 			arrayDistinct: function(array) {
-			    let siteNameArr = [];
+				let siteNameArr = [];
 				for (let item of array) {
-				 siteNameArr.push(item.countys);
+					siteNameArr.push(item.countys);
 				}
 				let distinctArr = array.filter((x, index) => {
-				 return siteNameArr.indexOf(x.countys) == index
+					return siteNameArr.indexOf(x.countys) == index
 				});
 				return distinctArr
 			},
 			//选择起点
 			selectInitial: function(name) {
 				var that = this;
-					uni.navigateTo({
-						url: "./MapIndex?name=" + name +'&startSiteName='+that.startSiteName
-					})
+				uni.navigateTo({
+					url: "./MapIndex?name=" + name + '&startSiteName=' + that.startSiteName
+				})
 			},
-			
-			
+
+
 		}
 	}
 </script>
@@ -285,6 +282,7 @@
 		background-color: #DBDBDB;
 		padding-top: 20rpx;
 	}
+
 	.SearchBar {
 		background-color: #FFFFFF;
 		margin-right: 20rpx;
@@ -296,12 +294,14 @@
 		align-items: center;
 		justify-content: space-between;
 	}
+
 	//地址搜索输入
 	.addressInput {
 		color: #999999;
 		font-size: 30rpx;
 		font-weight: 300;
 	}
+
 	//站点列表
 	.stationList {
 		background-color: #FFFFFF;
@@ -309,78 +309,87 @@
 		box-sizing: border-box;
 		font-size: 28rpx;
 		height: 100rpx;
-		.listItem{
+
+		.listItem {
 			margin-left: 20rpx;
 			border-bottom: 1rpx solid #eeeeee;
 		}
 	}
-.list_box{
-	display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    align-content: flex-start;
-	font-size: 28rpx;
-	
-	.left{
-		width: 200rpx;
-		background-color: #f6f6f6;
-		line-height: 80rpx;
-		box-sizing: border-box;
-		font-size: 32rpx;
-		text-align: center;
-		.item{
-			padding-left: 20rpx;
-			position: relative;
-			&:not(:first-child) {
-				margin-top: 1px;
-			
-				&::after {
-					content: '';
-					display: block;
-					height: 0;
-					border-top: #d6d6d6 solid 1px;
-					width: 620upx;
-					position: absolute;
-					top: -1px;
-					right: 0;
-					transform:scaleY(0.5);	/* 1px像素 */
-				}
-			}
-			
-			&.active,&:active{
-				color: #42b983;
-				background-color: #fff;
-			}
-		}
-	}
-	.main{
-		background-color: #fff;
-		padding-left: 20rpx;
-		width: 0;
-		flex-grow: 1;
-		box-sizing: border-box;
-		
-		.swiper{
-			height: 500px;
-		}
 
-		
-		.item{
-			padding-bottom: 10rpx;
-		}
-	}
-	.goods{
+	.list_box {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: nowrap;
 		justify-content: flex-start;
-		align-items: center;
-		align-content: center;
-		margin-bottom: 10rpx;
-		border-bottom: 1rpx solid #eeeeee;
-		line-height: 80rpx;
+		align-items: flex-start;
+		align-content: flex-start;
+		font-size: 28rpx;
+
+		.left {
+			width: 200rpx;
+			background-color: #f6f6f6;
+			line-height: 80rpx;
+			box-sizing: border-box;
+			font-size: 32rpx;
+			text-align: center;
+
+			.item {
+				padding-left: 20rpx;
+				position: relative;
+
+				&:not(:first-child) {
+					margin-top: 1px;
+
+					&::after {
+						content: '';
+						display: block;
+						height: 0;
+						border-top: #d6d6d6 solid 1px;
+						width: 620upx;
+						position: absolute;
+						top: -1px;
+						right: 0;
+						transform: scaleY(0.5);
+						/* 1px像素 */
+					}
+				}
+
+				&.active,
+				&:active {
+					color: #42b983;
+					background-color: #fff;
+				}
+			}
+		}
+
+		.main {
+			background-color: #fff;
+			padding-left: 20rpx;
+			width: 0;
+			flex-grow: 1;
+			box-sizing: border-box;
+
+			.swiper {
+				height: 500px;
+				// pointer-events: none;
+			}
+
+
+			.item {
+				padding-bottom: 10rpx;
+			}
+		}
+
+		.goods {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			justify-content: flex-start;
+			align-items: center;
+			align-content: center;
+			margin-bottom: 10rpx;
+			border-bottom: 1rpx solid #eeeeee;
+			line-height: 80rpx;
+		}
 	}
-}
 </style>

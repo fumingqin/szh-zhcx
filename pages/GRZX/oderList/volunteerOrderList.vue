@@ -402,6 +402,7 @@
 			that.current = options.current;
 			uni.showLoading({
 				title: '加载订单中...',
+				mask:true
 			});
 			//开启定时器
 			if (that.timeId == 0) {
@@ -429,8 +430,9 @@
 			if (that.userInfo != '') {
 				uni.showLoading({
 					title: '加载订单中...',
+					mask:true
 				});
-				that.getVolunteerOrder();
+				that.getVolunteerOrder();	
 			}
 		},
 		methods: {
@@ -470,6 +472,7 @@
 				that.cancleArr = [];
 				that.unexamineArr = [];
 				that.examineArr = [];
+				clearInterval(that.timeId); //清除定时器
 				// console.log(that.userInfo.volunteerId, 'id')
 				uni.stopPullDownRefresh();
 				uni.request({
@@ -479,6 +482,9 @@
 						volunteerId: that.userInfo.volunteerId,
 					},
 					success(res) {
+						that.timeId = setInterval(function() {
+							that.getVolunteerOrder_interval();
+						}, 10000);
 						uni.hideLoading();
 						that.triggered = false; //触发onRestore，并关闭刷新图标
 						that._freshing = false;
@@ -922,6 +928,7 @@
 					this.triggered = true;
 					uni.showLoading({
 						title: '加载订单中...',
+						mask:true
 					});
 					this.getVolunteerOrder();
 				}
