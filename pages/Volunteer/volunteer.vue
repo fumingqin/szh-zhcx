@@ -7,7 +7,7 @@
 			</view>
 		</view>
 		<view style="margin-top: -80rpx;z-index: 1;position: relative;">
-			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 880rpx;">
+			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 980rpx;">
 				<scroll-view style="height: 880rpx;" :scroll-y='true' v-if="nextOperation==0">
 					<view >
 						<view>
@@ -87,7 +87,7 @@
 
 					</view>
 				</scroll-view>
-				<view v-if="nextOperation==0" style="margin-top: 100rpx;">
+				<view v-if="nextOperation==0" style="margin-top: 36rpx;">
 					<button @click="nextButton" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
 						<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">下一步</text>
 					</button>
@@ -105,6 +105,20 @@
 						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
 							<input class="contentFont" v-model="people" type="number" />
 							<text style="margin-left: 124rpx;">人</text>
+						</view>
+					</view>
+					
+					<view>
+						<view style="padding-top: 20rpx ;">
+							<text class="titleFont">需要车型 </text>
+						</view>
+						<view style="display: flex;flex-wrap: wrap;margin-left: 40rpx;">
+							<view v-for="(item,index) in carTypeArr" :key='index' @click="selectCarType(item)" style="margin-bottom: 15rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
+								<text style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;">{{item}}</text>
+							</view>
+						</view>
+						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
+							<input class="contentFont" disabled="true" v-model="carType" placeholder="请选择需要用车类型" />
 						</view>
 					</view>
 
@@ -129,20 +143,6 @@
 					
 					<view>
 						<view style="padding-top: 20rpx ;">
-							<text class="titleFont">需要车型 </text>
-						</view>
-						<view style="display: flex;flex-wrap: wrap;">
-							<view v-for="(item,index) in carTypeArr" :key='index' @click="selectCarType(item)" style="margin-bottom: 15rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
-								<text style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;">{{item}}</text>
-							</view>
-						</view>
-						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
-							<input class="contentFont" disabled="true" v-model="carType" placeholder="请选择需要用车类型" />
-						</view>
-					</view>
-
-					<view>
-						<view style="padding-top: 20rpx ;">
 							<text class="titleFont">乘车人信息</text>
 						</view>
 						<view style="display: flex;">
@@ -155,7 +155,7 @@
 						</view>
 					</view>
 
-					<view style="margin-top: 40rpx;">
+					<view style="margin-top: 60rpx;">
 						<button @click="submit" style="background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));border-radius: 12rpx;">
 							<text style="font-size:36rpx;font-family:Source Han Sans SC;font-weight:400;color:#FFFFFF;">提交</text>
 						</button>
@@ -245,11 +245,10 @@
 					'赛场监督',
 				],
 				carTypeArr: [
-					'小轿车',
-					'商务车',
-					'小巴',
-					'中巴',
-					'大巴',
+					'小 轿 车 ( 3 人)',
+					'商 务 车 (  5 人 )',
+					'中 巴(7～17人)',
+					'大巴(23人以上)',
 				],
 				estimateTime: '', //预计时间单位分钟
 				estimateMileage: '', //预计里程
