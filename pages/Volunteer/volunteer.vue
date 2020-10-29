@@ -522,6 +522,9 @@
 				} else if (that.passengerMessage === '') {
 					that.showToast('请录入乘车人信息');
 					return false;
+				}else if (that.carType === '') {
+					that.showToast('请选择需要用车类型');
+					return false;
 				}
 				return true;
 			},
@@ -662,7 +665,7 @@
 				} else if (that.orderType == 1) {
 					that.orderType = '往返';
 				}
-				console.log(that.date,that.date1);
+				console.log(that.carType);
 				uni.request({
 					url: that.$volunteer.Interface.placeorder.value,
 					method: that.$volunteer.Interface.placeorder.method,
@@ -674,6 +677,7 @@
 						seatCount: that.people,
 						startDate: that.date + ':00',
 						remark: that.remark,
+						carType: that.carType,
 						passengers: that.passengerMessage,
 						volunteerId: that.userInfo.volunteerId,
 						signaturePhoto: e,
@@ -738,6 +742,7 @@
 				that.estimateState = 0;
 				that.nextOperation = 0;
 				that.remark = "";
+				that.carType = "";
 				that.clearClick();
 				that.closePopup('centerPopup');
 				uni.removeStorageSync('passengers');
