@@ -44,8 +44,9 @@
 										<view style="margin-top: 10rpx;">预计出发时间：{{formatTime(item.runTime)}}</view>
 										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">预计返程时间：{{formatTime(item.returnTime)}}</view>
 										<view style="margin-top: 10rpx;display: flex;">
-											<view>可乘人数：{{item.peoperNumber}}人</view>
-											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '审核中' || item.orderState == '未通过'||item.orderState == '待派车' ||item.orderState == '已取消'">用车人数：{{item.peoperNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">可乘人数：{{item.peoperNumber}}人</view>
 										</view>
 										<view v-if="item.orderState == '未通过'" style="margin-top: 10rpx;">未通过原因：{{item.reason}}</view>
 									</view>
@@ -112,8 +113,9 @@
 										<view style="margin-top: 10rpx;">预计出发时间：{{formatTime(item.runTime)}}</view>
 										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">预计返程时间：{{formatTime(item.returnTime)}}</view>
 										<view style="margin-top: 10rpx;display: flex;">
-											<view>可乘人数：{{item.peoperNumber}}人</view>
-											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '审核中' || item.orderState == '未通过'||item.orderState == '待派车' ||item.orderState == '已取消'">用车人数：{{item.peoperNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">可乘人数：{{item.peoperNumber}}人</view>
 										</view>
 									</view>
 									<view class="btnarea">
@@ -172,8 +174,9 @@
 										<view style="margin-top: 10rpx;">预计出发时间：{{formatTime(item.runTime)}}</view>
 										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">预计返程时间：{{formatTime(item.returnTime)}}</view>
 										<view style="margin-top: 10rpx;display: flex;">
-											<view>可乘人数：{{item.peoperNumber}}人</view>
-											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '审核中' || item.orderState == '未通过'||item.orderState == '待派车' ||item.orderState == '已取消'">用车人数：{{item.peoperNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">可乘人数：{{item.peoperNumber}}人</view>
 										</view>
 									</view>
 									<view class="btnarea">
@@ -220,8 +223,9 @@
 										<view style="margin-top: 10rpx;">预计出发时间：{{formatTime(item.runTime)}}</view>
 										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">预计返程时间：{{formatTime(item.returnTime)}}</view>
 										<view style="margin-top: 10rpx;display: flex;">
-											<view>可乘人数：{{item.peoperNumber}}人</view>
-											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '审核中' || item.orderState == '未通过'||item.orderState == '待派车' ||item.orderState == '已取消'">用车人数：{{item.peoperNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">可乘人数：{{item.peoperNumber}}人</view>
 										</view>
 									</view>
 									<view class="btnarea">
@@ -271,8 +275,9 @@
 										<view style="margin-top: 10rpx;">预计出发时间：{{formatTime(item.runTime)}}</view>
 										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">预计返程时间：{{formatTime(item.returnTime)}}</view>
 										<view style="margin-top: 10rpx;display: flex;">
-											<view>可乘人数：{{item.peoperNumber}}人</view>
-											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '审核中' || item.orderState == '未通过'||item.orderState == '待派车' ||item.orderState == '已取消'">用车人数：{{item.peoperNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">可乘人数：{{item.peoperNumber}}人</view>
 										</view>
 									</view>
 									<view class="btnarea">
@@ -327,8 +332,9 @@
 										<view style="margin-top: 10rpx;">预计出发时间：{{formatTime(item.runTime)}}</view>
 										<view v-if="item.isReturn == 1 ||item.isReturn == '往' ||item.isReturn == '返'" style="margin-top: 10rpx;">预计返程时间：{{formatTime(item.returnTime)}}</view>
 										<view style="margin-top: 10rpx;display: flex;">
-											<view>可乘人数：{{item.peoperNumber}}人</view>
-											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '审核中' || item.orderState == '未通过'||item.orderState == '待派车' ||item.orderState == '已取消'">用车人数：{{item.peoperNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'">用车人数：{{item.realPeopleNumber}}人</view>
+											<view v-if="item.orderState == '待接单'||item.orderState == '已接单'||item.orderState == '待上车'||item.orderState == '已上车'||item.orderState == '司机出发' ||item.orderState == '已完成'" style="margin-left: 20rpx;">可乘人数：{{item.peoperNumber}}人</view>
 										</view>
 									</view>
 									<view class="btnarea">

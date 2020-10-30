@@ -487,7 +487,7 @@
 					that.showToast('请选择终点');
 				} else if(that.date>that.date1){
 					that.showToast('返程时间不能小于出发时间');
-				}else if(that.totalTime>that.date1){
+				}else if(that.orderType == 1 && that.totalTime>that.date1){
 					that.showToast('返程时间不能小于预计到达时间');
 				}else {
 					that.nextOperation = 1;
