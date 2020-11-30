@@ -411,11 +411,11 @@
 				mask:true
 			});
 			//开启定时器
-			if (that.timeId == 0) {
-				that.timeId = setInterval(function() {
-					that.getVolunteerOrder_interval();
-				}, 10000);
-			}
+			// if (that.timeId == 0) {
+			// 	that.timeId = setInterval(function() {
+			// 		that.getVolunteerOrder_interval();
+			// 	}, 10000);
+			// }
 		},
 		onUnload() {
 			clearInterval(this.timeId); //清除定时器
@@ -478,7 +478,7 @@
 				that.cancleArr = [];
 				that.unexamineArr = [];
 				that.examineArr = [];
-				clearInterval(that.timeId); //清除定时器
+				// clearInterval(that.timeId); //清除定时器
 				// console.log(that.userInfo.volunteerId, 'id')
 				uni.stopPullDownRefresh();
 				uni.request({
@@ -488,9 +488,9 @@
 						volunteerId: that.userInfo.volunteerId,
 					},
 					success(res) {
-						that.timeId = setInterval(function() {
-							that.getVolunteerOrder_interval();
-						}, 10000);
+						// that.timeId = setInterval(function() {
+						// 	that.getVolunteerOrder_interval();
+						// }, 10000);
 						uni.hideLoading();
 						that.triggered = false; //触发onRestore，并关闭刷新图标
 						that._freshing = false;

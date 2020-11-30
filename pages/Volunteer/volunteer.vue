@@ -9,7 +9,7 @@
 		<view style="margin-top: -80rpx;z-index: 1;position: relative;">
 			<view style=" margin: 0 20rpx;padding: 50rpx;background-color: #FFFFFF;border-radius: 20rpx; height: 980rpx;">
 				<scroll-view style="height: 880rpx;" :scroll-y='true' v-if="nextOperation==0">
-					<view >
+					<view>
 						<view>
 							<view>
 								<text class="titleFont">起点</text>
@@ -107,14 +107,14 @@
 							<text style="margin-left: 124rpx;">人</text>
 						</view>
 					</view>
-					
+
 					<view>
 						<view style="padding-top: 20rpx ;">
 							<text class="titleFont">需要车型 </text>
 						</view>
 						<view style="display: flex;flex-wrap: wrap;margin-left: 40rpx;">
-							<view v-for="(item,index) in carTypeArr" :key='index' @click="selectCarType(item)" style="margin-bottom: 15rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;">
-								<text style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;">{{item}}</text>
+							<view v-for="(item,index) in carTypeArr" :key='index' @click="selectCarType(item)" style="">
+								<view style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;margin-bottom: 15rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;" hover-class="changeColor">{{item}}</view>
 							</view>
 						</view>
 						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
@@ -140,7 +140,7 @@
 							<input class="contentFont" v-model="remark" placeholder="请选择或填写原因" />
 						</view>
 					</view>
-					
+
 					<view>
 						<view style="padding-top: 20rpx ;">
 							<text class="titleFont">乘车人信息</text>
@@ -207,8 +207,8 @@
 				],
 				datestring: '',
 				datestring1: '',
-				date: '',//出发时间
-				date1: '',//返程时间
+				date: '', //出发时间
+				date1: '', //返程时间
 				Week: '',
 				Week1: '',
 				value: '',
@@ -245,9 +245,9 @@
 					'赛场监督',
 				],
 				carTypeArr: [
-					'小 轿 车 ( 3 人)',
+					'小 轿 车 ( 3 人 )',
 					'商 务 车 (  5 人 )',
-					'中 巴(7～17人)',
+					'中巴(17人以下)',
 					'大巴(23人以上)',
 				],
 				estimateTime: '', //预计时间单位分钟
@@ -303,7 +303,7 @@
 				key: "StartPoint",
 				success: function(res) {
 					console.log(res);
-					that.startSiteName = res.data;				
+					that.startSiteName = res.data;
 					uni.removeStorageSync('StartPoint');
 				}
 			});
@@ -311,10 +311,10 @@
 				key: "EndPoint",
 				success: function(res) {
 					that.endSiteName = res.data;
-				    uni.removeStorageSync('EndPoint');
+					uni.removeStorageSync('EndPoint');
 				}
 			});
-			
+
 		},
 		methods: {
 			// ---------------------------加载图片----------------------------
@@ -472,9 +472,30 @@
 			},
 			submit: function() {
 				let that = this;
-				if (that.isVerify()) {
-					that.openPopup('centerPopup');
+				var cont = '';
+				var str1 = that.carType;
+				var num1 = parseInt(str1.replace(/[^\d]/g,' '));
+				console.log(num1,'人数');
+				if(num1 < that.people){
+					cont='请注意输入人数大于所选车型的人数';
+				}else{
+					cont='您确定提交吗?';
 				}
+				uni.showModal({
+					title: '提示',
+					content: cont,
+					success(res) {
+						if (res.confirm) {
+							that.showToast('请先前往签名')
+							setTimeout(function() {
+								if (that.isVerify()) {
+									that.openPopup('centerPopup');
+								}
+							}, 1000)
+						}
+					}
+				})
+
 				// uni.navigateTo({
 				// 	url:'./CallAndDrive?orderNumber=2020052510512702662305'
 				// })
@@ -485,11 +506,11 @@
 					that.showToast('请选择起点');
 				} else if (that.endSiteName === '请选择终点') {
 					that.showToast('请选择终点');
-				} else if(that.date>that.date1){
+				} else if (that.date > that.date1) {
 					that.showToast('返程时间不能小于出发时间');
-				}else if(that.orderType == 1 && that.totalTime>that.date1){
+				} else if (that.orderType == 1 && that.totalTime > that.date1) {
 					that.showToast('返程时间不能小于预计到达时间');
-				}else {
+				} else {
 					that.nextOperation = 1;
 				}
 			},
@@ -522,7 +543,7 @@
 				} else if (that.passengerMessage === '') {
 					that.showToast('请录入乘车人信息');
 					return false;
-				}else if (that.carType === '') {
+				} else if (that.carType === '') {
 					that.showToast('请选择需要用车类型');
 					return false;
 				}
@@ -780,7 +801,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	page {
 		background-color: #F5F7F9;
 	}
@@ -845,5 +866,10 @@
 		height: 0 !important;
 		-webkit-appearance: none;
 		background: transparent;
+	}
+	.changeColor{
+		transition: all .3s; /*过渡 */ 
+		opacity: 0.9;
+		background-color: #AAAAAA;
 	}
 </style>
