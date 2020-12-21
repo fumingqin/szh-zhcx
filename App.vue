@@ -67,7 +67,7 @@
 							key: "user",
 							data: res.result.userInfo.openId
 						})
-						console.log('成功获取openid: ', res.result.userInfo.openId)
+						// console.log('成功获取openid: ', res.result.userInfo.openId)
 					},
 					fail: err => {
 						console.error('获取失败：', err)

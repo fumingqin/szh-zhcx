@@ -235,6 +235,7 @@
 				mileage: 0,
 				people: 0,
 				userInfo: '',
+				openId: '',
 				// vehicleInfo:null,
 				seat: 0,
 				volunteerImg: '',
@@ -260,6 +261,7 @@
 		onLoad() {
 			let that = this;
 			that.userInfo = uni.getStorageSync('userInfo') || '';
+			that.openId = uni.getStorageSync('user') || '';
 			uni.removeStorageSync('passengers');
 			that.getTodayDate();
 			that.getTodayDate1();
@@ -329,7 +331,6 @@
 					},
 					method: 'POST',
 					success(res) {
-						console.log(res);
 						var image = res.data.data.filter(item => {
 							return item.type == 'shizhonghui2';
 						})
@@ -359,7 +360,6 @@
 			//---------------------------------点击终点站---------------------------------
 			endStationTap() {
 				var that = this;
-				console.log(that.startSiteName);
 				if (that.startSiteName === '请选择起点') {
 					that.showToast('请先选择起点');
 				} else {
@@ -475,7 +475,6 @@
 				var cont = '';
 				var str1 = that.carType;
 				var num1 = parseInt(str1.replace(/[^\d]/g,' '));
-				console.log(num1,'人数');
 				if(num1 < that.people){
 					cont='请注意输入人数大于所选车型的人数';
 				}else{
@@ -630,7 +629,6 @@
 						canvasId: 'firstCanvas',
 						success: function(res) {
 							//打印图片路径
-							console.log(res.tempFilePath)
 							//设置保存的图片
 							// that.signImage
 							pathToBase64(res.tempFilePath)
@@ -655,7 +653,6 @@
 					mask: true
 				})
 				var that = this;
-				console.log(e, "that.signImage")
 				uni.request({
 					url: that.$volunteer.Interface.uploadFile.value,
 					method: that.$volunteer.Interface.uploadFile.method,
@@ -663,7 +660,6 @@
 						image: e
 					},
 					success(res) {
-						console.log(res)
 						that.getOrder(res.data.data);
 					},
 					fail(res) {
@@ -686,7 +682,6 @@
 				} else if (that.orderType == 1) {
 					that.orderType = '往返';
 				}
-				console.log(that.carType);
 				uni.request({
 					url: that.$volunteer.Interface.placeorder.value,
 					method: that.$volunteer.Interface.placeorder.method,
@@ -701,10 +696,10 @@
 						carType: that.carType,
 						passengers: that.passengerMessage,
 						volunteerId: that.userInfo.volunteerId,
+						openId:that.openId,//用户openId
 						signaturePhoto: e,
 					},
 					success: function(res) {
-						console.log(res);
 						if (res.data.code == 200) {
 							that.showToast('提交成功,请等待后台审核！');
 							that.clearData(); //清除数据
@@ -750,7 +745,6 @@
 						that.imgHeight = res.windowHeight - 175; //scroll-view的高度
 						that.canvasw = res.windowWidth;
 						that.canvash = (that.canvasw) * 9 / 16;
-						console.log(that.imgHeight)
 					}
 				});
 			},
