@@ -153,6 +153,12 @@
             "path" : "pages/Volunteer/MapSearch",
             "style" : {}
         }
+        ,{
+            "path" : "pages/GRZX/weather",
+            "style" : {
+				"navigationBarTitleText": "天气预报"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -85,6 +85,16 @@
 				<button open-type="contact" class="contactClass">在线客服</button>
 				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
 			</view>
+			<view class="boxClass borderTop" @click="weatherClick" hover-class="btn_Click">
+				<image src="../../static/GRZX/weather.png" class="iconClass4"></image>
+				<text class="fontStyle">天气预报</text>
+				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
+			</view>
+			<view class="boxClass borderTop" @click="planeClick" hover-class="btn_Click">
+				<image src="../../static/GRZX/plane.png" class="iconClass5"></image>
+				<text class="fontStyle">航班动态</text>
+				<image src="../../static/GRZX/tubiao_Right.png" class="btnClass"></image>
+			</view>
 			<view class="boxClass borderTop" @click="exitClick" hover-class="btn_Click">
 				<image src="../../static/GRZX/tubiao_tuichu.png" class="iconClass3"></image>
 				<text class="fontStyle">退出登录</text>
@@ -266,6 +276,19 @@
 				uni.navigateTo({
 					url: '/pages/GRZX/set',
 				})
+			},
+			// ---------------------------天气--------------------------
+			weatherClick(){
+				uni.navigateTo({
+					url:'./weather'
+				})
+			},
+			// ---------------------------航班--------------------------
+			planeClick(){
+				uni.showToast({
+					title: '开发中',
+					icon: 'none'
+				});
 			},
 
 			// ---------------------------退出登录--------------------------
@@ -532,7 +555,7 @@
 		font-size: 32upx;
 		font-weight: bold;
 		color: #000000;
-		margin-top: 34upx;
+		margin-top: 20upx;
 		margin-left: 3.55%;
 	}
 
@@ -545,7 +568,7 @@
 	}
 
 	.marginTop {
-		margin-top: 18upx;
+		
 	}
 
 	.iconClass1 {
@@ -570,6 +593,20 @@
 		height: 41upx;
 		margin-top: 32upx;
 		margin-left: 14upx;
+	}
+	.iconClass4 {
+		//天气
+		width: 46upx;
+		height: 46upx;
+		margin-top: 27upx;
+		margin-left: 8upx;
+	}
+	.iconClass5 {
+		//航班
+		width: 46upx;
+		height: 46upx;
+		margin-top: 28upx;
+		margin-left: 8upx;
 	}
 
 	.btnClass {

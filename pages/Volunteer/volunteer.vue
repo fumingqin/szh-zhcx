@@ -2,8 +2,14 @@
 	<view>
 		<view style="position: relative;">
 			<image :src="volunteerImg" style="width: 750rpx;height: 400rpx;"></image>
-			<view style="position: fixed;top: 56rpx;left: 20rpx; z-index: 99999;" @click="toPersonal">
+			<view style="position: fixed;top: 56rpx;left: 32rpx; z-index: 99999;" @click="toPersonal">
 				<uni-icons type="contact" size="34"></uni-icons>
+			</view>
+			<view style="position: fixed;top: 148rpx;left: 32rpx; z-index: 99999;" @click="shouquan">
+				<uni-icons type="chat" size="34"></uni-icons>
+			</view>
+			<view style="position: fixed;top: 220rpx; z-index: 99999;color: #211ee9;">
+				消息订阅
 			</view>
 		</view>
 		<view style="margin-top: -80rpx;z-index: 1;position: relative;">
@@ -114,7 +120,8 @@
 						</view>
 						<view style="display: flex;flex-wrap: wrap;margin-left: 40rpx;">
 							<view v-for="(item,index) in carTypeArr" :key='index' @click="selectCarType(item)" style="">
-								<view style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;margin-bottom: 15rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;" hover-class="changeColor">{{item}}</view>
+								<view style="border-radius: 10rpx;border-width: 1px;border-style: solid;padding: 8rpx;background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));color: #ffffff;margin-bottom: 15rpx;padding: 10rpx;justify-content: flex-start;margin-top: 10rpx;"
+								 hover-class="changeColor">{{item}}</view>
 							</view>
 						</view>
 						<view style="padding: 20rpx 0;border-bottom: #EAEAEA 1px solid;display: flex;flex-direction: row;">
@@ -319,6 +326,56 @@
 
 		},
 		methods: {
+			shouquan() {
+				let that = this;
+				wx.showModal({
+					title: '温馨提示',
+					content: '为更好的促进您了解订单信息，服务号需要在您的订单操作时向您推送消息',
+					confirmText: "同意",
+					cancelText: "拒绝",
+					success: function(res) {
+						if (res.confirm) {
+							//调用订阅消息
+							//调用订阅
+							that.requestSubscribe();
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+							///显示第二个弹说明一下
+							wx.showModal({
+								title: '温馨提示',
+								content: '拒绝后您将无法获取订单推送消息',
+								confirmText: "知道了",
+								showCancel: false,
+								success: function(res) {
+									///点击知道了的后续操作 
+									///如跳转首页面 
+								}
+							});
+						}
+					}
+				});
+
+			},
+			///发起消息订阅
+			 requestSubscribe(){
+				var that = this;
+				wx.requestSubscribeMessage({
+			        tmplIds: ['SYqD7WBQGhDY-5ykj-hsFpKPvsqLJWIiiF711_XbhXc', 'FIm_sXvRlpuJvEeMBYO0YNrHjcvpavf6_7YBVepT1sk','ezH9rjuxWNamoE2eG7LN1qR8jiC8gD3AxKb90WoFZIk'], //这里填入我们生成的模板id
+			        success :(res)=>{
+			          console.log("订阅消息 成功 "+res);
+					  that.showToast('订阅消息成功');
+			         },
+			        fail :(errCode,errMessage) =>{ 
+			          console.log("订阅消息 失败 "+errCode+" message "+errMessage);
+			        },
+			        complete:(errMsg)=>{
+			          console.log("订阅消息 完成 "+errMsg);
+			          // that.toHome();
+			        }
+			    
+			      });
+			},
+
 			// ---------------------------加载图片----------------------------
 			loadImg() {
 				var that = this;
@@ -474,11 +531,11 @@
 				let that = this;
 				var cont = '';
 				var str1 = that.carType;
-				var num1 = parseInt(str1.replace(/[^\d]/g,' '));
-				if(num1 < that.people){
-					cont='请注意输入人数大于所选车型的人数';
-				}else{
-					cont='您确定提交吗?';
+				var num1 = parseInt(str1.replace(/[^\d]/g, ' '));
+				if (num1 < that.people) {
+					cont = '请注意输入人数大于所选车型的人数';
+				} else {
+					cont = '您确定提交吗?';
 				}
 				uni.showModal({
 					title: '提示',
@@ -696,7 +753,7 @@
 						carType: that.carType,
 						passengers: that.passengerMessage,
 						volunteerId: that.userInfo.volunteerId,
-						openId:that.openId,//用户openId
+						openId: that.openId, //用户openId
 						signaturePhoto: e,
 					},
 					success: function(res) {
@@ -861,8 +918,10 @@
 		-webkit-appearance: none;
 		background: transparent;
 	}
-	.changeColor{
-		transition: all .3s; /*过渡 */ 
+
+	.changeColor {
+		transition: all .3s;
+		/*过渡 */
 		opacity: 0.9;
 		background-color: #AAAAAA;
 	}
