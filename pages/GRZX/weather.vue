@@ -72,7 +72,7 @@
 			weatherList(){
 				var that = this;
 				uni.request({
-					url:'http://api.k780.com/?app=weather.future&weaid=117.26.63.39&&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json',
+					url:'https://sapi.k780.com/?app=weather.future&weaid=117.26.63.39&&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json',
 					// url:'http://wthrcdn.etouch.cn/weather_mini?city=泉州',
 					method: 'GET',
 					success: res => {
