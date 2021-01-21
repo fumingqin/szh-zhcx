@@ -38,6 +38,12 @@ const Interface={
 		method:'GET',
 		pages: [],
 	},
+	getFlightDyn:{
+		value:Url+'/api/volunteer/get-flight-dyn',
+		name:'航班动态',
+		method:'GET',
+		pages: [],
+	},
 }
 const GetImage={
 	url:'https://zntc.145u.net:9099/api/zhcx/getImage',
